@@ -14,8 +14,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::orderBy('id', 'DESC')->get();
-        return response()->json($brands);
+        $data = Brand::orderBy('id', 'DESC')->get();
+        return response()->json($data);
     }
 
     /**
@@ -92,6 +92,10 @@ class BrandController extends Controller
             }
 
             $brand->img_path = implode(',', $imagePaths);
+        }
+        else
+        {
+            $brand->img_path = $brand->img_path;
         }
 
         $brand->save();
