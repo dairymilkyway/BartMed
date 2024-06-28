@@ -47,6 +47,7 @@
     {{-- <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script> --}}
     {{-- <link rel="stylesheet" href="{{ url('/css/app.css') }}"> --}}
     <script src="{{ asset('js/brand.js') }}"></script>
+    <script src="{{ asset('js/product.js') }}"></script>
     @vite('resources/css/app.css')
 </head>
 
