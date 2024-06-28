@@ -28,3 +28,7 @@ Route::get('/register', function () {
 Route::get('/brand', function () {
     return view('brand.index');
 });
+
+Route::get('/product', function () {
+    return view('product.index');
+});
