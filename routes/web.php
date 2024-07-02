@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +39,6 @@ Route::get('/product', function () {
 Route::get('/supplier', function () {
     return view('supplier.index');
 });
+
+
+Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
