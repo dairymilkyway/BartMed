@@ -32,3 +32,7 @@ Route::get('/brand', function () {
 Route::get('/product', function () {
     return view('product.index');
 });
+
+Route::get('/supplier', function () {
+    return view('supplier.index');
+});
