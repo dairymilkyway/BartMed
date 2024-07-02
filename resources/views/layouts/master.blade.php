@@ -48,6 +48,7 @@
     {{-- <link rel="stylesheet" href="{{ url('/css/app.css') }}"> --}}
     <script src="{{ asset('js/brand.js') }}"></script>
     <script src="{{ asset('js/product.js') }}"></script>
+    <script src="{{ asset('js/supplier.js') }}"></script>
     @vite('resources/css/app.css')
 </head>
 
