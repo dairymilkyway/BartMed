@@ -1,13 +1,7 @@
 @extends('layouts.master')
 @section('content')
-<div id="products" class="container">
-    <div class="card-body" style="height: 210px;">
-        <input type="text" id='productSearch' placeholder="--search--">
-    </div>
-    <div class=" mb-3">
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ProductModal">Add Product<span
-            class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-    </div>
+<div id="products" class="container pt-7">
+
     <div class="table-responsive">
         <table id="productable" class="table table-striped table-hover">
             <thead>
