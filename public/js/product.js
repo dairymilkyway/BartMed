@@ -5,9 +5,31 @@ $(document).ready(function () {
             url: "/api/products",
             dataSrc: ""
         },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'Export to PDF',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7] // Exclude the Actions column
+                }
+            },
+            'excel',
+            {
+                text: 'Add Product',
+                className: 'btn btn-primary',
+                action: function (e, dt, node, config) {
+                    $("#pform").trigger("reset");
+                    $('#ProductModal').modal('show');
+                    $('#ProductUpdate').hide();
+                    $('#ProductSubmit').show();
+                    $('#images').remove();
+                }
+            }
+        ],
         columns: [
             { data: "id" },
-            { 
+            {
                 data: "img_path",
                 render: function (data) {
                     var imgHtml = "";
@@ -27,11 +49,11 @@ $(document).ready(function () {
             { data: "price" },
             { data: "stocks" },
             { data: "category" },
-            { 
+            {
                 data: null,
                 render: function (data) {
                     return "<a href='#' data-toggle='modal' data-target='#ProductModal' id='editbtn' data-id='" + data.id + "'><i class='fas fa-edit' aria-hidden='true' style='font-size:24px; color:blue'></i></a> " +
-                           "<a href='#' class='deletebtn' data-id='" + data.id + "'><i class='fa fa-trash' style='font-size:24px; color:red'></a></i>";
+                        "<a href='#' class='deletebtn' data-id='" + data.id + "'><i class='fa fa-trash' style='font-size:24px; color:red'></a></i>";
                 }
             }
         ]
@@ -125,6 +147,8 @@ $(document).ready(function () {
         var id = $(e.relatedTarget).attr('data-id');
         if (id) {
             $('<input>').attr({ type: 'hidden', id: 'productId', name: 'id', value: id }).appendTo('#pform');
+            $('#ProductUpdate').show();
+            $('#ProductSubmit').hide();
             $.ajax({
                 type: "GET",
                 url: `/api/products/${id}`,
@@ -148,12 +172,14 @@ $(document).ready(function () {
                     alert("error");
                 }
             });
+        } else {
+            $('#ProductUpdate').hide();
+            $('#ProductSubmit').show();
         }
     });
 
-
-       // Handle product update
-       $("#ProductUpdate").on('click', function (e) {
+    // Handle product update
+    $("#ProductUpdate").on('click', function (e) {
         e.preventDefault();
         var id = $('#productId').val();
         var data = $('#pform')[0];
@@ -169,7 +195,7 @@ $(document).ready(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             dataType: "json",
             success: function () {
-                $("#ProductModal").modal("hide");
+                $("#ProductModal").modal("hide");  // Hide the modal after successful update
                 table.ajax.reload();
             },
             error: function (error) {
@@ -178,4 +204,11 @@ $(document).ready(function () {
         });
     });
 
+    // Bind the add product button to open the modal
+    $('#addProductButton').on('click', function () {
+        $('#ProductModal').modal('show');
+        $('#ProductUpdate').hide();
+        $('#ProductSubmit').show();
+        $('#images').remove();
+    });
 });
