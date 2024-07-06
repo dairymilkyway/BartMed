@@ -1,9 +1,7 @@
 @extends('layouts.master')
 @section('content')
-<div id="brands" class="container">
-    <div class="card-body" style="height: 210px;">
-        <input type="text" id='brandSearch' placeholder="--search--">
-    </div>
+<div id="brands" class="container pt-7">
+
     <form action="{{ route('brand.import') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
         <div>
