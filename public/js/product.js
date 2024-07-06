@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // Initialize the DataTable
+
     var table = $('#productable').DataTable({
         ajax: {
             url: "/api/products",
@@ -73,6 +73,65 @@ $(document).ready(function () {
         },
         error: function () {
             console.log('Failed to fetch brands');
+        }
+    });
+
+
+    // Initialize jQuery validation
+    $('#pform').validate({
+        rules: {
+            product_name: {
+                required: true
+            },
+            description: {
+                required: true
+            },
+            price: {
+                required: true,
+                number: true
+            },
+            stocks: {
+                required: true,
+                number: true
+            },
+            category: {
+                required: true
+            },
+            brand_id: {
+                required: true
+            },
+            'uploads[]': {
+                required: true
+            }
+        },
+        messages: {
+            product_name: {
+                required: "Product name is required"
+            },
+            description: {
+                required: "Description is required"
+            },
+            price: {
+                required: "Price is required",
+                number: "Price must be a number"
+            },
+            stocks: {
+                required: "Stocks are required",
+                number: "Stocks must be a number"
+            },
+            category: {
+                required: "Category is required"
+            },
+            brand_id: {
+                required: "Please select a brand"
+            },
+            'uploads[]': {
+                required: "Please upload at least one image"
+            }
+        },
+        errorClass: "error-message",
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
         }
     });
 
@@ -211,4 +270,6 @@ $(document).ready(function () {
         $('#ProductSubmit').show();
         $('#images').remove();
     });
+
+
 });
