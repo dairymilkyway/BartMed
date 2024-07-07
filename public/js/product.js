@@ -287,4 +287,29 @@ $(document).ready(function () {
         });
     });
 
+
+        // Handle Excel import via AJAX
+        $("#PexcelSubmit").on('click', function (e) {
+            e.preventDefault();
+            var formData = new FormData();
+            formData.append('importFile', $('#importFile')[0].files[0]);
+            $.ajax({
+                type: "POST",
+                url: "/api/products/excel",
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function (data) {
+                    $("#ExcelPform").trigger("reset");
+                    table.ajax.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
 });
+
+
