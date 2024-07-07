@@ -19,6 +19,8 @@ Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('suppliers', SupplierController::class);
 Route::post('/brands/excel',[BrandController::class, 'import'])->name('Bexcel');
+Route::post('/suppliers/excel',[SupplierController::class, 'import'])->name('Sexcel');
+Route::post('/products/excel',[ProductController::class, 'import'])->name('Pexcel');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
