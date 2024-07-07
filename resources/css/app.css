@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.error-message {
+    font-weight: 700;
+    display: block;
+    color: #f00;
+}
