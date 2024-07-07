@@ -1,15 +1,15 @@
 @extends('layouts.master')
 @section('content')
 <div id="brands" class="container pt-7">
-
-    <form action="{{ route('brand.import') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-        @csrf
-        <div>
-            <label for="importFile" class="block text-sm font-medium text-gray-700">Import Excel</label>
-            <input type="file" id="importFile" name="importFile" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        </div>
-        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Import</button>
-    </form>
+{{-- {{ route('brand.import') }} --}}
+<form enctype="multipart/form-data" class="space-y-4" id="ExcelBform">
+    @csrf
+    <div>
+        <label for="importFile" class="block text-sm font-medium text-gray-700">Import Excel</label>
+        <input type="file" id="importFile" name="importFile" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    </div>
+    <button id="excelSubmit" type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Import</button>
+</form>
     <div class="table-responsive">
         <table id="brandtable" class="table table-striped table-hover">
             <thead>
