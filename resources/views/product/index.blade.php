@@ -1,5 +1,10 @@
 @extends('layouts.master')
 @section('content')
+<div class="row">
+        <!-- Sidenav -->
+            @include('layouts.sidenav')
+        <!-- Main Content -->
+        <div class="col-md-10">
 <div id="products" class="container pt-7">
 
     <div class="table-responsive">
@@ -75,5 +80,6 @@
       </div>
     </div>
   </div>
-
-@endsection
+        </div>
+</div>
+@endsection 
