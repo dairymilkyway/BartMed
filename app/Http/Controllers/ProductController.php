@@ -7,6 +7,12 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Storage;
+
+//import Excel
+use App\Imports\ProductImport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 class ProductController extends Controller
 {
     /**
@@ -122,4 +128,16 @@ class ProductController extends Controller
         $data = array('error' => 'Brand not deleted', 'code' => 400);
         return response()->json($data);
     }
+
+    public function import(Request $request)
+    {
+        $request ->validate([
+            'importFile' => ['required', 'file', 'mimes:xlsx,xls']
+        ]);
+
+        Excel::import(new ProductImport, $request->file('importFile'));
+
+        return response()->json(['success' => 'Brands imported successfully'], 200);
+    }
+
 }
