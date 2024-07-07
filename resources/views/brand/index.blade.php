@@ -1,5 +1,10 @@
 @extends('layouts.master')
 @section('content')
+<div class="row">
+        <!-- Sidenav -->
+            @include('layouts.sidenav')
+        <!-- Main Content -->
+        <div class="col-md-10">
 <div id="brands" class="container pt-7">
 {{-- {{ route('brand.import') }} --}}
 <form enctype="multipart/form-data" class="space-y-4" id="ExcelBform">
@@ -52,5 +57,7 @@
             </div>
         </div>
     </div>
+</div>
+        </div>
 </div>
 @endsection
