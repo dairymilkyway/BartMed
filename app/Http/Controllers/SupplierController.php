@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Storage;
 
+
+use App\Imports\SupplierImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class SupplierController extends Controller
 {
     /**
@@ -100,4 +104,16 @@ class SupplierController extends Controller
         $data = array('error' => 'Supplier not deleted', 'code' => 400);
         return response()->json($data);
     }
+
+    public function import(Request $request)
+    {
+        $request ->validate([
+            'importFile' => ['required', 'file', 'mimes:xlsx,xls']
+        ]);
+
+        Excel::import(new SupplierImport, $request->file('importFile'));
+
+        return response()->json(['success' => 'Supplier imported successfully'], 200);
+    }
+
 }
