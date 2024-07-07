@@ -31,15 +31,16 @@ Route::get('/checout', function () {
 
 Route::get('/brand', function () {
     return view('brand.index');
-});
+})->name('brand.index');
+
 
 Route::get('/product', function () {
     return view('product.index');
-});
+})->name('product.index');
 
 Route::get('/supplier', function () {
     return view('supplier.index');
-});
+})->name('supplier.index');
 
 
 
