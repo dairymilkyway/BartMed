@@ -1,13 +1,37 @@
 $(document).ready(function () {
-    // Initialize the DataTable
+
     var table = $('#productable').DataTable({
         ajax: {
             url: "/api/products",
             dataSrc: ""
         },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'Export to PDF',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7] // Exclude the Actions column
+                }
+            },
+            'excel',
+            {
+                text: 'Add Product',
+                className: 'btn btn-primary',
+                action: function (e, dt, node, config) {
+                    $("#pform").trigger("reset"); // Reset the form
+                    $('#pform').validate().resetForm(); // Reset validation messages
+                    $('#pform .form-control').removeClass('is-invalid'); // Remove the invalid class from form controls
+                    $('#ProductModal').modal('show'); // Show the modal
+                    $('#ProductUpdate').hide();
+                    $('#ProductSubmit').show();
+                    $('#images').remove();
+                }
+            }
+        ],
         columns: [
             { data: "id" },
-            { 
+            {
                 data: "img_path",
                 render: function (data) {
                     var imgHtml = "";
@@ -27,16 +51,17 @@ $(document).ready(function () {
             { data: "price" },
             { data: "stocks" },
             { data: "category" },
-            { 
+            {
                 data: null,
                 render: function (data) {
                     return "<a href='#' data-toggle='modal' data-target='#ProductModal' id='editbtn' data-id='" + data.id + "'><i class='fas fa-edit' aria-hidden='true' style='font-size:24px; color:blue'></i></a> " +
-                           "<a href='#' class='deletebtn' data-id='" + data.id + "'><i class='fa fa-trash' style='font-size:24px; color:red'></a></i>";
+                        "<a href='#' class='deletebtn' data-id='" + data.id + "'><i class='fa fa-trash' style='font-size:24px; color:red'></a></i>";
                 }
             }
         ]
     });
 
+    
     // Fetch brands for the brand select dropdown
     $.ajax({
         type: "GET",
@@ -53,6 +78,86 @@ $(document).ready(function () {
             console.log('Failed to fetch brands');
         }
     });
+
+    // Initialize jQuery validation
+    $('#pform').validate({
+        rules: {
+            product_name: {
+                required: true,
+                letterswithspace: true
+            },
+            description: {
+                required: true,
+            },
+            price: {
+                required: true,
+                number: true
+            },
+            stocks: {
+                required: true,
+                number: true
+            },
+            category: {
+                required: true,
+                letterswithspace: true
+            },
+            brand_id: {
+                required: true
+            },
+            'uploads[]': {
+                required: true
+            }
+        },
+        messages: {
+            product_name: {
+                required: "Product name is required",
+                letterswithspace: "Product name must be letters and spaces only"
+            },
+            description: {
+                required: "Description is required"
+            },
+            price: {
+                required: "Price is required",
+                number: "Price must be a number"
+            },
+            stocks: {
+                required: "Stocks are required",
+                number: "Stocks must be a number"
+            },
+            category: {
+                required: "Category is required",
+                letterswithspace: "Category must be letters and spaces only"
+            },
+            brand_id: {
+                required: "Please select a brand"
+            },
+            'uploads[]': {
+                required: "Please upload at least one image"
+            }
+        },
+        errorClass: "error-message",
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        },
+    });
+
+    // Function to reset the product form and validation
+    function resetProductForm() {
+        $('#pform').trigger('reset'); // Reset the form fields
+        $('#pform').validate().resetForm(); // Reset jQuery Validation
+        $('.is-invalid').removeClass('is-invalid'); // Remove is-invalid class from elements
+    }
+
+    // Custom method to enforce letters and spaces only
+    $.validator.addMethod("letterswithspace", function (value, element) {
+        return this.optional(element) || /^[a-zA-Z\s]*$/.test(value);
+    }, "Please enter letters and spaces only");
 
     // Handle product submission
     $("#ProductSubmit").on('click', function (e) {
@@ -119,12 +224,14 @@ $(document).ready(function () {
 
     // Handle modal form when opening for editing
     $('#ProductModal').on('show.bs.modal', function (e) {
-        $("#pform").trigger("reset");
+        resetProductForm();
         $('#productId').remove();
         $('#images').remove();
         var id = $(e.relatedTarget).attr('data-id');
         if (id) {
             $('<input>').attr({ type: 'hidden', id: 'productId', name: 'id', value: id }).appendTo('#pform');
+            $('#ProductUpdate').show();
+            $('#ProductSubmit').hide();
             $.ajax({
                 type: "GET",
                 url: `/api/products/${id}`,
@@ -148,12 +255,14 @@ $(document).ready(function () {
                     alert("error");
                 }
             });
+        } else {
+            $('#ProductUpdate').hide();
+            $('#ProductSubmit').show();
         }
     });
 
-
-       // Handle product update
-       $("#ProductUpdate").on('click', function (e) {
+    // Handle product update
+    $("#ProductUpdate").on('click', function (e) {
         e.preventDefault();
         var id = $('#productId').val();
         var data = $('#pform')[0];
@@ -169,7 +278,7 @@ $(document).ready(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             dataType: "json",
             success: function () {
-                $("#ProductModal").modal("hide");
+                $("#ProductModal").modal("hide");  // Hide the modal after successful update
                 table.ajax.reload();
             },
             error: function (error) {

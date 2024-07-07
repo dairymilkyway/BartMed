@@ -80,36 +80,33 @@ class ProductController extends Controller
     {
         $Product = Product::find($id);
 
-        if (!$Product) {
-            return response()->json(["error" => "Brand not found.", "status" => 404]);
-        }
-        $Product->product_name = $request->product_name;
-        $Product->description = $request->description;
-        $Product->price = $request->price;
-        $Product->stocks = $request->stocks;
-        $Product->category = $request->category;
-        $Product->brand_id = $request->brand_id;
-        $Product->img_path = ''; 
+    if (!$Product) {
+        return response()->json(["error" => "Product not found.", "status" => 404], 404);
+    }
 
-        if ($request->hasFile('uploads')) {
-            $imagePaths = [];
+    $Product->product_name = $request->product_name;
+    $Product->description = $request->description;
+    $Product->price = $request->price;
+    $Product->stocks = $request->stocks;
+    $Product->category = $request->category;
+    $Product->brand_id = $request->brand_id;
 
-            foreach ($request->file('uploads') as $file) {
-                $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/images', $fileName);
-                $imagePaths[] = 'storage/images/' . $fileName;
-            }
+    if ($request->hasFile('uploads')) {
+        $imagePaths = [];
 
-            $Product->img_path = implode(',', $imagePaths);
-        }
-        else
-        {
-            $Product->img_path = $Product->img_path;
+        foreach ($request->file('uploads') as $file) {
+            $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/images', $fileName);
+            $imagePaths[] = 'storage/images/' . $fileName;
         }
 
-        $Product->save();
+        $Product->img_path = implode(',', $imagePaths);
+    }
 
-        return response()->json(["success" => "Brand updated successfully.", "brand" => $brand, "status" => 200]);
+    $Product->save();
+
+    return response()->json(["success" => "Product updated successfully.", "status" => 200]);
+
     }
 
     /**

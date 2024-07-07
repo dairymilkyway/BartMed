@@ -131,6 +131,6 @@ class BrandController extends Controller
 
         Excel::import(new BrandsImport, $request->file('importFile'));
 
-        return redirect()->back()->with('success','Brands imported successfully');
+        return response()->json(['success' => 'Brands imported successfully'], 200);
     }
 }

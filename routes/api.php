@@ -18,6 +18,8 @@ use App\Http\Controllers\SupplierController;
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('suppliers', SupplierController::class);
+Route::post('/brands/excel',[BrandController::class, 'import'])->name('Bexcel');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -1,9 +1,7 @@
 @extends('layouts.master')
 @section('content')
-<div id="Suppliers" class="container">
-    <div class="card-body" style="height: 210px;">
-        <input type="text" id="SupplierSearch" placeholder="--search--">
-    </div>
+<div id="Suppliers" class="container pt-7">
+
     <div class="table-responsive">
         <table id="stable" class="table table-striped table-hover">
             <thead>
