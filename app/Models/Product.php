@@ -16,7 +16,7 @@ class Product extends Model
     public $timestamps = true; 
     protected $fillable = [
         'id',
-        'brand_id'.
+        'brand_id', 
         'product_name',
         'description',
         'price',
