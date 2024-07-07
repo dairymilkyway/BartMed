@@ -19,8 +19,10 @@ $(document).ready(function () {
                 text: 'Add Product',
                 className: 'btn btn-primary',
                 action: function (e, dt, node, config) {
-                    $("#pform").trigger("reset");
-                    $('#ProductModal').modal('show');
+                    $("#pform").trigger("reset"); // Reset the form
+                    $('#pform').validate().resetForm(); // Reset validation messages
+                    $('#pform .form-control').removeClass('is-invalid'); // Remove the invalid class from form controls
+                    $('#ProductModal').modal('show'); // Show the modal
                     $('#ProductUpdate').hide();
                     $('#ProductSubmit').show();
                     $('#images').remove();
@@ -59,6 +61,7 @@ $(document).ready(function () {
         ]
     });
 
+    
     // Fetch brands for the brand select dropdown
     $.ajax({
         type: "GET",
@@ -76,15 +79,15 @@ $(document).ready(function () {
         }
     });
 
-
     // Initialize jQuery validation
     $('#pform').validate({
         rules: {
             product_name: {
-                required: true
+                required: true,
+                letterswithspace: true
             },
             description: {
-                required: true
+                required: true,
             },
             price: {
                 required: true,
@@ -95,7 +98,8 @@ $(document).ready(function () {
                 number: true
             },
             category: {
-                required: true
+                required: true,
+                letterswithspace: true
             },
             brand_id: {
                 required: true
@@ -106,7 +110,8 @@ $(document).ready(function () {
         },
         messages: {
             product_name: {
-                required: "Product name is required"
+                required: "Product name is required",
+                letterswithspace: "Product name must be letters and spaces only"
             },
             description: {
                 required: "Description is required"
@@ -120,7 +125,8 @@ $(document).ready(function () {
                 number: "Stocks must be a number"
             },
             category: {
-                required: "Category is required"
+                required: "Category is required",
+                letterswithspace: "Category must be letters and spaces only"
             },
             brand_id: {
                 required: "Please select a brand"
@@ -132,8 +138,26 @@ $(document).ready(function () {
         errorClass: "error-message",
         errorPlacement: function (error, element) {
             error.insertAfter(element);
-        }
+        },
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        },
     });
+
+    // Function to reset the product form and validation
+    function resetProductForm() {
+        $('#pform').trigger('reset'); // Reset the form fields
+        $('#pform').validate().resetForm(); // Reset jQuery Validation
+        $('.is-invalid').removeClass('is-invalid'); // Remove is-invalid class from elements
+    }
+
+    // Custom method to enforce letters and spaces only
+    $.validator.addMethod("letterswithspace", function (value, element) {
+        return this.optional(element) || /^[a-zA-Z\s]*$/.test(value);
+    }, "Please enter letters and spaces only");
 
     // Handle product submission
     $("#ProductSubmit").on('click', function (e) {
@@ -200,7 +224,7 @@ $(document).ready(function () {
 
     // Handle modal form when opening for editing
     $('#ProductModal').on('show.bs.modal', function (e) {
-        $("#pform").trigger("reset");
+        resetProductForm();
         $('#productId').remove();
         $('#images').remove();
         var id = $(e.relatedTarget).attr('data-id');
@@ -262,14 +286,5 @@ $(document).ready(function () {
             }
         });
     });
-
-    // Bind the add product button to open the modal
-    $('#addProductButton').on('click', function () {
-        $('#ProductModal').modal('show');
-        $('#ProductUpdate').hide();
-        $('#ProductSubmit').show();
-        $('#images').remove();
-    });
-
 
 });
