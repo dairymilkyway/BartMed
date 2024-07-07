@@ -21,6 +21,14 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::get('/cart', function () {
+    return view('cart');
+});
+
+Route::get('/checout', function () {
+    return view('checkout');
+});
+
 Route::get('/brand', function () {
     return view('brand.index');
 });
@@ -32,6 +40,7 @@ Route::get('/product', function () {
 Route::get('/supplier', function () {
     return view('supplier.index');
 });
+
 
 
 Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
