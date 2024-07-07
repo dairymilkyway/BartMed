@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Storage;
 
 //import Excel
-use App\Imports\ProductImport;
+use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -135,7 +135,7 @@ class ProductController extends Controller
             'importFile' => ['required', 'file', 'mimes:xlsx,xls']
         ]);
 
-        Excel::import(new ProductImport, $request->file('importFile'));
+        Excel::import(new ProductsImport, $request->file('importFile'));
 
         return response()->json(['success' => 'Brands imported successfully'], 200);
     }
