@@ -111,22 +111,22 @@ $(document).ready(function () {
         messages: {
             product_name: {
                 required: "Product name is required",
-                letterswithspace: "Product name must be letters and spaces only"
+                letterswithspace: "Product name must be letters"
             },
             description: {
                 required: "Description is required"
             },
             price: {
                 required: "Price is required",
-                number: "Price must be a number"
+                number: "Price must be a numbers"
             },
             stocks: {
                 required: "Stocks are required",
-                number: "Stocks must be a number"
+                number: "Stocks must be a numbers"
             },
             category: {
                 required: "Category is required",
-                letterswithspace: "Category must be letters and spaces only"
+                letterswithspace: "Category must be letters"
             },
             brand_id: {
                 required: "Please select a brand"
