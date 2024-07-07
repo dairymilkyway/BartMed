@@ -195,7 +195,7 @@ $(document).ready(function () {
     });
 
     // Handle Excel import via AJAX
-    $("#excelSubmit").on('click', function (e) {
+    $("#BexcelSubmit").on('click', function (e) {
         e.preventDefault();
         var formData = new FormData();
         formData.append('importFile', $('#importFile')[0].files[0]);
