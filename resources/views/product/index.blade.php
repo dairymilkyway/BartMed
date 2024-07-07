@@ -68,8 +68,8 @@
         </div>
         <div class="modal-footer" id="footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="ProductSubmit" type="submit" class="btn btn-primary">Save</button>
-          <button id="ProductUpdate" type="submit" class="btn btn-primary">update</button>
+          <button id="ProductSubmit" type="submit" class="btn btn-primary" value="Submit">Save</button>
+          <button id="ProductUpdate" type="submit" class="btn btn-primary" value="Submit">update</button>
         </div>
   
       </div>
