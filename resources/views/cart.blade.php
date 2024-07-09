@@ -1,9 +1,5 @@
-@extends('layouts.header')
-
+@extends('layouts.headercus')
 @section('content')
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-@vite('resources/css/app.css')
 
 <section>
   <div class="mx-auto max-w-screen-xl px-8 py-12 sm:px-12 sm:py-16 lg:px-16">

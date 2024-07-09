@@ -1,6 +1,4 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-@vite('resources/css/app.css')
+@extends('layouts.master')
 
 <section class="bg-white">
   <div class="lg:grid lg:min-h-screen lg:grid-cols-12">

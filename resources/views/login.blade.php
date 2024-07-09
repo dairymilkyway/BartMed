@@ -1,6 +1,4 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-@vite('resources/css/app.css')
+@extends('layouts.master')
 
 <section class="relative flex flex-wrap lg:h-screen lg:items-center">
   <div class="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
