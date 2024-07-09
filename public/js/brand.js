@@ -10,46 +10,10 @@ $(document).ready(function () {
                 extend: 'pdfHtml5',
                 text: 'Export to PDF',
                 exportOptions: {
-                    columns: [0, 1, 2] // Exclude the Actions column
-                },
-                customize: function (doc) {
-                    // Process images and embed them in the PDF
-                    var images = [];
-                    $('#brandtable tbody tr').each(function () {
-                        var imgPaths = $(this).find('td:eq(2)').text().split(',');
-                        var imagesHTML = '';
-                        imgPaths.forEach(function (path) {
-                            if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png')) {
-                                imagesHTML += `<img src="${path}" width="50" height="60" style="margin-right: 5px;">`;
-                            }
-                        });
-                        images.push(imagesHTML);
-                    });
-
-                    doc.content[1].table.body.forEach(function (row, index) {
-                        if (index > 0 && images[index - 1]) {
-                            var imgData = images[index - 1];
-                            row[2] = {
-                                image: imgData,
-                                width: 50,
-                                height: 60
-                            };
-                        }
-                    });
-                }
-            },
-            'excel',
-            {
-                text: 'Add Brand',
-                className: 'btn btn-primary',
-                action: function (e, dt, node, config) {
-                    $("#brandform").trigger("reset");
-                    $('#brandModal').modal('show');
-                    $('#brandUpdate').hide();
-                    $('#brandSubmit').show();
-                    $('#brandImages').remove();
+                    columns: [0, 1] 
                 }
             }
+        
         ],
         columns: [
             { data: 'id', title: 'ID' },
@@ -62,7 +26,7 @@ $(document).ready(function () {
                     var imagesHTML = '';
                     imgPaths.forEach(function (path) {
                         if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png')) {
-                            imagesHTML += `<img src="${path}" width="50" height="60" style="margin-right: 5px;">`;
+                            imagesHTML += `<img src="${path}" width="150" height="150" style="margin-right: 5px;">`;
                         }
                     });
                     return imagesHTML;
@@ -72,7 +36,7 @@ $(document).ready(function () {
                 data: null,
                 title: 'Actions',
                 render: function (data, type, row) {
-                    return `<a href='#' class='editBtn' data-id="${data.id}"><i class='fas fa-edit' style='font-size:24px'></i></a>
+                    return `<a href='#' class='editBtn' data-id="${data.id}"><i class='fas fa-edit' style='font-size:24px; color:blue'></i></a>
                             <a href='#' class='deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt' style='font-size:24px; color:red'></i></a>`;
                 }
             }
@@ -208,6 +172,7 @@ $(document).ready(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             success: function (data) {
                 $("#ExcelBform").trigger("reset");
+                $("#importExcelModal").modal("hide");
                 table.ajax.reload();
             },
             error: function (error) {
@@ -215,6 +180,19 @@ $(document).ready(function () {
             }
         });
     });
-    
-    
+
+    // Handle Add Brand button click
+    $("#addBrandBtn").on('click', function () {
+        $("#brandform").trigger("reset");
+        $('#brandModal').modal('show');
+        $('#brandUpdate').hide();
+        $('#brandSubmit').show();
+        $('#brandImages').remove();
+    });
+
+    // Handle Import Excel button click
+    $("#importExcelBtn").on('click', function () {
+        $("#ExcelBform").trigger("reset");
+        $('#importExcelModal').modal('show');
+    });
 });

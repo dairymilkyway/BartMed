@@ -11,10 +11,10 @@ $(document).ready(function () {
                 extend: 'pdfHtml5',
                 text: 'Export to PDF',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7] // Exclude the Actions column
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7] 
                 }
             },
-            'excel',
+            
             {
                 text: 'Add Product',
                 className: 'btn btn-primary',
