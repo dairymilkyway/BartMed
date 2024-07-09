@@ -18,7 +18,7 @@
 
         <!-- Services Section -->
         <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-  <a href="#" class="block p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
+  <a href="" class="block p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
     <img src="https://source.unsplash.com/100x100/?consultation" alt="Consultation" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-teal-600">
     <h3 class="text-xl font-semibold text-gray-800">Brands</h3>
     <p class="text-gray-600 mt-2">Talk to our expert pharmacists for advice and consultation.</p>
