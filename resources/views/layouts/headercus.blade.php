@@ -36,7 +36,13 @@
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Home</a></li>
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Brands</a></li>
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Products</a></li>
-      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
+      <li>
+  <a class="text-gray-500 transition hover:text-gray-500/75 relative flex items-center" href="#">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span class="ml-1">Cart</span>
+    <span id="cart-counter" class="ml-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1">0</span>
+  </a>
+</li>
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-user"></i> My Account</a></li>
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
     </ul>

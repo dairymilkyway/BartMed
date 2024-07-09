@@ -29,6 +29,10 @@ Route::get('/checkout', function () {
     return view('checkout');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+
 Route::get('/brand', function () {
     return view('brand.index');
 })->name('brand.index');
