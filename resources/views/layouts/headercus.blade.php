@@ -26,17 +26,20 @@
                 
 
                 <div class="md:flex md:items-center md:gap-12">
-                    <nav aria-label="Global" class="hidden md:block">
-                        <ul class="flex items-center gap-6 text-sm">
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Home</a></li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Brands</a></li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Products</a></li>
-                            <li> <a class="text-gray-500 transition hover:text-gray-500/75" href="#"> <i class="fa-solid fa-cart-shopping"></i>Cart </a> </li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"> <i class="fa-solid fa-user"></i> My Account</a></li>
-                            <li> <a class="text-gray-500 transition hover:text-gray-500/75" href="#"> <i class="fa-solid fa-right-from-bracket"></i> Logout </a> </li>
-
-                        </ul>
-                    </nav>
+  <nav aria-label="Global" class="hidden md:block">
+    <ul class="flex items-center gap-6 text-sm">
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Home</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Brands</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Products</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-user"></i> My Account</a></li>
+      <li class="relative">
+        <input type="text" placeholder="Search" class="rounded border-gray-300 pl-10 pr-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500" />
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+      </li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+  </nav>
 
                         <div class="block md:hidden">
                             <button class="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">

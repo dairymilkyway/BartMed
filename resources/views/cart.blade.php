@@ -80,42 +80,15 @@
 
         </ul>
 
-        <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
-          <div class="w-screen max-w-lg space-y-4">
-            <dl class="space-y-0.5 text-sm text-gray-700">
-              <div class="flex justify-between">
-                <dt>Subtotal</dt>
-                <dd>$119.00</dd>
-              </div>
 
-              <div class="flex justify-between">
-                <dt>VAT</dt>
-                <dd>$25.00</dd>
-              </div>
+        <div class="flex justify-end">
+  <button
+    class="inline-block rounded bg-gray-400 px-5 py-3 text-sm text-white transition hover:bg-gray-500"
+  >
+    Checkout
+  </button>
+</div>
 
-              <div class="flex justify-between">
-                <dt>Discount</dt>
-                <dd>- $20.00</dd>
-              </div>
-
-              <div class="flex justify-between">
-                <dt>Shipping</dt>
-                <dd>$8.00</dd>
-              </div>
-
-              <div class="flex justify-between !text-base font-medium">
-                <dt>Total</dt>
-                <dd>$132.00</dd>
-              </div>
-            </dl>
-
-            <div class="flex justify-end">
-              <span
-                class="inline-block rounded bg-gray-400 px-5 py-3 text-sm text-white cursor-not-allowed"
-              >
-                Checkout
-              </span>
-            </div>
           </div>
         </div>
       </div>
