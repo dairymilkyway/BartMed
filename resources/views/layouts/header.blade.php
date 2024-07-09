@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>@yield('title', 'Pharmacy')</title>
     @vite('resources/css/app.css')
 </head>
@@ -25,22 +26,30 @@
                 <div class="md:flex md:items-center md:gap-12">
                     <nav aria-label="Global" class="hidden md:block">
                         <ul class="flex items-center gap-6 text-sm">
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">About</a></li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Careers</a></li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">History</a></li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Services</a></li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Projects</a></li>
-                            <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Blog</a></li>
+                        <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Home</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Brands</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Products</a></li>
+      <li>
+  <a class="text-gray-500 transition hover:text-gray-500/75 relative flex items-center" href="#">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span class="ml-1">Cart</span>
+    <span id="cart-counter" class="ml-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1">0</span>
+  </a>
+</li>
+
+
+
                         </ul>
                     </nav>
 
                     <div class="flex items-center gap-4">
-                        <div class="sm:flex sm:gap-4">
-                            <a class="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow" href="#">Login</a>
-                            <div class="hidden sm:flex">
-                                <a class="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600" href="#">Register</a>
-                            </div>
-                        </div>
+  <div class="sm:flex sm:gap-4">
+    <button class="loginModalOpen rounded-md bg-teal-600 text-white px-5 py-2.5 text-sm font-medium hover:bg-teal-700 transition duration-300">Login</button>
+    <div class="hidden sm:flex">
+      <button class="registerModalOpen rounded-md bg-teal-600 text-white px-5 py-2.5 text-sm font-medium hover:bg-teal-700 transition duration-300">Register</button>
+    </div>
+  </div>
+</div>
 
                         <div class="block md:hidden">
                             <button class="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
@@ -58,7 +67,8 @@
     <main>
         @yield('content')
     </main>
-
+@include('layouts.logregmodals')
     <script src="{{ mix('js/app.js') }}"></script>
+    <script src="layouts/cart.js"></script>
 </body>
 </html>
