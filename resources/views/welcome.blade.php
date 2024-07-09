@@ -1,4 +1,3 @@
-@extends('layouts.master')
 @extends('layouts.header')
 
 @section('title', 'Welcome')
@@ -19,22 +18,23 @@
 
         <!-- Services Section -->
         <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
-                <img src="https://source.unsplash.com/100x100/?consultation" alt="Consultation" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-teal-600">
-                <h3 class="text-xl font-semibold text-gray-800">Brands</h3>
-                <p class="text-gray-600 mt-2">Talk to our expert pharmacists for advice and consultation.</p>
-            </div>
-            <div class="p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
-                <img src="https://source.unsplash.com/100x100/?medicine" alt="Products" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-teal-600">
-                <h3 class="text-xl font-semibold text-gray-800">Products</h3>
-                <p class="text-gray-600 mt-2">Wide range of pharmaceutical products to meet your needs.</p>
-            </div>
-            <div class="p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
-                <img src="https://source.unsplash.com/100x100/?delivery" alt="Delivery" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-teal-600">
-                <h3 class="text-xl font-semibold text-gray-800">Delivery</h3>
-                <p class="text-gray-600 mt-2">Fast and reliable delivery service for your convenience.</p>
-            </div>
-        </div>
+  <a href="#" class="block p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
+    <img src="https://source.unsplash.com/100x100/?consultation" alt="Consultation" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-teal-600">
+    <h3 class="text-xl font-semibold text-gray-800">Brands</h3>
+    <p class="text-gray-600 mt-2">Talk to our expert pharmacists for advice and consultation.</p>
+  </a>
+  <a href="#" class="block p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
+    <img src="https://source.unsplash.com/100x100/?medicine" alt="Products" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-teal-600">
+    <h3 class="text-xl font-semibold text-gray-800">Products</h3>
+    <p class="text-gray-600 mt-2">Wide range of pharmaceutical products to meet your needs.</p>
+  </a>
+  <a href="#" class="block p-6 bg-white shadow-lg rounded-lg text-center transform transition duration-500 hover:scale-105">
+    <img src="https://source.unsplash.com/100x100/?delivery" alt="Delivery" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-teal-600">
+    <h3 class="text-xl font-semibold text-gray-800">Delivery</h3>
+    <p class="text-gray-600 mt-2">Fast and reliable delivery service for your convenience.</p>
+  </a>
+</div>
+
 <!-- Login Modal -->
 <div id="loginModal" class="fixed inset-0 z-50 hidden overflow-y-auto flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg mx-auto max-w-3xl w-full md:w-auto" style="width: 1080px; max-width: 90vw; max-height: 90vh; overflow: hidden;">
@@ -64,18 +64,7 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-    </div>
+</div>
 
     <script>
     function showModal(modalId) {
