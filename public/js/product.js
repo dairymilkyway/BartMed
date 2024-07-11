@@ -5,27 +5,13 @@ $(document).ready(function () {
             url: "/api/products",
             dataSrc: ""
         },
-        dom: 'Bfrtip',
+        dom: '<"top"lBf>rt<"bottom"ip><"clear">', // Modified dom string
         buttons: [
             {
                 extend: 'pdfHtml5',
                 text: 'Export to PDF',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7] 
-                }
-            },
-            
-            {
-                text: 'Add Product',
-                className: 'btn btn-primary',
-                action: function (e, dt, node, config) {
-                    $("#pform").trigger("reset"); // Reset the form
-                    $('#pform').validate().resetForm(); // Reset validation messages
-                    $('#pform .form-control').removeClass('is-invalid'); // Remove the invalid class from form controls
-                    $('#ProductModal').modal('show'); // Show the modal
-                    $('#ProductUpdate').hide();
-                    $('#ProductSubmit').show();
-                    $('#images').remove();
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
                 }
             }
         ],
@@ -39,7 +25,7 @@ $(document).ready(function () {
                         var images = data.split(',');
                         images.forEach(function (imgPath) {
                             imgPath = imgPath.trim();
-                            imgHtml += "<img src='/" + imgPath + "' width='200px' height='200px' style='margin: 5px;' onerror='this.onerror=null;this.src=\"/default-image.jpg\";' />";
+                            imgHtml += "<img src='/" + imgPath + "' width='150px' height='150px' style='margin: 5px;' onerror='this.onerror=null;this.src=\"/default-image.jpg\";' />";
                         });
                     }
                     return imgHtml;
@@ -301,6 +287,7 @@ $(document).ready(function () {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 success: function (data) {
                     $("#ExcelPform").trigger("reset");
+                    $("#importExcelModal").modal("hide");
                     table.ajax.reload();
                 },
                 error: function (error) {
@@ -308,6 +295,24 @@ $(document).ready(function () {
                 }
             });
         });
+
+
+     // Handle Add Product button click
+    $("#addProductBtn").on('click', function () {
+        $("#pform").trigger("reset"); // Reset the form
+        $('#pform').validate().resetForm(); // Reset validation messages
+        $('#pform .form-control').removeClass('is-invalid'); // Remove the invalid class from form controls
+        $('#ProductModal').modal('show'); // Show the modal
+        $('#ProductUpdate').hide();
+        $('#ProductSubmit').show();
+        $('#images').remove();
+    });
+            
+    // Handle Import Excel button click
+    $("#importExcelBtn").on('click', function () {
+    $("#ExcelBform").trigger("reset");
+     $('#importExcelModal').modal('show');
+    });
 
 });
 
