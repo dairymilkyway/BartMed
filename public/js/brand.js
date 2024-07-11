@@ -5,19 +5,25 @@ $(document).ready(function () {
             dataSrc: ""
         },
         dom: '<"top"lBf>rt<"bottom"ip><"clear">',
-    buttons: [
-        {
-            extend: 'pdfHtml5',
-            text: 'Export to PDF',
-            exportOptions: {
-                columns: [0, 1]
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf"></i> Export to PDF',
+                className: 'btn btn-primary mr-2',
+                exportOptions: {
+                    columns: [0, 1, 2]
+                }
             }
-        }
-        
         ],
         columns: [
-            { data: 'id', title: 'ID' },
-            { data: 'brand_name', title: 'Brand Name' },
+            { 
+                data: 'id', 
+                title: 'ID' 
+            },
+            { 
+                data: 'brand_name', 
+                title: 'Brand Name' 
+            },
             {
                 data: 'img_path',
                 title: 'Image',
@@ -26,7 +32,7 @@ $(document).ready(function () {
                     var imagesHTML = '';
                     imgPaths.forEach(function (path) {
                         if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png')) {
-                            imagesHTML += `<img src="${path}" width="150" height="150" style="margin-right: 5px;">`;
+                            imagesHTML += `<img src="${path}" class="img-thumbnail" width="100" height="100" style="margin-right: 5px;">`;
                         }
                     });
                     return imagesHTML;
@@ -36,11 +42,26 @@ $(document).ready(function () {
                 data: null,
                 title: 'Actions',
                 render: function (data, type, row) {
-                    return `<a href='#' class='editBtn' data-id="${data.id}"><i class='fas fa-edit' style='font-size:24px; color:blue'></i></a>
-                            <a href='#' class='deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt' style='font-size:24px; color:red'></i></a>`;
+                    return `<a href='#' class='btn btn-sm btn-primary editBtn' data-id="${data.id}"><i class='fas fa-edit'></i> Edit</a>
+                            <button type='button' class='btn btn-sm btn-danger deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt'></i> Delete</button>`;
                 }
             }
-        ]
+        ],
+        responsive: true,
+        order: [[0, 'asc']], // Sort by ID column ascending by default
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search...",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: {
+                first: "First",
+                last: "Last",
+                next: "Next",
+                previous: "Previous"
+            },
+            emptyTable: "No data available in table"
+        }
     });
 
     $("#brandSubmit").on('click', function (e) {
