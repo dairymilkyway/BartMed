@@ -7,12 +7,12 @@
     <div class="col-md-10">
         <div id="brands" class="container pt-7">
             <div class="mb-4">
-                <button id="addBrandBtn" class="btn btn-primary">Add Brand</button>
-                <button id="importExcelBtn" class="btn btn-secondary">Import Excel</button>
+                <button id="addBrandBtn" class="btn btn-info">Add Brand</button>
+                <button id="importExcelBtn" class="btn btn-info">Import Excel</button>
             </div>
             <div class="table-responsive">
-                <table id="brandtable" class="table table-striped table-hover">
-                    <thead>
+                <table id="brandtable" class="table table-hover">
+                    <thead class="thead-dark">
                         <tr>
                             <th>Brand ID</th>
                             <th>Brand Name</th>
