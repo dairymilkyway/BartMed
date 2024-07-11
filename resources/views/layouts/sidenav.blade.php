@@ -41,6 +41,15 @@
     </a>
   </li>
 
+  <li>
+    <a
+      href="{{route('order.index')}}"
+      class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+    >
+      Order
+    </a>
+  </li>
+
     </ul>
   </div>
 
