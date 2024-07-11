@@ -4,7 +4,7 @@ $(document).ready(function () {
             url: "/api/brands",
             dataSrc: ""
         },
-        dom: 'Bfrtip',
+        dom: '<"top"lf>rt<"bottom"ip><"clear">',
         buttons: [
             {
                 extend: 'pdfHtml5',
