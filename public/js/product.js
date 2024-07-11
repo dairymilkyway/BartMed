@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     var table = $('#productable').DataTable({
         ajax: {
             url: "/api/products",
@@ -9,16 +8,21 @@ $(document).ready(function () {
         buttons: [
             {
                 extend: 'pdfHtml5',
-                text: 'Export to PDF',
+                text: '<i class="fa fa-file-pdf"></i> Export to PDF',
+                className: 'btn btn-primary mr-2',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6, 7]
                 }
             }
         ],
         columns: [
-            { data: "id" },
+            { 
+                data: 'id', 
+                title: 'ID' 
+            },
             {
-                data: "img_path",
+                data: 'img_path',
+                title: 'Images',
                 render: function (data) {
                     var imgHtml = "";
                     if (data) {
@@ -31,21 +35,60 @@ $(document).ready(function () {
                     return imgHtml;
                 }
             },
-            { data: "product_name" },
-            { data: "description" },
-            { data: "brand.brand_name" },
-            { data: "price" },
-            { data: "stocks" },
-            { data: "category" },
+            { 
+                data: 'product_name', 
+                title: 'Product Name' 
+            },
+            { 
+                data: 'description', 
+                title: 'Description' 
+            },
+            { 
+                data: 'brand.brand_name', 
+                title: 'Brand Name' 
+            },
+            { 
+                data: 'price', 
+                title: 'Price' 
+            },
+            { 
+                data: 'stocks', 
+                title: 'Stocks' 
+            },
+            { 
+                data: 'category', 
+                title: 'Category' 
+            },
             {
                 data: null,
+                title: 'Actions',
                 render: function (data) {
-                    return "<a href='#' data-toggle='modal' data-target='#ProductModal' id='editbtn' data-id='" + data.id + "'><i class='fas fa-edit' aria-hidden='true' style='font-size:24px; color:blue'></i></a> " +
-                        "<a href='#' class='deletebtn' data-id='" + data.id + "'><i class='fa fa-trash' style='font-size:24px; color:red'></a></i>";
+                    return "<a href='#' data-toggle='modal' data-target='#ProductModal' class='btn btn-sm btn-primary editBtn' data-id='" + data.id + "'><i class='fas fa-edit'></i> Edit</a> " +
+                        "<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id='" + data.id + "'><i class='fas fa-trash-alt'></i> Delete</button>";
                 }
             }
-        ]
+        ],
+        headerCallback: function(thead, data, start, end, display) {
+            $(thead).find('th').css('background-color', '#000000'); // Set black background for header cells
+            $(thead).find('th').css('color', '#ffffff'); // Set white text color for header cells
+        },
+        responsive: true,
+        order: [[0, 'asc']], // Sort by ID column ascending by default
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search...",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: {
+                first: "First",
+                last: "Last",
+                next: "Next",
+                previous: "Previous"
+            },
+            emptyTable: "No data available in table"
+        }
     });
+
 
     
     $.ajax({
