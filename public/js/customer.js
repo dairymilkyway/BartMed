@@ -4,7 +4,7 @@ $(document).ready(function () {
             url: "/api/customers",
             dataSrc: ""
         },
-        dom: '<"top"lf>rt<"bottom"ip><"clear">',
+        dom: '<"top"lBf>rt<"bottom"ip><"clear">',
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -32,6 +32,12 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     return `<button class="btn btn-info change-role-btn" data-id="${row.user.id}" data-name="${row.name}" data-role="${row.user.role}">Change Role</button>`;
+                }
+            },
+            {
+                data:null,
+                render:function (data,type,row){
+                    return `<a href='#' class='deletebtn' data-id="${data.id}"><i class='fas fa-trash' style='font-size:24px; color:red'></i></a>`;
                 }
             }
         ]
@@ -103,6 +109,42 @@ $(document).ready(function () {
             },
             error: function (error) {
                 console.log(error);
+            }
+        });
+    });
+    
+    //delete
+    $('#customerTable tbody').on('click', 'a.deletebtn', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var $row = $(this).closest('tr');
+        bootbox.confirm({
+            message: "Do you want to delete this customer?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: `/api/customers/${id}`,
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        dataType: "json",
+                        success: function (data) {
+                            table.row($row).remove().draw();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
             }
         });
     });
