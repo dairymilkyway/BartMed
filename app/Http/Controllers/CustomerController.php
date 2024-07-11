@@ -61,7 +61,13 @@ class CustomerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if (Customer::find($id)) {
+            Customer::destroy($id);
+            $data = array('success' => 'deleted', 'code' => 200);
+            return response()->json($data);
+        }
+        $data = array('error' => 'Brand not deleted', 'code' => 400);
+        return response()->json($data);
     }
 
     public function changeStatus(Request $request, $id)
