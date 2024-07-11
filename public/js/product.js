@@ -62,7 +62,6 @@ $(document).ready(function () {
     });
 
     
-    // Fetch brands for the brand select dropdown
     $.ajax({
         type: "GET",
         url: "/api/brands",
