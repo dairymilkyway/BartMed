@@ -46,6 +46,10 @@ Route::get('/supplier', function () {
     return view('supplier.index');
 })->name('supplier.index');
 
+Route::get('/customer', function () {
+    return view('customer.index');
+})->name('customer.index');
 
 
-Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
+
+//Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
