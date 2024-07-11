@@ -32,6 +32,15 @@
     </a>
   </li>
 
+  <li>
+    <a
+      href="{{route('customer.index')}}"
+      class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+    >
+      Customer
+    </a>
+  </li>
+
     </ul>
   </div>
 
