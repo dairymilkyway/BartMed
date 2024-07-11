@@ -8,7 +8,7 @@ use App\Models\User;
 class Customer extends Model
 {
     use HasFactory;
-    protected $table = 'brands';
+    protected $table = 'customers';
     protected $primaryKey = 'id';
     public $timestamps = true; 
     protected $fillable = [
