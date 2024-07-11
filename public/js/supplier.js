@@ -1,22 +1,29 @@
 $(document).ready(function () {
     var table = $('#stable').DataTable({
         ajax: {
-            url: "/api/suppliers", // Ensure this URL matches your route
+            url: "/api/suppliers",
             dataSrc: ""
         },
         dom: '<"top"lBf>rt<"bottom"ip><"clear">',
         buttons: [
             {
-               extend: 'pdfHtml5',
-                text: 'Export to PDF',
-                exportOptions: { 
-                    columns: [0, 1] 
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf"></i> Export to PDF',
+                className: 'btn btn-primary mr-2',
+                exportOptions: {
+                    columns: [0, 1]
                 }
             }
         ],
         columns: [
-            { data: 'id', title: 'ID' },
-            { data: 'supplier_name', title: 'Supplier Name' },
+            { 
+                data: 'id', 
+                title: 'ID' 
+            },
+            { 
+                data: 'supplier_name', 
+                title: 'Supplier Name' 
+            },
             {
                 data: 'img_path',
                 title: 'Image',
@@ -34,13 +41,33 @@ $(document).ready(function () {
             {
                 data: null,
                 title: 'Actions',
-                render: function (data, type, row) {
-                    return `<a href='#' class='editBtn' data-id="${data.id}"><i class='fas fa-edit' style='font-size:24px; color:blue'></i></a>
-                            <a href='#' class='deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt' style='font-size:24px; color:red'></i></a>`;
+                render: function (data) {
+                    return `<a href='#' class='btn btn-sm btn-primary editBtn' data-id="${data.id}"><i class='fas fa-edit'></i> Edit</a> ` +
+                           `<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt'></i> Delete</button>`;
                 }
             }
-        ]
+        ],
+        headerCallback: function(thead, data, start, end, display) {
+            $(thead).find('th').css('background-color', '#000000'); // Set black background for header cells
+            $(thead).find('th').css('color', '#ffffff'); // Set white text color for header cells
+        },
+        responsive: true,
+        order: [[0, 'asc']], // Sort by ID column ascending by default
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search...",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: {
+                first: "First",
+                last: "Last",
+                next: "Next",
+                previous: "Previous"
+            },
+            emptyTable: "No data available in table"
+        }
     });
+
 
     $("#SupplierSubmit").on('click', function (e) {
         e.preventDefault();
