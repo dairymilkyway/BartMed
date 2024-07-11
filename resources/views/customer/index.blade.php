@@ -20,6 +20,7 @@
                             <th>Status</th>
                             <th>Change Status</th>
                             <th>Change Role</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody id="customerbody">
