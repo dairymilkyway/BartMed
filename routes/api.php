@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CustomerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +22,11 @@ Route::apiResource('suppliers', SupplierController::class);
 Route::post('/brands/excel',[BrandController::class, 'import'])->name('Bexcel');
 Route::post('/suppliers/excel',[SupplierController::class, 'import'])->name('Sexcel');
 Route::post('/products/excel',[ProductController::class, 'import'])->name('Pexcel');
+Route::apiResource('customers', CustomerController::class);
+
+Route::put('/users/{id}/status', [CustomerController::class, 'changeStatus']);
+Route::put('/users/{id}/role', [CustomerController::class, 'changeRole']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
