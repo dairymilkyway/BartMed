@@ -8,40 +8,85 @@ $(document).ready(function () {
         buttons: [
             {
                 extend: 'pdfHtml5',
-                text: 'Export to PDF',
+                text: '<i class="fa fa-file-pdf"></i> Export to PDF',
+                className: 'btn btn-primary mr-2',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             }
         ],
         columns: [
-            { data: "id" },
-            { data: "name" },
-            { data: "user.email" },
-            { data: "address" },
-            { data: "number" },
-            { data: "user.role" },
-            { data: "user.status" },
+            { 
+                data: 'id', 
+                title: 'ID' 
+            },
+            { 
+                data: 'name', 
+                title: 'Name' 
+            },
+            { 
+                data: 'user.email', 
+                title: 'Email' 
+            },
+            { 
+                data: 'address', 
+                title: 'Address' 
+            },
+            { 
+                data: 'number', 
+                title: 'Number' 
+            },
+            { 
+                data: 'user.role', 
+                title: 'Role' 
+            },
+            { 
+                data: 'user.status', 
+                title: 'Status' 
+            },
             {
                 data: null,
+                title: 'Change Status',
                 render: function (data, type, row) {
                     return `<button class="btn btn-warning change-status-btn" data-id="${row.user.id}" data-name="${row.name}" data-status="${row.user.status}">Change Status</button>`;
                 }
             },
             {
                 data: null,
+                title: 'Change Role',
                 render: function (data, type, row) {
                     return `<button class="btn btn-info change-role-btn" data-id="${row.user.id}" data-name="${row.name}" data-role="${row.user.role}">Change Role</button>`;
                 }
             },
             {
                 data:null,
+                title: 'Actions',
                 render:function (data,type,row){
-                    return `<a href='#' class='deletebtn' data-id="${data.id}"><i class='fas fa-trash' style='font-size:24px; color:red'></i></a>`;
+                    return `<a href='#' class='btn btn-sm btn-danger deleteBtn' data-id="${data.id}"><i class='fas fa-trash'></i> Delete</a>`;
                 }
             }
-        ]
+        ],
+        responsive: true,
+        order: [[0, 'asc']], // Sort by ID column ascending by default
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search...",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: {
+                first: "First",
+                last: "Last",
+                next: "Next",
+                previous: "Previous"
+            },
+            emptyTable: "No data available in table"
+        },
+        headerCallback: function(thead, data, start, end, display) {
+            $(thead).find('th').css('background-color', '#000000'); // Set black background for header cells
+            $(thead).find('th').css('color', '#ffffff'); // Set white text color for header cells
+        }
     });
+
 
     // Handle Change Status button click
     $('#customerTable tbody').on('click', 'button.change-status-btn', function () {
