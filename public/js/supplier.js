@@ -4,27 +4,13 @@ $(document).ready(function () {
             url: "/api/suppliers", // Ensure this URL matches your route
             dataSrc: ""
         },
-        dom: 'Bfrtip',
+        dom: '<"top"lBf>rt<"bottom"ip><"clear">',
         buttons: [
             {
-                extend: 'pdfHtml5',
+               extend: 'pdfHtml5',
                 text: 'Export to PDF',
-                exportOptions: {
-                    columns: [0, 1, 2] 
-                }
-
-                
-            },
-            'excel',
-            {
-                text: 'Add Supplier',
-                className: 'btn btn-primary',
-                action: function (e, dt, node, config) {
-                    $("#Supplierform").trigger("reset");
-                    $('#SupplierModal').modal('show');
-                    $('#SupplierUpdate').hide();
-                    $('#SupplierSubmit').show();
-                    $('#SupplierImages').remove();
+                exportOptions: { 
+                    columns: [0, 1] 
                 }
             }
         ],
@@ -39,7 +25,7 @@ $(document).ready(function () {
                     var imagesHTML = '';
                     imgPaths.forEach(function (path) {
                         if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png')) {
-                            imagesHTML += `<img src="${path}" width="50" height="60" style="margin-right: 5px;">`;
+                            imagesHTML += `<img src="${path}" width="150" height="150" style="margin-right: 5px;">`;
                         }
                     });
                     return imagesHTML;
@@ -49,7 +35,7 @@ $(document).ready(function () {
                 data: null,
                 title: 'Actions',
                 render: function (data, type, row) {
-                    return `<a href='#' class='editBtn' data-id="${data.id}"><i class='fas fa-edit' style='font-size:24px'></i></a>
+                    return `<a href='#' class='editBtn' data-id="${data.id}"><i class='fas fa-edit' style='font-size:24px; color:blue'></i></a>
                             <a href='#' class='deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt' style='font-size:24px; color:red'></i></a>`;
                 }
             }
@@ -185,12 +171,28 @@ $(document).ready(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             success: function (data) {
                 $("#ExcelSform").trigger("reset");
+                $('#importExcelModal').modal('hide');
                 table.ajax.reload();
             },
             error: function (error) {
                 console.log(error);
             }
         });
+    });
+
+    // Handle Add Brand button click
+    $("#addSupplierBtn").on('click', function () {
+        $("#Supplierform").trigger("reset");
+        $('#SupplierModal').modal('show');
+        $('#SupplierUpdate').hide();
+        $('#SupplierSubmit').show();
+        $('#SupplierImages').remove();
+    });
+
+    // Handle Import Excel button click
+    $("#importExcelBtn").on('click', function () {
+        $("#ExcelBform").trigger("reset");
+        $('#importExcelModal').modal('show');
     });
     
 
