@@ -108,9 +108,7 @@ class BrandController extends Controller
         return response()->json(["success" => "Brand updated successfully.", "brand" => $brand, "status" => 200]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         if (Brand::find($id)) {
