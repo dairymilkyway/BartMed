@@ -4,15 +4,15 @@ $(document).ready(function () {
             url: "/api/brands",
             dataSrc: ""
         },
-        dom: '<"top"lf>rt<"bottom"ip><"clear">',
-        buttons: [
-            {
-                extend: 'pdfHtml5',
-                text: 'Export to PDF',
-                exportOptions: {
-                    columns: [0, 1] 
-                }
+        dom: '<"top"lBf>rt<"bottom"ip><"clear">',
+    buttons: [
+        {
+            extend: 'pdfHtml5',
+            text: 'Export to PDF',
+            exportOptions: {
+                columns: [0, 1]
             }
+        }
         
         ],
         columns: [
