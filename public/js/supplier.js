@@ -10,32 +10,10 @@ $(document).ready(function () {
                 extend: 'pdfHtml5',
                 text: 'Export to PDF',
                 exportOptions: {
-                    columns: [0, 1, 2] // Exclude the Actions column
-                },
-                customize: function (doc) {
-                    var images = [];
-                    $('#stable tbody tr').each(function () {
-                        var imgPaths = $(this).find('td:eq(2)').text().split(',');
-                        var imagesHTML = '';
-                        imgPaths.forEach(function (path) {
-                            if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png')) {
-                                imagesHTML += `<img src="${path}" width="50" height="60" style="margin-right: 5px;">`;
-                            }
-                        });
-                        images.push(imagesHTML);
-                    });
-
-                    doc.content[1].table.body.forEach(function (row, index) {
-                        if (index > 0 && images[index - 1]) {
-                            var imgData = images[index - 1];
-                            row[2] = {
-                                image: imgData,
-                                width: 50,
-                                height: 60
-                            };
-                        }
-                    });
+                    columns: [0, 1, 2] 
                 }
+
+                
             },
             'excel',
             {
