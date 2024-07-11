@@ -50,6 +50,10 @@ Route::get('/customer', function () {
     return view('customer.index');
 })->name('customer.index');
 
+Route::get('/order', function () {
+    return view('order.index');
+})->name('order.index');
+
 
 
 //Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
