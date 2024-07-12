@@ -16,33 +16,33 @@ $(document).ready(function () {
             }
         ],
         columns: [
-            { 
-                data: 'id', 
-                title: 'ID' 
+            {
+                data: 'id',
+                title: 'ID'
             },
-            { 
-                data: 'name', 
-                title: 'Name' 
+            {
+                data: 'name',
+                title: 'Name'
             },
-            { 
-                data: 'user.email', 
-                title: 'Email' 
+            {
+                data: 'user.email',
+                title: 'Email'
             },
-            { 
-                data: 'address', 
-                title: 'Address' 
+            {
+                data: 'address',
+                title: 'Address'
             },
-            { 
-                data: 'number', 
-                title: 'Number' 
+            {
+                data: 'number',
+                title: 'Number'
             },
-            { 
-                data: 'user.role', 
-                title: 'Role' 
+            {
+                data: 'user.role',
+                title: 'Role'
             },
-            { 
-                data: 'user.status', 
-                title: 'Status' 
+            {
+                data: 'user.status',
+                title: 'Status'
             },
             {
                 data: null,
@@ -87,17 +87,148 @@ $(document).ready(function () {
         }
     });
 
+    $(document).ready(function () {
+        // Initialize jQuery validation
+        $('#customerForm').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                confirm_password: {
+                    required: true,
+                    equalTo: '#password'
+                },
+                first_name: {
+                    required: true
+                },
+                last_name: {
+                    required: true
+                },
+                address: {
+                    required: true
+                },
+                number: {
+                    required: true
+                },
+                img_path: {
+                    // Optional: Validation rules for image upload if needed
+                    // accept: "image/jpeg, image/png", // Example for accepted file types
+                    // filesize: 2048, // Example for max file size in bytes (2MB)
+                }
+            },
+            messages: {
+                email: {
+                    required: "Email address is required",
+                    email: "Please enter a valid email address"
+                },
+                password: {
+                    required: "Password is required",
+                    minlength: "Password must be at least 6 characters long"
+                },
+                confirm_password: {
+                    required: "Please confirm your password",
+                    equalTo: "Passwords do not match"
+                },
+                first_name: {
+                    required: "First name is required"
+                },
+                last_name: {
+                    required: "Last name is required"
+                },
+                address: {
+                    required: "Address is required"
+                },
+                number: {
+                    required: "Phone number is required"
+                },
+                img_path: {
+                    // Optional: Custom messages for image upload validation if needed
+                    // accept: "Please upload only JPG or PNG images",
+                    // filesize: "File size cannot exceed 2MB"
+                }
+            },
+            errorClass: "error-message",
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
+            },
+            submitHandler: function (form) {
+                // Handle form submission via AJAX
+                var formData = new FormData(form);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/register",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "json",
+                    success: function (data) {
+                        // Handle success response
+                        console.log("Customer created successfully:", data);
+                        // Example: Redirect to a success page or show a success message
+                    },
+                    error: function (error) {
+                        // Handle error response
+                        console.error("Error creating customer:", error);
+                        // Example: Display error messages to the user
+                    }
+                });
+            }
+        });
+    });
+
+    //Login
+    $(document).ready(function() {
+        $('#loginForm').submit(function(event) {
+            event.preventDefault();
+
+            // Create FormData object
+            var formData = new FormData();
+            formData.append('email', $('#Email').val());
+            formData.append('password', $('#Password').val());
+
+            // Send AJAX request
+            $.ajax({
+                url: '/api/login',
+                method: 'POST',
+                data: formData,
+                contentType: false, // Not needed when using FormData
+                processData: false, // Not needed when using FormData
+                success: function(response) {
+                    alert(response.message); // Display success message
+                    window.location.href = '/home'; // Redirect to home page after successful login
+                },
+                error: function(xhr, status, error) {
+                    alert(xhr.responseJSON.message); // Display error message
+                }
+            });
+        });
+    });
+
+
 
     // Handle Change Status button click
     $('#customerTable tbody').on('click', 'button.change-status-btn', function () {
         var userId = $(this).data('id');
         var userName = $(this).data('name');
         var userStatus = $(this).data('status');
-        
+
         $('#statusName').val(userName);
         $('#statusDropdown').val(userStatus);
         $('#statusUserId').val(userId);
-        
+
         $('#changeStatusModal').modal('show');
     });
 
@@ -128,11 +259,11 @@ $(document).ready(function () {
         var userId = $(this).data('id');
         var userName = $(this).data('name');
         var userRole = $(this).data('role');
-        
+
         $('#roleName').val(userName);
         $('#roleDropdown').val(userRole);
         $('#roleUserId').val(userId);
-        
+
         $('#changeRoleModal').modal('show');
     });
 
@@ -157,7 +288,7 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     //delete
     $('#customerTable tbody').on('click', 'a.deletebtn', function (e) {
         e.preventDefault();

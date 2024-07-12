@@ -10,7 +10,7 @@ class Customer extends Model
     use HasFactory;
     protected $table = 'customers';
     protected $primaryKey = 'id';
-    public $timestamps = true; 
+    public $timestamps = true;
     protected $fillable = [
         'user_id',
         'name',
@@ -21,6 +21,6 @@ class Customer extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

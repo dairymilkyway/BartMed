@@ -36,31 +36,31 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $Product = new Product;
-        $Product->product_name = $request->product_name;
-        $Product->description = $request->description;
-        $Product->price = $request->price;
-        $Product->stocks = $request->stocks;
-        $Product->category = $request->category;
-        $Product->brand_id = $request->brand_id;
-        $Product->img_path = ''; 
+        public function store(Request $request)
+        {
+            $Product = new Product;
+            $Product->product_name = $request->product_name;
+            $Product->description = $request->description;
+            $Product->price = $request->price;
+            $Product->stocks = $request->stocks;
+            $Product->category = $request->category;
+            $Product->brand_id = $request->brand_id;
+            $Product->img_path = '';
 
 
-        if ($request->hasFile('uploads')) {
-            foreach ($request->file('uploads') as $file) {
-                $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/images', $fileName);
-                $Product->img_path .= 'storage/images/' . $fileName . ','; // Append image path
+            if ($request->hasFile('uploads')) {
+                foreach ($request->file('uploads') as $file) {
+                    $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/images', $fileName);
+                    $Product->img_path .= 'storage/images/' . $fileName . ','; // Append image path
+                }
+                $Product->img_path = rtrim($Product->img_path, ','); // Remove trailing comma
             }
-            $Product->img_path = rtrim($Product->img_path, ','); // Remove trailing comma
+
+            $Product->save();
+
+            return response()->json(["success" => "Brand created successfully.", "brand" => $Product, "status" => 200]);
         }
-
-        $Product->save();
-
-        return response()->json(["success" => "Brand created successfully.", "brand" => $Product, "status" => 200]);
-    }
 
     /**
      * Display the specified resource.

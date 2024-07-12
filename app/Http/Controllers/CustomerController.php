@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Customer;
 use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -29,9 +30,34 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $user = new User();
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password); // Hash the password
+        $user->role = 'customer'; // Assuming default role for customers
+        $user->status = 'active'; // Assuming default status for new customers
+        $user->save();
 
+        // Get the last inserted user id
+        $userId = $user->id;
+
+        // Create the customer
+        $name = $request->first_name . ' ' . $request->last_name;
+        $customer = new Customer();
+        $customer->user_id = $userId;
+        $customer->name = $name;
+        $customer->address = $request->address;
+        $customer->number = $request->number;
+
+        if ($request->hasFile('img_path')) {
+            $fileName = $request->file('img_path')->store('public/images');
+            $customer->img_path = 'storage/' . substr($fileName, 7);
+        }
+
+        $customer->save();
+
+            return redirect('/register')->with('success', 'Customer created successfully. Please login.');
+
+    }
     /**
      * Display the specified resource.
      */
@@ -87,5 +113,21 @@ class CustomerController extends Controller
 
     return response()->json(['message' => 'Role updated successfully']);
     }
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
 
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            $user = Auth::user();
+            return response()->json([
+                'user' => $user,
+                'message' => 'Login successful'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Invalid credentials'
+        ], 401);
+    }
 }
