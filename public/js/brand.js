@@ -64,6 +64,33 @@ $(document).ready(function () {
         }
     });
 
+
+
+     $('#brandform').validate({
+        rules: {
+            brand_name: {
+                required: true,
+            }
+        },
+        messages: {
+            brand_name: {
+                required: "Brand name is required"
+            },
+        },
+        errorClass: "error-message",
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        },
+    });
+
+
+
     $("#brandSubmit").on('click', function (e) {
         e.preventDefault();
         var data = $('#brandform')[0];
@@ -97,6 +124,8 @@ $(document).ready(function () {
         $('#brandModal').modal('show');
         $('#brandSubmit').hide();
         $('#brandUpdate').show();
+        $('#brandform').validate().resetForm(); 
+        $('#brandform .form-control').removeClass('is-invalid'); 
 
         $.ajax({
             type: "GET",
@@ -209,6 +238,8 @@ $(document).ready(function () {
         $('#brandUpdate').hide();
         $('#brandSubmit').show();
         $('#brandImages').remove();
+        $('#brandform').validate().resetForm(); 
+        $('#brandform .form-control').removeClass('is-invalid'); 
     });
 
     // Handle Import Excel button click
