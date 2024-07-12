@@ -67,6 +67,30 @@ $(document).ready(function () {
             emptyTable: "No data available in table"
         }
     });
+    
+//validation
+    $('#Supplierform').validate({
+        rules: {
+            supplier_name: {
+                required: true,
+            }
+        },
+        messages: {
+            supplier_name: {
+                required: "Supplier name is required"
+            },
+        },
+        errorClass: "error-message",
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        },
+    });
 
 
     $("#SupplierSubmit").on('click', function (e) {
@@ -96,6 +120,8 @@ $(document).ready(function () {
         $('#SupplierImages').remove();
         $('#SupplierId').remove();
         $("#Supplierform").trigger("reset");
+        $('#Supplierform').validate().resetForm(); 
+        $('#Supplierform .form-control').removeClass('is-invalid'); 
 
         var id = $(this).data('id');
         $('<input>').attr({ type: 'hidden', id: 'SupplierId', name: 'id', value: id }).appendTo('#Supplierform');
@@ -214,6 +240,8 @@ $(document).ready(function () {
         $('#SupplierUpdate').hide();
         $('#SupplierSubmit').show();
         $('#SupplierImages').remove();
+        $('#Supplierform').validate().resetForm(); 
+        $('#Supplierform .form-control').removeClass('is-invalid'); 
     });
 
     // Handle Import Excel button click
