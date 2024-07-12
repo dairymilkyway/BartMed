@@ -1,10 +1,11 @@
 $(document).ready(function () {
+    // Initialize DataTable
     var table = $('#productable').DataTable({
         ajax: {
             url: "/api/products",
             dataSrc: ""
         },
-        dom: '<"top"lBf>rt<"bottom"ip><"clear">', // Modified dom string
+        dom: '<"top"lBf>rt<"bottom"ip><"clear">',
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -16,10 +17,7 @@ $(document).ready(function () {
             }
         ],
         columns: [
-            { 
-                data: 'id', 
-                title: 'ID' 
-            },
+            { data: 'id', title: 'ID' },
             {
                 data: 'img_path',
                 title: 'Images',
@@ -35,30 +33,12 @@ $(document).ready(function () {
                     return imgHtml;
                 }
             },
-            { 
-                data: 'product_name', 
-                title: 'Product Name' 
-            },
-            { 
-                data: 'description', 
-                title: 'Description' 
-            },
-            { 
-                data: 'brand.brand_name', 
-                title: 'Brand Name' 
-            },
-            { 
-                data: 'price', 
-                title: 'Price' 
-            },
-            { 
-                data: 'stocks', 
-                title: 'Stocks' 
-            },
-            { 
-                data: 'category', 
-                title: 'Category' 
-            },
+            { data: 'product_name', title: 'Product Name' },
+            { data: 'description', title: 'Description' },
+            { data: 'brand.brand_name', title: 'Brand Name' },
+            { data: 'price', title: 'Price' },
+            { data: 'stocks', title: 'Stocks' },
+            { data: 'category', title: 'Category' },
             {
                 data: null,
                 title: 'Actions',
@@ -68,12 +48,14 @@ $(document).ready(function () {
                 }
             }
         ],
-        headerCallback: function(thead, data, start, end, display) {
-            $(thead).find('th').css('background-color', '#000000'); // Set black background for header cells
-            $(thead).find('th').css('color', '#ffffff'); // Set white text color for header cells
+        headerCallback: function(thead) {
+            $(thead).find('th').css({
+                'background-color': '#000000',
+                'color': '#ffffff'
+            });
         },
         responsive: true,
-        order: [[0, 'asc']], // Sort by ID column ascending by default
+        order: [[0, 'asc']],
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Search...",
@@ -89,8 +71,7 @@ $(document).ready(function () {
         }
     });
 
-
-    
+    // Fetch brands for dropdown
     $.ajax({
         type: "GET",
         url: "/api/brands",
@@ -107,7 +88,7 @@ $(document).ready(function () {
         }
     });
 
-    // Initialize jQuery validation
+    // Validation
     $('#pform').validate({
         rules: {
             product_name: {
@@ -115,7 +96,7 @@ $(document).ready(function () {
                 letterswithspace: true
             },
             description: {
-                required: true,
+                required: true
             },
             price: {
                 required: true,
@@ -146,11 +127,11 @@ $(document).ready(function () {
             },
             price: {
                 required: "Price is required",
-                number: "Price must be a numbers"
+                number: "Price must be a number"
             },
             stocks: {
                 required: "Stocks are required",
-                number: "Stocks must be a numbers"
+                number: "Stocks must be a number"
             },
             category: {
                 required: "Category is required",
@@ -172,85 +153,29 @@ $(document).ready(function () {
         },
         unhighlight: function (element) {
             $(element).removeClass('is-invalid');
-        },
+        }
     });
 
-    // Function to reset the product form and validation
-    function resetProductForm() {
-        $('#pform').trigger('reset'); // Reset the form fields
-        $('#pform').validate().resetForm(); // Reset jQuery Validation
-        $('.is-invalid').removeClass('is-invalid'); // Remove is-invalid class from elements
-    }
 
-    // Custom method to enforce letters and spaces only
     $.validator.addMethod("letterswithspace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z\s]*$/.test(value);
     }, "Please enter letters and spaces only");
 
-    // Handle product submission
-    $("#ProductSubmit").on('click', function (e) {
-        e.preventDefault();
-        var data = $('#pform')[0];
-        let formData = new FormData(data);
-        $.ajax({
-            type: "POST",
-            url: "/api/products",
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            dataType: "json",
-            success: function () {
-                $("#ProductModal").modal("hide");
-                table.ajax.reload();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+    function resetProductForm() {
+        $('#pform').trigger('reset');
+        $('#pform').validate().resetForm();
+        $('.is-invalid').removeClass('is-invalid');
+    }
+
+
+    $("#addProductBtn").on('click', function () {
+        resetProductForm();
+        $('#ProductModal').modal('show');
+        $('#ProductUpdate').hide();
+        $('#ProductSubmit').show();
+        $('#images').remove();
     });
 
-    // Handle delete button
-    $('#productable').on('click', 'a.deletebtn', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var $row = $(this).closest('tr');
-        bootbox.confirm({
-            message: "Do you want to delete this product?",
-            buttons: {
-                confirm: {
-                    label: 'Yes',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: 'No',
-                    className: 'btn-danger'
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: `/api/products/${id}`,
-                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        dataType: "json",
-                        success: function (data) {
-                            $row.fadeOut(4000, function () {
-                                $row.remove();
-                            });
-                            bootbox.alert(data.message);
-                            table.ajax.reload();
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
-            }
-        });
-    });
-
-    // Handle modal form when opening for editing
     $('#ProductModal').on('show.bs.modal', function (e) {
         resetProductForm();
         $('#productId').remove();
@@ -289,24 +214,114 @@ $(document).ready(function () {
         }
     });
 
-    // Handle product update
+  
+    $("#ProductSubmit").on('click', function (e) {
+        e.preventDefault();
+        if ($('#pform').valid()) {
+            var data = $('#pform')[0];
+            let formData = new FormData(data);
+            $.ajax({
+                type: "POST",
+                url: "/api/products",
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                success: function () {
+                    $("#ProductModal").modal("hide");
+                    table.ajax.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+
+
     $("#ProductUpdate").on('click', function (e) {
         e.preventDefault();
-        var id = $('#productId').val();
-        var data = $('#pform')[0];
-        let formData = new FormData(data);
-        formData.append("_method", "PUT");
+        if ($('#pform').valid()) {
+            var id = $('#productId').val();
+            var data = $('#pform')[0];
+            let formData = new FormData(data);
+            formData.append("_method", "PUT");
 
+            $.ajax({
+                type: "POST",
+                url: `/api/products/${id}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                success: function () {
+                    $("#ProductModal").modal("hide");
+                    table.ajax.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+
+
+    $('#productable').on('click', 'button.deleteBtn', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var $row = $(this).closest('tr');
+        bootbox.confirm({
+            message: "Do you want to delete this product?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: `/api/products/${id}`,
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        dataType: "json",
+                        success: function (data) {
+                            $row.fadeOut(4000, function () {
+                                $row.remove();
+                            });
+                            bootbox.alert(data.message);
+                            table.ajax.reload();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    // Excel import
+    $("#PexcelSubmit").on('click', function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('importFile', $('#importFile')[0].files[0]);
         $.ajax({
             type: "POST",
-            url: `/api/products/${id}`,
+            url: "/api/products/excel",
             data: formData,
             contentType: false,
             processData: false,
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            dataType: "json",
             success: function () {
-                $("#ProductModal").modal("hide");  // Hide the modal after successful update
+                $("#ExcelPform").trigger("reset");
+                $("#importExcelModal").modal("hide");
                 table.ajax.reload();
             },
             error: function (error) {
@@ -315,48 +330,9 @@ $(document).ready(function () {
         });
     });
 
-
-        // Handle Excel import via AJAX
-        $("#PexcelSubmit").on('click', function (e) {
-            e.preventDefault();
-            var formData = new FormData();
-            formData.append('importFile', $('#importFile')[0].files[0]);
-            $.ajax({
-                type: "POST",
-                url: "/api/products/excel",
-                data: formData,
-                contentType: false,
-                processData: false,
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                success: function (data) {
-                    $("#ExcelPform").trigger("reset");
-                    $("#importExcelModal").modal("hide");
-                    table.ajax.reload();
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        });
-
-
-     // Handle Add Product button click
-    $("#addProductBtn").on('click', function () {
-        $("#pform").trigger("reset"); // Reset the form
-        $('#pform').validate().resetForm(); // Reset validation messages
-        $('#pform .form-control').removeClass('is-invalid'); // Remove the invalid class from form controls
-        $('#ProductModal').modal('show'); // Show the modal
-        $('#ProductUpdate').hide();
-        $('#ProductSubmit').show();
-        $('#images').remove();
-    });
-            
     // Handle Import Excel button click
     $("#importExcelBtn").on('click', function () {
-    $("#ExcelBform").trigger("reset");
-     $('#importExcelModal').modal('show');
+        $("#ExcelBform").trigger("reset");
+        $('#importExcelModal').modal('show');
     });
-
 });
-
-
