@@ -64,18 +64,25 @@ $(document).ready(function () {
         }
     });
 
-
-
-     $('#brandform').validate({
+    // Validation
+    $('#brandform').validate({
         rules: {
             brand_name: {
                 required: true,
+                letterswithspace: true
+            },
+            'uploads[]': {
+                required: true
             }
         },
         messages: {
             brand_name: {
-                required: "Brand name is required"
+                required: "Brand name is required",
+                letterswithspace: "Brand name must be letters"
             },
+            'uploads[]': {
+                required: "Please upload at least one image"
+            }
         },
         errorClass: "error-message",
         errorPlacement: function (error, element) {
@@ -86,46 +93,54 @@ $(document).ready(function () {
         },
         unhighlight: function (element) {
             $(element).removeClass('is-invalid');
-        },
+        }
     });
 
+    $.validator.addMethod("letterswithspace", function (value, element) {
+        return this.optional(element) || /^[a-zA-Z\s]*$/.test(value);
+    }, "Please enter letters and spaces only");
 
+    function resetBrandForm() {
+        $('#brandform').trigger('reset');
+        $('#brandform').validate().resetForm();
+        $('.is-invalid').removeClass('is-invalid');
+    }
 
     $("#brandSubmit").on('click', function (e) {
         e.preventDefault();
-        var data = $('#brandform')[0];
-        let formData = new FormData(data);
-        $.ajax({
-            type: "POST",
-            url: "/api/brands",
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            dataType: "json",
-            success: function (data) {
-                $("#brandModal").modal("hide");
-                table.ajax.reload();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        if ($('#brandform').valid()) {
+            var data = $('#brandform')[0];
+            let formData = new FormData(data);
+            $.ajax({
+                type: "POST",
+                url: "/api/brands",
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                success: function (data) {
+                    $("#brandModal").modal("hide");
+                    table.ajax.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
     });
 
     $('#brandtable tbody').on('click', 'a.editBtn', function (e) {
         e.preventDefault();
+        resetBrandForm();
         $('#brandImages').remove();
         $('#brandId').remove();
-        $("#brandform").trigger("reset");
 
         var id = $(this).data('id');
         $('<input>').attr({ type: 'hidden', id: 'brandId', name: 'id', value: id }).appendTo('#brandform');
         $('#brandModal').modal('show');
         $('#brandSubmit').hide();
         $('#brandUpdate').show();
-        $('#brandform').validate().resetForm(); 
-        $('#brandform .form-control').removeClass('is-invalid'); 
 
         $.ajax({
             type: "GET",
@@ -151,26 +166,28 @@ $(document).ready(function () {
 
     $("#brandUpdate").on('click', function (e) {
         e.preventDefault();
-        var id = $('#brandId').val();
-        var data = $('#brandform')[0];
-        let formData = new FormData(data);
-        formData.append("_method", "PUT");
-        $.ajax({
-            type: "POST",
-            url: `/api/brands/${id}`,
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            dataType: "json",
-            success: function (data) {
-                $('#brandModal').modal("hide");
-                table.ajax.reload();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        if ($('#brandform').valid()) {
+            var id = $('#brandId').val();
+            var data = $('#brandform')[0];
+            let formData = new FormData(data);
+            formData.append("_method", "PUT");
+            $.ajax({
+                type: "POST",
+                url: `/api/brands/${id}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                success: function (data) {
+                    $('#brandModal').modal("hide");
+                    table.ajax.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
     });
 
     $('#brandtable tbody').on('click', 'a.deleteBtn', function (e) {
@@ -233,13 +250,11 @@ $(document).ready(function () {
 
     // Handle Add Brand button click
     $("#addBrandBtn").on('click', function () {
-        $("#brandform").trigger("reset");
+        resetBrandForm();
         $('#brandModal').modal('show');
         $('#brandUpdate').hide();
         $('#brandSubmit').show();
         $('#brandImages').remove();
-        $('#brandform').validate().resetForm(); 
-        $('#brandform .form-control').removeClass('is-invalid'); 
     });
 
     // Handle Import Excel button click
