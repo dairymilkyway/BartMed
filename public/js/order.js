@@ -81,19 +81,43 @@ $(document).ready(function () {
         });
     });
 
-    $('#orderTable tbody').on('click', 'button.delete-btn', function () {
+    $('#orderTable').on('click', 'button.delete-btn', function (e) {
+        e.preventDefault();
         var orderId = $(this).data('id');
         var $row = $(this).closest('tr');
-
-        $.ajax({
-            type: "DELETE",
-            url: `/api/orders/${orderId}`,
-            success: function () {
-                table.row($row).remove().draw();
+        bootbox.confirm({
+            message: "Do you want to delete this order?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
             },
-            error: function (error) {
-                console.log(error);
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: `/api/orders/${orderId}`,
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        dataType: "json",
+                        success: function (data) {
+                            $row.fadeOut(4000, function () {
+                                $row.remove();
+                            });
+                            bootbox.alert(data.message);
+                            table.ajax.reload();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
             }
         });
     });
+    
 });
