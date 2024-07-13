@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -30,32 +33,63 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password); // Hash the password
-        $user->role = 'customer'; // Assuming default role for customers
-        $user->status = 'active'; // Assuming default status for new customers
-        $user->save();
+        try {
+            // Retrieve input data without validation
+            $firstName = $request->input('first_name');
+            $lastName = $request->input('last_name');
+            $email = $request->input('email');
+            $password = $request->input('password');
+            $address = $request->input('address');
+            $number = $request->input('number');
+            $imgPath = $request->file('img_path');
 
-        // Get the last inserted user id
-        $userId = $user->id;
+            // Merge first name and last name
+            $name = $firstName . ' ' . $lastName;
 
-        // Create the customer
-        $name = $request->first_name . ' ' . $request->last_name;
-        $customer = new Customer();
-        $customer->user_id = $userId;
-        $customer->name = $name;
-        $customer->address = $request->address;
-        $customer->number = $request->number;
+            // Create user
+            $user = new User();
+            $user->email = $email;
+            $user->password = Hash::make($password); // Hash the password
+            $user->role = 'customer'; // Assuming default role for customers
+            $user->status = 'active'; // Assuming default status for new customers
+            $user->save();
 
-        if ($request->hasFile('img_path')) {
-            $fileName = $request->file('img_path')->store('public/images');
-            $customer->img_path = 'storage/' . substr($fileName, 7);
+            // Get the user ID
+            $userId = $user->id;
+
+            // Create customer record
+            $customer = new Customer();
+            $customer->user_id = $userId;
+            $customer->name = $name;
+            $customer->address = $address;
+            $customer->number = $number;
+
+            // Handle file upload
+            if ($imgPath) {
+                $fileName = $imgPath->store('public/images');
+                $customer->img_path = 'storage/' . substr($fileName, 7);
+            }
+
+            $customer->save();
+
+            // Generate Sanctum token
+            $token = $user->createToken('API TOKEN')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Customer created successfully. Please login.',
+                'token' => $token
+            ], 200);
+
+        } catch (\Exception $e) {
+            // Log the exception
+            Log::error('Error creating user: ' . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred while creating the user. Please try again later.'
+            ], 500);
         }
 
-        $customer->save();
-
-            return redirect('/register')->with('success', 'Customer created successfully. Please login.');
 
     }
     /**
@@ -63,7 +97,20 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+
+        // Manually add customer data to the response
+        $customer = $user->customer;
+
+        return response()->json([
+            'id' => $user->id,
+            'email' => $user->email,
+            'customer' => $customer
+        ]);
     }
 
     /**
@@ -115,19 +162,63 @@ class CustomerController extends Controller
     }
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        // $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            $user = Auth::user();
-            return response()->json([
-                'user' => $user,
-                'message' => 'Login successful'
+        // if (Auth::attempt($credentials)) {
+        //     $user = Auth::user();
+        //     return response()->json([
+        //         'user' => $user,
+        //         'message' => 'Login successful'
+        //     ]);
+        // }
+
+        // return response()->json([
+        //     'message' => 'Invalid credentials'
+        // ], 401);
+        try {
+            $validateUser = Validator::make($request->all(),
+            [
+                'email' => 'required|email',
+                'password' => 'required'
             ]);
-        }
 
-        return response()->json([
-            'message' => 'Invalid credentials'
-        ], 401);
+            if($validateUser->fails()){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+
+            if(!Auth::attempt($request->only(['email', 'password']))){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Email & Password does not match with our record.',
+                ], 401);
+            }
+
+            $user = User::where('email', $request->email)->first();
+            $redirectUrl = $user->role === 'customer' ? '/home' : '/brand';
+            return response()->json([
+                'status' => true,
+                'message' => 'User Logged In Successfully',
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'redirect_url' => $redirectUrl,
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return response()->json(['message' => 'Logged out successfully.'], 200);
+    }
+
 }

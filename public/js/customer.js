@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    console.log('CSRF Token:', csrfToken);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    });
     var table = $('#customerTable').DataTable({
         ajax: {
             url: "/api/customers",
@@ -163,7 +170,7 @@ $(document).ready(function () {
                 $(element).removeClass('is-invalid');
             },
             submitHandler: function (form) {
-                // Handle form submission via AJAX
+                event.preventDefault();
                 var formData = new FormData(form);
 
                 $.ajax({
@@ -173,7 +180,7 @@ $(document).ready(function () {
                     contentType: false,
                     processData: false,
                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "json",
+                    // dataType: "json",
                     success: function (data) {
                         // Handle success response
                         console.log("Customer created successfully:", data);
@@ -190,33 +197,111 @@ $(document).ready(function () {
     });
 
     //Login
+    // submitHandler: function(form) {
+            //     event.preventDefault();
+            //     var formData = new FormData(form);
+            //     $.ajax({
+            //         url: '/api/login', // Adjust URL as needed
+            //         method: 'POST',
+            //         data: formData,
+            //         processData: false,
+            //         contentType: false,
+            //         success: function(response) {
+            //             console.log(response);
+            //             alert(response.message);
+            //             window.location.href = response.redirectUrl;
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //             // Handle error
+            //             alert('Invalid credentials. Please try again.');
+            //         }
+            //     });
+            // }
+            $(document).ready(function() {
+                $('#loginForm').validate({
+                    rules: {
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        email: {
+                            required: "Please enter your email address",
+                            email: "Please enter a valid email address"
+                        },
+                        password: {
+                            required: "Please enter your password"
+                        }
+                    },
+                    submitHandler: function(form) {
+                        // Prevent default form submission
+                        event.preventDefault();
+
+                        // Handle AJAX request
+                        var formData = new FormData(form);
+                        $.ajax({
+                            url: '/api/login',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                alert('User logged in successfully!');
+                                localStorage.setItem('token', response.token);
+                                // var token = localStorage.getItem('token');
+                                // console.log('Stored token:', token);
+                                window.location.href = response.redirect_url;
+                            },
+                            error: function(xhr) {
+                                alert('Error: ' + xhr.responseJSON.message);
+                                console.log(xhr.responseJSON.errors);
+                            }
+                        });
+                    }
+                });
+
+                // Move the submit handler outside of validate configuration to avoid nesting issues
+                $('#loginForm').submit(function(event) {
+                    event.preventDefault();
+                    if ($('#loginForm').valid()) {
+                        $('#loginForm').submitHandler(this);
+                    }
+                });
+
+            });
+
     $(document).ready(function() {
-        $('#loginForm').submit(function(event) {
-            event.preventDefault();
+        $('#logoutLink').on('click', function(e) {
+            e.preventDefault();
+            console.log('Logout link clicked'); // Check if click event is firing
 
-            // Create FormData object
-            var formData = new FormData();
-            formData.append('email', $('#Email').val());
-            formData.append('password', $('#Password').val());
-
-            // Send AJAX request
             $.ajax({
-                url: '/api/login',
+                url: '/api/logout',
                 method: 'POST',
-                data: formData,
-                contentType: false, // Not needed when using FormData
-                processData: false, // Not needed when using FormData
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
                 success: function(response) {
-                    alert(response.message); // Display success message
-                    window.location.href = '/home'; // Redirect to home page after successful login
+                    console.log(response);
+                    console.log('User logged in successfully:', response.user)
+                    alert('Logged out successfully.');
+                    window.location.href = '/login';
                 },
                 error: function(xhr, status, error) {
-                    alert(xhr.responseJSON.message); // Display error message
+                    console.error(xhr.responseText); // Log detailed error message
+                    alert('Failed to log out. Please try again.');
                 }
             });
         });
     });
-
 
 
     // Handle Change Status button click
@@ -324,4 +409,5 @@ $(document).ready(function () {
             }
         });
     });
+
 });

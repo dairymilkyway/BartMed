@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>@yield('title', 'Pharmacy')</title>
@@ -28,7 +29,7 @@
 </div>
 
                 </div>
-                
+
 
                 <div class="md:flex md:items-center md:gap-12">
   <nav aria-label="Global" class="hidden md:block">
@@ -44,7 +45,21 @@
   </a>
 </li>
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-user"></i> My Account</a></li>
-      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        @if(auth()->check())
+
+        <li id="logoutLink">
+            <a class="text-gray-500 transition hover:text-gray-500/75" href="#">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+        </li>
+        @else
+            <li id="loginLink">
+                <a class="text-gray-500 transition hover:text-gray-500/75" href="/login">
+                    <i class="fa-solid fa-right-from-bracket"></i> Login
+                </a>
+            </li>
+        @endif
+
     </ul>
   </nav>
 
@@ -65,6 +80,6 @@
         @yield('content')
     </main>
 
-    <script src="{{ mix('js/app.js') }}"></script>
+    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 </body>
 </html>

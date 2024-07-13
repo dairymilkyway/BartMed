@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -50,7 +51,7 @@
     <script type="text/javascript"> "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"
         integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -60,7 +61,7 @@
 
 
 
-    
+
     <script src="{{ asset('js/brand.js') }}"></script>
     <script src="{{ asset('js/product.js') }}"></script>
     <script src="{{ asset('js/supplier.js') }}"></script>

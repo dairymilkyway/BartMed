@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,6 +17,9 @@ use App\Http\Controllers\CustomerController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
+
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('suppliers', SupplierController::class);
@@ -30,6 +34,7 @@ Route::put('/users/{id}/role', [CustomerController::class, 'changeRole']);
 
 Route::post('/register', [CustomerController::class, 'store']);
 Route::post('/login', [CustomerController::class, 'login']);
+Route::post('/logout', [CustomerController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
