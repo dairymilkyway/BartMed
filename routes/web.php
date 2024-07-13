@@ -19,11 +19,11 @@ Route::get('/register', function () {
 
 Route::get('/home', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/cart', function () {
     return view('cart');
-});
+})->name('cart');
 
 Route::get('/checkout', function () {
     return view('checkout');
@@ -31,7 +31,11 @@ Route::get('/checkout', function () {
 
 Route::get('/profile', function () {
     return view('profile');
-});
+})->name('profile');
+
+Route::get('/orders', function () {
+    return view('orderdetails');
+})->name('order');
 
 Route::get('/brand', function () {
     return view('brand.index');

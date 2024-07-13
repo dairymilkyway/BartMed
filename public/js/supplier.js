@@ -68,34 +68,77 @@ $(document).ready(function () {
         }
     });
 
+    // Validation
+    $('#Supplierform').validate({
+        rules: {
+            supplier_name: {
+                required: true,
+                letterswithspace: true
+            },
+            'uploads[]': {
+                required: true
+            }
+        },
+        messages: {
+            supplier_name: {
+                required: "Supplier name is required",
+                letterswithspace: "Supplier name must be letters"
+            },
+            'uploads[]': {
+                required: "Please upload at least one image"
+            }
+        },
+        errorClass: "error-message",
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+
+    $.validator.addMethod("letterswithspace", function (value, element) {
+        return this.optional(element) || /^[a-zA-Z\s]*$/.test(value);
+    }, "Please enter letters and spaces only");
+
+    function resetSupplierForm() {
+        $('#Supplierform').trigger('reset');
+        $('#Supplierform').validate().resetForm();
+        $('.is-invalid').removeClass('is-invalid');
+    }
 
     $("#SupplierSubmit").on('click', function (e) {
         e.preventDefault();
-        var data = $('#Supplierform')[0];
-        let formData = new FormData(data);
-        $.ajax({
-            type: "POST",
-            url: "/api/suppliers",
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            dataType: "json",
-            success: function (data) {
-                $("#SupplierModal").modal("hide");
-                table.ajax.reload();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        if ($('#Supplierform').valid()) {
+            var data = $('#Supplierform')[0];
+            let formData = new FormData(data);
+            $.ajax({
+                type: "POST",
+                url: "/api/suppliers",
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                success: function (data) {
+                    $("#SupplierModal").modal("hide");
+                    table.ajax.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
     });
 
     $('#stable tbody').on('click', 'a.editBtn', function (e) {
         e.preventDefault();
+        resetSupplierForm();
         $('#SupplierImages').remove();
         $('#SupplierId').remove();
-        $("#Supplierform").trigger("reset");
 
         var id = $(this).data('id');
         $('<input>').attr({ type: 'hidden', id: 'SupplierId', name: 'id', value: id }).appendTo('#Supplierform');
@@ -127,26 +170,28 @@ $(document).ready(function () {
 
     $("#SupplierUpdate").on('click', function (e) {
         e.preventDefault();
-        var id = $('#SupplierId').val();
-        var data = $('#Supplierform')[0];
-        let formData = new FormData(data);
-        formData.append("_method", "PUT");
-        $.ajax({
-            type: "POST",
-            url: `/api/suppliers/${id}`,
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            dataType: "json",
-            success: function (data) {
-                $('#SupplierModal').modal("hide");
-                table.ajax.reload();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        if ($('#Supplierform').valid()) {
+            var id = $('#SupplierId').val();
+            var data = $('#Supplierform')[0];
+            let formData = new FormData(data);
+            formData.append("_method", "PUT");
+            $.ajax({
+                type: "POST",
+                url: `/api/suppliers/${id}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                success: function (data) {
+                    $('#SupplierModal').modal("hide");
+                    table.ajax.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
     });
 
     $('#stable tbody').on('click', 'a.deleteBtn', function (e) {
@@ -207,9 +252,9 @@ $(document).ready(function () {
         });
     });
 
-    // Handle Add Brand button click
+    // Handle Add Supplier button click
     $("#addSupplierBtn").on('click', function () {
-        $("#Supplierform").trigger("reset");
+        resetSupplierForm();
         $('#SupplierModal').modal('show');
         $('#SupplierUpdate').hide();
         $('#SupplierSubmit').show();
@@ -221,7 +266,5 @@ $(document).ready(function () {
         $("#ExcelBform").trigger("reset");
         $('#importExcelModal').modal('show');
     });
-    
-
 
 });

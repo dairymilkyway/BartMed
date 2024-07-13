@@ -34,17 +34,19 @@
                 <div class="md:flex md:items-center md:gap-12">
   <nav aria-label="Global" class="hidden md:block">
     <ul class="flex items-center gap-6 text-sm">
-      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Home</a></li>
-      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Brands</a></li>
-      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#">Products</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('home')}}"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('home')}}"><i class="fa-solid fa-bandage"></i> Brands</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('home')}}"><i class="fa-solid fa-bandage"></i> Products</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('order')}}"><i class="fa-solid fa-book"></i> My Orders</a></li>
       <li>
-  <a class="text-gray-500 transition hover:text-gray-500/75 relative flex items-center" href="#">
+  <a class="text-gray-500 transition hover:text-gray-500/75 relative flex items-center" href="{{route('cart')}}">
     <i class="fa-solid fa-cart-shopping"></i>
     <span class="ml-1">Cart</span>
     <span id="cart-counter" class="ml-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1">0</span>
   </a>
 </li>
-      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="#"><i class="fa-solid fa-user"></i> My Account</a></li>
+
+<li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('profile')}}"><i class="fa-solid fa-user"></i> My Account</a></li>
         @if(auth()->check())
 
         <li id="logoutLink">
