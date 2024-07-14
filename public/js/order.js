@@ -31,6 +31,13 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     return `<button class="btn btn-danger delete-btn" data-id="${row.id}">Delete</button>`;
                 }
+            },
+            {
+                data: null,
+                title: 'View Orders',
+                render: function (data, type, row) {
+                    return `<button class="btn btn-info view-orders-btn" data-id="${row.id}">View Orders</button>`;
+                }
             }
         ],
         responsive: true,
@@ -119,5 +126,32 @@ $(document).ready(function () {
             }
         });
     });
-    
+
+    $('#orderTable').on('click', 'button.view-orders-btn', function () {
+        var orderId = $(this).data('id');
+        $.ajax({
+            url: `/api/orders/${orderId}`,
+            type: 'GET',
+            success: function (data) {
+                $('#orderIdText').text(`Your Order ID: ${orderId}`);
+                var totalAmount = 0;
+                var productsTableBody = '';
+                data.products.forEach(product => {
+                    var total = product.price * product.pivot.quantity;
+                    totalAmount += total;
+                    productsTableBody += `
+                        <tr>
+                            <td>${product.product_name}</td>
+                            <td>${product.price}</td>
+                            <td>${product.pivot.quantity}</td>
+                            <td>${total}</td>
+                        </tr>
+                    `;
+                });
+                $('#orderProductsTableBody').html(productsTableBody);
+                $('#totalAmount').text(totalAmount);
+                $('#viewOrdersModal').modal('show');
+            }
+        });
+    });
 });
