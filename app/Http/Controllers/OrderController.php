@@ -37,7 +37,8 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = Order::with('products')->findOrFail($id);
+        return response()->json($order);
     }
 
     /**
