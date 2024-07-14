@@ -30,7 +30,7 @@ Route::apiResource('customers', CustomerController::class);
 Route::post('/brands/excel',[BrandController::class, 'import'])->name('Bexcel');
 Route::post('/suppliers/excel',[SupplierController::class, 'import'])->name('Sexcel');
 Route::post('/products/excel',[ProductController::class, 'import'])->name('Pexcel');
-
+Route::get('/orders/{id}', [OrderController::class, 'show']);
 Route::put('/users/{id}/status', [CustomerController::class, 'changeStatus']);
 Route::put('/users/{id}/role', [CustomerController::class, 'changeRole']);
 Route::put('/orders/{id}/status', [OrderController::class, 'changeStatus']);
