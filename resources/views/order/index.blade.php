@@ -20,6 +20,7 @@
                             <th>Date Ordered</th>
                             <th>Change Status</th>
                             <th>Delete</th>
+                            <th>View Orders</th>
                         </tr>
                     </thead>
                     <tbody id="orderbody">
@@ -58,6 +59,38 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Orders Modal -->
+<div class="modal fade" id="viewOrdersModal" tabindex="-1" aria-labelledby="viewOrdersModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewOrdersModalLabel">Order Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="orderIdText"></p>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderProductsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-end">
+                    <strong>Total Amount: </strong><span id="totalAmount"></span>
+                </div>
             </div>
         </div>
     </div>
