@@ -18,7 +18,7 @@ class BrandsSeeder extends Seeder
         $faker = Faker::create();
 
         // Generate 20 fake records for brands table
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             DB::table('brands')->insert([
                 'brand_name' => $faker->company,
                 'img_path' => $faker->imageUrl(),
