@@ -29,7 +29,8 @@
         </button>
       </div>
       <div id="modalContent" class="mt-4">
-        <h3 class="text-lg font-medium text-gray-900" id="productName"></h3>
+        <img id="productImage" class="w-full h-64 object-cover" src="" alt="Product Image">
+        <h3 class="text-lg font-medium text-gray-900 mt-4" id="productName"></h3>
         <p class="mt-2 text-gray-600" id="productPrice"></p>
         <div class="mt-4">
           <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
@@ -37,14 +38,12 @@
             <button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75" onclick="decreaseQuantity()">
               &minus;
             </button>
-
             <input
               type="number"
               id="Quantity"
               value="1"
               class="h-10 w-16 border-transparent text-center sm:text-sm"
             />
-
             <button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75" onclick="increaseQuantity()">
               &plus;
             </button>
