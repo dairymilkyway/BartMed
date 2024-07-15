@@ -51,7 +51,7 @@
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" class="form-control" required>
+                        <input id="quantity" name="quantity" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="img_path">Image</label>
