@@ -1,5 +1,5 @@
 @extends('layouts.headercus')
-@section('content')
+@section('content') 
 
  @include('products')
 
