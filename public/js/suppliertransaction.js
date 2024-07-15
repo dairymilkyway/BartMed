@@ -64,13 +64,14 @@ $(document).ready(function () {
     $('#SupplierTransactionForm').validate({
         rules: {
             supplier_id: {
-                required: true,
+                required: true
             },
             product_id:{
                 required:true
             },
             quantity:{
-                required:true
+                required:true,
+                number:true
             },
             'uploads[]': {
                 required: true
@@ -85,6 +86,7 @@ $(document).ready(function () {
             },
             quantity: {
                 required: "Quantity is required",
+                number: "Please input numbers only"
             },
             'img_path': {
                 required: "Please upload image"
