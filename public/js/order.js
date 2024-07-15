@@ -10,6 +10,17 @@ $(document).ready(function () {
             url: "/api/orders",
             dataSrc: ""
         },
+        dom: '<"top"lBf>rt<"bottom"ip><"clear">',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf"></i> Export to PDF',
+                className: 'btn btn-primary mr-2',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            }
+        ],
         columns: [
             { data: 'id', title: 'Order ID' },
             { data: 'customer.name', title: 'Customer Name' },
