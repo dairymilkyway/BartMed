@@ -59,11 +59,58 @@ $(document).ready(function () {
         }
     });
 
+
+    // Validation
+    $('#SupplierTransactionForm').validate({
+        rules: {
+            supplier_id: {
+                required: true,
+            },
+            product_id:{
+                required:true
+            },
+            quantity:{
+                required:true
+            },
+            'uploads[]': {
+                required: true
+            }
+        },
+        messages: {
+            supplier_id: {
+                required: "Please select a Supplier",
+            },
+            product_id: {
+                required: "Please select a Product",
+            },
+            quantity: {
+                required: "Quantity is required",
+            },
+            'img_path': {
+                required: "Please upload image"
+            }
+        },
+        errorClass: "error-message",
+        errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+
+
+
     // Handle Add Supplier Transaction button click
     $("#addSupplierTransactionBtn").on('click', function () {
         $('#SupplierTransactionForm').trigger('reset');
         $('#SupplierTransactionModal').modal('show');
         loadSuppliersAndProducts();
+        $('#SupplierTransactionForm').validate().resetForm();
+        $('.is-invalid').removeClass('is-invalid');
     });
 
     // Load suppliers and products into the dropdowns
