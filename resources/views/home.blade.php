@@ -1,6 +1,5 @@
-@extends('layouts.headercus')
-@section('content') 
+    @extends('layouts.headercus')
+    @section('content') 
 
- @include('products')
-
-@endsection
+    @include('products')
+    @endsection
