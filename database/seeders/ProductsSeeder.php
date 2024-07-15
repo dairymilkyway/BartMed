@@ -18,7 +18,7 @@ class ProductsSeeder extends Seeder
         $faker = Faker::create();
 
         // Generate 20 fake records for products table
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             DB::table('products')->insert([
                 'brand_id' => $faker->numberBetween(1, 20), // Assuming you have 20 brands seeded
                 'product_name' => $faker->word,
