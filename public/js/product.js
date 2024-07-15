@@ -165,6 +165,7 @@ $(document).ready(function () {
         $('#pform').trigger('reset');
         $('#pform').validate().resetForm();
         $('.is-invalid').removeClass('is-invalid');
+        $('#stocks').prop('readonly', false);
     }
 
 
@@ -174,6 +175,7 @@ $(document).ready(function () {
         $('#ProductUpdate').hide();
         $('#ProductSubmit').show();
         $('#images').remove();
+        $('#stocks').prop('readonly', false);
     });
 
     $('#ProductModal').on('show.bs.modal', function (e) {
@@ -202,6 +204,8 @@ $(document).ready(function () {
                         }
                     });
                     $("#pform").append("<div id='images'>" + imagesHTML + "</div>");
+                     // Disable the "stocks" textbox when updating a product
+                     $('#stocks').prop('readonly', true);
                 },
                 error: function () {
                     console.log('AJAX load did not work');
