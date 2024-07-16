@@ -14,6 +14,7 @@
         <table id="productable" class="table table-hover">
             <thead class="thead-dark">
                 <tr>
+                    <th>Product</th>
                     <th>Images</th>
                     <th>Product Name</th>
                     <th>Description</th>
