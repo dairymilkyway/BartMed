@@ -12,12 +12,13 @@
     </div>
 
     <form id="loginForm" class="mx-auto mb-0 mt-8 max-w-md space-y-4">
+        @csrf
       <div>
         <label for="email" class="sr-only">Email</label>
 
         <div class="relative">
           <input
-            type="email" id="Email" name="email"
+            type="email" id="Email" name="email" autocomplete="email"
             class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
             placeholder="Enter email"
           />
@@ -46,7 +47,7 @@
 
         <div class="relative">
           <input
-            type="password" id="Password" name="password"
+            type="password" id="Password" name="password"  autocomplete="current-password"
             class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
             placeholder="Enter password"
           />

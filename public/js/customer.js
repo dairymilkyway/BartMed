@@ -240,7 +240,7 @@ $(document).ready(function () {
                     },
                     submitHandler: function(form) {
                         // Prevent default form submission
-                        event.preventDefault();
+                        // event.preventDefault();
 
                         // Handle AJAX request
                         var formData = new FormData(form);
@@ -256,8 +256,8 @@ $(document).ready(function () {
                             success: function(response) {
                                 alert('User logged in successfully!');
                                 localStorage.setItem('token', response.token);
-                                // var token = localStorage.getItem('token');
-                                // console.log('Stored token:', token);
+                                var token = localStorage.getItem('token');
+                                console.log('Stored token:', token);
                                 window.location.href = response.redirect_url;
                             },
                             error: function(xhr) {
@@ -272,37 +272,36 @@ $(document).ready(function () {
                 $('#loginForm').submit(function(event) {
                     event.preventDefault();
                     if ($('#loginForm').valid()) {
-                        $('#loginForm').submitHandler(this);
+                        // $('#loginForm').submitHandler(this);
                     }
                 });
 
             });
 
-    $(document).ready(function() {
-        $('#logoutLink').on('click', function(e) {
-            e.preventDefault();
-            console.log('Logout link clicked'); // Check if click event is firing
+    // $(document).ready(function() {
+    //     $('#logoutLink').on('click', function(e) {
+    //         e.preventDefault();
+    //         console.log('Logout link clicked'); // Check if click event is firing
 
-            $.ajax({
-                url: '/api/logout',
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log(response);
-                    console.log('User logged in successfully:', response.user)
-                    alert('Logged out successfully.');
-                    window.location.href = '/login';
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText); // Log detailed error message
-                    alert('Failed to log out. Please try again.');
-                }
-            });
-        });
-    });
-
+    //         $.ajax({
+    //             url: '/api/logout',
+    //             method: 'POST',
+    //             data: {
+    //                 _token: '{{ csrf_token() }}'
+    //             },
+    //             success: function(response) {
+    //                 console.log(response);
+    //                 console.log('User logged in successfully:', response.user)
+    //                 alert('Logged out successfully.');
+    //                 window.location.href = '/login';
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.error(xhr.responseText); // Log detailed error message
+    //                 alert('Failed to log out. Please try again.');
+    //             }
+    //         });
+    //     });
+    // });
 
     // Handle Change Status button click
     $('#customerTable tbody').on('click', 'button.change-status-btn', function () {

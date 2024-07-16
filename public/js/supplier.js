@@ -16,18 +16,12 @@ $(document).ready(function () {
             }
         ],
         columns: [
-            { 
-                data: 'id', 
-                title: 'ID' 
-            },
-            { 
-                data: 'supplier_name', 
-                title: 'Supplier Name' 
-            },
+            { data: 'id', title: 'ID' },
+            { data: 'supplier_name', title: 'Supplier Name' },
             {
                 data: 'img_path',
                 title: 'Image',
-                render: function (data, type, row) {
+                render: function (data) {
                     var imgPaths = data.split(',');
                     var imagesHTML = '';
                     imgPaths.forEach(function (path) {
@@ -42,14 +36,22 @@ $(document).ready(function () {
                 data: null,
                 title: 'Actions',
                 render: function (data) {
-                    return `<a href='#' class='btn btn-sm btn-primary editBtn' data-id="${data.id}"><i class='fas fa-edit'></i> Edit</a> ` +
-                           `<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt'></i> Delete</button>`;
+                    if (data.deleted_at) {
+                        // Supplier is trashed
+                        return `<button type='button' class='btn btn-sm btn-warning restoreBtn' data-id='${data.id}'><i class='fas fa-undo'></i> Restore</button>`;
+                    } else {
+                        // Supplier is not trashed
+                        return `<a href='#' class='btn btn-sm btn-primary editBtn' data-id='${data.id}'><i class='fas fa-edit'></i> Edit</a> ` +
+                               `<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id='${data.id}'><i class='fas fa-trash-alt'></i> Delete</button>`;
+                    }
                 }
             }
         ],
-        headerCallback: function(thead, data, start, end, display) {
-            $(thead).find('th').css('background-color', '#000000'); // Set black background for header cells
-            $(thead).find('th').css('color', '#ffffff'); // Set white text color for header cells
+        headerCallback: function (thead) {
+            $(thead).find('th').css({
+                'background-color': '#000000',
+                'color': '#ffffff'
+            });
         },
         responsive: true,
         order: [[0, 'asc']], // Sort by ID column ascending by default
@@ -194,7 +196,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#stable tbody').on('click', 'a.deleteBtn', function (e) {
+    //delete
+    $('#stable tbody').on('click', 'button.deleteBtn', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
         var $row = $(this).closest('tr');
@@ -219,6 +222,44 @@ $(document).ready(function () {
                         dataType: "json",
                         success: function (data) {
                             table.row($row).remove().draw();
+                            bootbox.alert(data.message);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    // Handle restore action
+    $('#stable tbody').on('click', 'button.restoreBtn', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var $row = $(this).closest('tr');
+        bootbox.confirm({
+            message: "Do you want to restore this Supplier?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        type: "PUT", // Use PUT for restore action
+                        url: `/api/suppliers/${id}/restore`,
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        dataType: "json",
+                        success: function (data) {
+                            table.row($row).remove().draw();
+                            bootbox.alert(data.message);
                         },
                         error: function (error) {
                             console.log(error);

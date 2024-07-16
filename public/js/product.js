@@ -43,8 +43,14 @@ $(document).ready(function () {
                 data: null,
                 title: 'Actions',
                 render: function (data) {
-                    return "<a href='#' data-toggle='modal' data-target='#ProductModal' class='btn btn-sm btn-primary editBtn' data-id='" + data.id + "'><i class='fas fa-edit'></i> Edit</a> " +
-                        "<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id='" + data.id + "'><i class='fas fa-trash-alt'></i> Delete</button>";
+                    if (data.deleted_at) {
+                        // If product is trashed, show restore button
+                        return "<button type='button' class='btn btn-sm btn-warning restoreBtn' data-id='" + data.id + "'><i class='fas fa-undo'></i> Restore</button>";
+                    } else {
+                        // Otherwise, show edit and delete buttons
+                        return "<a href='#' data-toggle='modal' data-target='#ProductModal' class='btn btn-sm btn-primary editBtn' data-id='" + data.id + "'><i class='fas fa-edit'></i> Edit</a> " +
+                            "<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id='" + data.id + "'><i class='fas fa-trash-alt'></i> Delete</button>";
+                    }
                 }
             }
         ],
@@ -71,7 +77,7 @@ $(document).ready(function () {
         }
     });
 
-    // Fetch brands for dropdown
+    // Fetch brands for dropdown (assuming this part remains unchanged)
     $.ajax({
         type: "GET",
         url: "/api/brands",
@@ -87,7 +93,6 @@ $(document).ready(function () {
             console.log('Failed to fetch brands');
         }
     });
-
     // Validation
     $('#pform').validate({
         rules: {
@@ -214,7 +219,7 @@ $(document).ready(function () {
         }
     });
 
-  
+
     $("#ProductSubmit").on('click', function (e) {
         e.preventDefault();
         if ($('#pform').valid()) {
@@ -267,45 +272,82 @@ $(document).ready(function () {
         }
     });
 
-
-    $('#productable').on('click', 'button.deleteBtn', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var $row = $(this).closest('tr');
-        bootbox.confirm({
-            message: "Do you want to delete this product?",
-            buttons: {
-                confirm: {
-                    label: 'Yes',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: 'No',
-                    className: 'btn-danger'
-                }
+//delete
+$('#productable').on('click', 'button.deleteBtn', function (e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    var $row = $(this).closest('tr');
+    bootbox.confirm({
+        message: "Do you want to delete this product?",
+        buttons: {
+            confirm: {
+                label: 'Yes',
+                className: 'btn-success'
             },
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: `/api/products/${id}`,
-                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        dataType: "json",
-                        success: function (data) {
-                            $row.fadeOut(4000, function () {
-                                $row.remove();
-                            });
-                            bootbox.alert(data.message);
-                            table.ajax.reload();
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
             }
-        });
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "DELETE",
+                    url: `/api/products/${id}`,
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "json",
+                    success: function (data) {
+                        $row.fadeOut(4000, function () {
+                            $row.remove();
+                        });
+                        bootbox.alert(data.message);
+                        table.ajax.reload();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        }
     });
+});
+
+// Restore functionality
+$('#productable').on('click', 'button.restoreBtn', function (e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    var $row = $(this).closest('tr');
+    bootbox.confirm({
+        message: "Do you want to restore this product?",
+        buttons: {
+            confirm: {
+                label: 'Yes',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "POST",
+                    url: `/api/products/${id}/restore`,
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "json",
+                    success: function (data) {
+                        table.ajax.reload();
+                        bootbox.alert(data.message);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        }
+    });
+});
 
     // Excel import
     $("#PexcelSubmit").on('click', function (e) {

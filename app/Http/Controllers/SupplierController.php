@@ -18,7 +18,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $data = Supplier::orderBy('id', 'DESC')->get();
+        $data = Supplier::orderBy('id', 'DESC')->withTrashed()->get();
         return response()->json($data);
     }
 
@@ -94,16 +94,37 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        if (Supplier::find($id)) {
-            Supplier::destroy($id);
-            $data = array('success' => 'deleted', 'code' => 200);
-            return response()->json($data);
-        }
-        $data = array('error' => 'Supplier not deleted', 'code' => 400);
-        return response()->json($data);
-    }
+
+     public function destroy(string $id)
+     {
+         $supplier = Supplier::find($id);
+
+         if ($supplier) {
+             $supplier->delete();
+             $data = array('message' => 'Supplier deleted successfully', 'code' => 200);
+             return response()->json($data);
+         }
+
+         $data = array('error' => 'Supplier not deleted', 'code' => 400);
+         return response()->json($data);
+     }
+
+     /**
+      * Restore the specified resource.
+      */
+     public function restore(string $id)
+     {
+         $supplier = Supplier::withTrashed()->find($id);
+
+         if ($supplier) {
+             $supplier->restore();
+             $data = array('message' => 'Supplier restored successfully', 'code' => 200);
+             return response()->json($data);
+         }
+
+         $data = array('error' => 'Supplier not restored', 'code' => 400);
+         return response()->json($data);
+     }
 
     public function import(Request $request)
     {

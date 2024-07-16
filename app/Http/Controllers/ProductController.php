@@ -20,9 +20,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::with('brand')->get();
+        $data = Product::with('brand')->withTrashed()->get();
         $brand = Brand::all();
         return response()->json($data);
+        // $data = Product::with('brand')->withTrashed()->get();
+        // $brands = Brand::all();
+
+        // return response()->json([
+        //     'products' => $data,
+        //     'brands' => $brands
+        // ]);
     }
 
     /**
@@ -120,12 +127,32 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        if (Product::find($id)) {
-            Product::destroy($id);
-            $data = array('success' => 'deleted', 'code' => 200);
+        $product = Product::find($id);
+
+        if ($product) {
+            $product->delete();
+            $data = array('message' => 'Product deleted successfully', 'code' => 200);
             return response()->json($data);
         }
-        $data = array('error' => 'Brand not deleted', 'code' => 400);
+
+        $data = array('error' => 'Product not deleted', 'code' => 400);
+        return response()->json($data);
+    }
+
+    /**
+     * Restore the specified resource.
+     */
+    public function restore(string $id)
+    {
+        $product = Product::withTrashed()->find($id);
+
+        if ($product) {
+            $product->restore();
+            $data = array('message' => 'Product restored successfully', 'code' => 200);
+            return response()->json($data);
+        }
+
+        $data = array('error' => 'Product not restored', 'code' => 400);
         return response()->json($data);
     }
 

@@ -11,15 +11,17 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');;
 
 Route::get('/register', function () {
     return view('register');
 });
+Route::middleware('web')->group(function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home')->middleware('auth');
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+});
 
 Route::get('/cart', function () {
     return view('cart');
@@ -31,7 +33,7 @@ Route::get('/checkout', function () {
 
 Route::get('/profile', function () {
     return view('profile');
-})->name('profile');
+})->name('profile')->middleware('auth');
 
 Route::get('/orders', function () {
     return view('orderdetails');

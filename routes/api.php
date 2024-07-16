@@ -32,6 +32,10 @@ Route::post('/products/excel',[ProductController::class, 'import'])->name('Pexce
 Route::put('/users/{id}/status', [CustomerController::class, 'changeStatus']);
 Route::put('/users/{id}/role', [CustomerController::class, 'changeRole']);
 
+Route::post('/brands/{id}/restore', [BrandController::class, 'restore']);
+Route::post('/products/{id}/restore', [ProductController::class, 'restore']);
+Route::post('/suppliers/{id}/restore', [SupplierController::class, 'restore']);
+
 Route::post('/register', [CustomerController::class, 'store']);
 Route::post('/login', [CustomerController::class, 'login']);
 Route::post('/logout', [CustomerController::class, 'logout']);

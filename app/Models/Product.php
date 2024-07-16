@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Brand;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
     use HasFactory;
     protected $table = 'products';
     protected $primaryKey = 'id';
-    public $timestamps = true; 
+    public $timestamps = true;
     protected $fillable = [
         'id',
-        'brand_id', 
+        'brand_id',
         'product_name',
         'description',
         'price',

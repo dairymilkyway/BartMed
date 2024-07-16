@@ -16,13 +16,13 @@ $(document).ready(function () {
             }
         ],
         columns: [
-            { 
-                data: 'id', 
-                title: 'ID' 
+            {
+                data: 'id',
+                title: 'ID'
             },
-            { 
-                data: 'brand_name', 
-                title: 'Brand Name' 
+            {
+                data: 'brand_name',
+                title: 'Brand Name'
             },
             {
                 data: 'img_path',
@@ -39,11 +39,15 @@ $(document).ready(function () {
                 }
             },
             {
-                data: null,
+                data: 'deleted_at',
                 title: 'Actions',
                 render: function (data, type, row) {
-                    return `<a href='#' class='btn btn-sm btn-primary editBtn' data-id="${data.id}"><i class='fas fa-edit'></i> Edit</a>
-                            <button type='button' class='btn btn-sm btn-danger deleteBtn' data-id="${data.id}"><i class='fas fa-trash-alt'></i> Delete</button>`;
+                    if (data) {
+                        return `<button type='button' class='btn btn-sm btn-warning restoreBtn' data-id="${row.id}"><i class='fas fa-undo'></i> Restore</button>`;
+                    } else {
+                        return `<a href='#' class='btn btn-sm btn-primary editBtn' data-id="${row.id}"><i class='fas fa-edit'></i> Edit</a>
+                                <button type='button' class='btn btn-sm btn-danger deleteBtn' data-id="${row.id}"><i class='fas fa-trash-alt'></i> Delete</button>`;
+                    }
                 }
             }
         ],
@@ -190,38 +194,78 @@ $(document).ready(function () {
         }
     });
 
-    $('#brandtable tbody').on('click', 'a.deleteBtn', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var $row = $(this).closest('tr');
-        bootbox.confirm({
-            message: "Do you want to delete this brand?",
-            buttons: {
-                confirm: {
-                    label: 'Yes',
-                    className: 'btn-success'
+    $(document).ready(function () {
+        var table = $('#brandtable').DataTable();
+
+        $('#brandtable tbody').on('click', 'button.deleteBtn', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var $row = $(this).closest('tr');
+            bootbox.confirm({
+                message: "Do you want to delete this brand?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
                 },
-                cancel: {
-                    label: 'No',
-                    className: 'btn-danger'
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: `/api/brands/${id}`,
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            dataType: "json",
+                            success: function (data) {
+                                table.row($row).remove().draw();
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    }
                 }
-            },
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: `/api/brands/${id}`,
-                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        dataType: "json",
-                        success: function (data) {
-                            table.row($row).remove().draw();
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
+            });
+        });
+
+        // Restore functionality
+        $('#brandtable tbody').on('click', 'button.restoreBtn', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var $row = $(this).closest('tr');
+            bootbox.confirm({
+                message: "Do you want to restore this brand?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            url: `/api/brands/${id}/restore`,
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            dataType: "json",
+                            success: function (data) {
+                                table.ajax.reload();
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    }
                 }
-            }
+            });
         });
     });
 

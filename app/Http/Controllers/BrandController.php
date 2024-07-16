@@ -19,7 +19,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $data = Brand::orderBy('id', 'DESC')->get();
+        $data = Brand::orderBy('id', 'DESC')->withTrashed()->get();
         return response()->json($data);
     }
 
@@ -120,7 +120,19 @@ class BrandController extends Controller
         return response()->json($data);
     }
 
-    
+    public function restore(string $id)
+    {
+        $brand = Brand::withTrashed()->find($id);
+
+        if ($brand) {
+            $brand->restore();
+            $data = array('success' => 'restored', 'code' => 200);
+            return response()->json($data);
+        }
+
+        $data = array('error' => 'Brand not restored', 'code' => 400);
+        return response()->json($data);
+    }
     public function import(Request $request)
     {
         $request ->validate([

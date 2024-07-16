@@ -98,14 +98,10 @@ class CustomerController extends Controller
     public function show(string $id)
     {
         $user = Auth::user();
-
         if (!$user) {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
-
-        // Manually add customer data to the response
         $customer = $user->customer;
-
         return response()->json([
             'id' => $user->id,
             'email' => $user->email,
@@ -175,6 +171,15 @@ class CustomerController extends Controller
         // return response()->json([
         //     'message' => 'Invalid credentials'
         // ], 401);
+        // $credentials = $request->validate([
+        //     'email' => ['required', 'email'],
+        //     'password' => ['required'],
+        // ]);
+
+        // if (Auth::attempt($credentials)) {
+        //     $request->session()->regenerate();
+        //     $user = auth()->user();
+        // }
         try {
             $validateUser = Validator::make($request->all(),
             [

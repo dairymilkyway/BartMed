@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('category');
             $table->string('img_path');
             $table->timestamps();
-
+            $table->softDeletes();
 
             //foreign key
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
