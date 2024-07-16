@@ -9,7 +9,7 @@
 
             <div class="grid grid-cols-1 gap-6 mt-8">
                 <div class="flex flex-col items-center sm:flex-row sm:items-start space-y-5 sm:space-y-0">
-                    <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+                    <img id="profile-pic" class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
                         src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
                         alt="Bordered avatar">
 
@@ -33,7 +33,7 @@
                                 first name</label>
                             <input type="text" id="first_name"
                                 class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                                placeholder="Your first name" value="Jane" required>
+                                placeholder="Your first name" readonly>
                         </div>
                         <div class="w-full">
                             <label for="last_name"
@@ -41,7 +41,7 @@
                                 last name</label>
                             <input type="text" id="last_name"
                                 class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                                placeholder="Your last name" value="Ferguson" required>
+                                placeholder="Your last name" readonly>
                         </div>
                     </div>
                     <div class="mb-2 sm:mb-6">
@@ -50,31 +50,26 @@
                             email</label>
                         <input type="email" id="email"
                             class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                            placeholder="your.email@mail.com" required>
+                            placeholder="your.email@mail.com" readonly>
                     </div>
                     <div class="mb-2 sm:mb-6">
                         <label for="profession"
                             class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">Profession</label>
                         <input type="text" id="profession"
                             class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                            placeholder="your profession" required>
+                            placeholder="your profession" readonly>
                     </div>
                     <div class="mb-6">
                         <label for="message"
                             class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">Bio</label>
                         <textarea id="message" rows="4"
                             class="block p-2.5 w-full text-sm text-indigo-900 bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Write your bio here..."></textarea>
-                    </div>
-                    <div class="flex justify-end">
-                        <button type="submit"
-                            class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
-                            Save
-                        </button>
+                            placeholder="Write your bio here..." readonly></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
 @endsection

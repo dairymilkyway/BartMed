@@ -43,7 +43,7 @@
                             <div class="form-group">
                                 <label for="image" class="control-label">Logo</label>
                                 <input type="file" class="form-control" id="image" name="uploads[]" multiple>
-                            </div>              
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
