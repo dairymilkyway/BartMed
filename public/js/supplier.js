@@ -253,7 +253,7 @@ $(document).ready(function () {
             callback: function (result) {
                 if (result) {
                     $.ajax({
-                        type: "PUT", // Use PUT for restore action
+                        type: "POST", // Use PUT for restore action
                         url: `/api/suppliers/${id}/restore`,
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         dataType: "json",
