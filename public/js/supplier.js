@@ -9,7 +9,7 @@ $(document).ready(function () {
             {
                 extend: 'pdfHtml5',
                 text: '<i class="fa fa-file-pdf"></i> Export to PDF',
-                className: 'btn btn-primary mr-2',
+                className: 'btn btn-danger mr-2',
                 exportOptions: {
                     columns: [0, 1]
                 }
@@ -221,8 +221,8 @@ $(document).ready(function () {
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         dataType: "json",
                         success: function (data) {
-                            table.row($row).remove().draw();
                             bootbox.alert(data.message);
+                            table.ajax.reload();
                         },
                         error: function (error) {
                             console.log(error);
@@ -258,8 +258,8 @@ $(document).ready(function () {
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         dataType: "json",
                         success: function (data) {
-                            table.row($row).remove().draw();
                             bootbox.alert(data.message);
+                            table.ajax.reload();
                         },
                         error: function (error) {
                             console.log(error);
