@@ -184,7 +184,7 @@ $(document).ready(function () {
                     success: function (data) {
                         // Handle success response
                         console.log("Customer created successfully:", data);
-                        // Example: Redirect to a success page or show a success message
+                        window.location.href = '/login';
                     },
                     error: function (error) {
                         // Handle error response
