@@ -225,5 +225,14 @@ class CustomerController extends Controller
         $request->session()->regenerateToken();
         return response()->json(['message' => 'Logged out successfully.'], 200);
     }
+    public function fetchUserData()
+    {
+        $user = Auth::user();
+        $customer = $user->customer;
 
+        return response()->json([
+            'user' => $user,
+            'customer' => $customer,
+        ]);
+    }
 }
