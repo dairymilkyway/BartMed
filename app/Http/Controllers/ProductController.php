@@ -31,7 +31,13 @@ class ProductController extends Controller
         //     'brands' => $brands
         // ]);
     }
-
+    
+    public function fetchProducts(Request $request)
+    {
+        $products = Product::paginate(10);
+        return response()->json($products);
+    }
+    
     /**
      * Show the form for creating a new resource.
      */

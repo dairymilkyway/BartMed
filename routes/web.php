@@ -60,6 +60,9 @@ Route::get('/order', function () {
     return view('order.index');
 })->name('order.index');
 
+Route::get('/SupplierTransaction', function () {
+    return view('suppliertransaction.index');
+})->name('suppliertransaction.index');
 
 
 //Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');

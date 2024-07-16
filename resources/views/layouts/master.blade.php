@@ -66,6 +66,8 @@
     <script src="{{ asset('js/product.js') }}"></script>
     <script src="{{ asset('js/supplier.js') }}"></script>
     <script src="{{ asset('js/customer.js') }}"></script>
+    <script src="{{ asset('js/order.js') }}"></script>
+    <script src="{{ asset('js/suppliertransaction.js') }}"></script>
     @vite('resources/css/app.css')
 </head>
 

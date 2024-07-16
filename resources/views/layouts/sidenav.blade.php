@@ -49,6 +49,15 @@
       Order
     </a>
   </li>
+  
+  <li>
+    <a
+      href="{{route('suppliertransaction.index')}}"
+      class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+    >
+      Supplier Transaction
+    </a>
+  </li>
 
     </ul>
   </div>
