@@ -15,7 +15,7 @@ $(document).ready(function () {
             {
                 extend: 'pdfHtml5',
                 text: '<i class="fa fa-file-pdf"></i> Export to PDF',
-                className: 'btn btn-primary mr-2',
+                className: 'btn btn-danger mr-2',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5]
                 }
