@@ -10,14 +10,14 @@ $(document).ready(function () {
             {
                 extend: 'pdfHtml5',
                 text: '<i class="fa fa-file-pdf"></i> Export to PDF',
-                className: 'btn btn-primary mr-2',
+                className: 'btn btn-danger mr-2',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6, 7]
                 }
             }
         ],
         columns: [
-            { data: 'id', title: 'ID' },
+            { data: 'id', title: 'Product ID' },
             {
                 data: 'img_path',
                 title: 'Images',
@@ -40,16 +40,16 @@ $(document).ready(function () {
             { data: 'stocks', title: 'Stocks' },
             { data: 'category', title: 'Category' },
             {
-                data: null,
+                data: 'deleted_at',
                 title: 'Actions',
-                render: function (data) {
-                    if (data.deleted_at) {
+                render: function (data, type, row) {
+                    if (data) {
                         // If product is trashed, show restore button
-                        return "<button type='button' class='btn btn-sm btn-warning restoreBtn' data-id='" + data.id + "'><i class='fas fa-undo'></i> Restore</button>";
+                        return "<button type='button' class='btn btn-sm btn-warning restoreBtn' data-id='" + row.id + "'><i class='fas fa-undo'></i> Restore</button>";
                     } else {
                         // Otherwise, show edit and delete buttons
-                        return "<a href='#' data-toggle='modal' data-target='#ProductModal' class='btn btn-sm btn-primary editBtn' data-id='" + data.id + "'><i class='fas fa-edit'></i> Edit</a> " +
-                            "<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id='" + data.id + "'><i class='fas fa-trash-alt'></i> Delete</button>";
+                        return "<a href='#' data-toggle='modal' data-target='#ProductModal' class='btn btn-sm btn-primary editBtn' data-id='" + row.id + "'><i class='fas fa-edit'></i> Edit</a> " +
+                            "<button type='button' class='btn btn-sm btn-danger deleteBtn' data-id='" + row.id + "'><i class='fas fa-trash-alt'></i> Delete</button>";
                     }
                 }
             }
