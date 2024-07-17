@@ -374,30 +374,30 @@ $(document).ready(function () {
     });
     //fetchuser
 
-    $(document).ready(function() {
-        $.ajax({
-            url: '/api/fetchuser',
-            method: 'GET',
-            success: function(response) {
-                console.log('Reloaded User Data:', response); // Log the response for debugging
+    // $(document).ready(function() {
+    //     $.ajax({
+    //         url: '/api/fetchuser',
+    //         method: 'GET',
+    //         success: function(response) {
+    //             console.log('Reloaded User Data:', response); // Log the response for debugging
 
-                if (response.customer) {
-                    let fullName = response.customer.name.split(' ');
-                    $('#first_name').val(fullName[0]);
-                    $('#last_name').val(fullName.length > 1 ? fullName.slice(1).join(' ') : '');
-                    $('#email').val(response.user.email);
-                    $('#address').val(response.customer.address);
-                    $('#number').val(response.customer.number);
-                    if (response.customer.img_path) {
-                        $('#profile-pic').attr('src', response.customer.img_path);
-                    }
-                }
-            },
-            error: function(xhr) {
-                console.error('Error:', xhr.responseText);  // Log any errors for debugging
-            }
-        });
-    });
+    //             if (response.customer) {
+    //                 let fullName = response.customer.name.split(' ');
+    //                 $('#first_name').val(fullName[0]);
+    //                 $('#last_name').val(fullName.length > 1 ? fullName.slice(1).join(' ') : '');
+    //                 $('#email').val(response.user.email);
+    //                 $('#address').val(response.customer.address);
+    //                 $('#number').val(response.customer.number);
+    //                 if (response.customer.img_path) {
+    //                     $('#profile-pic').attr('src', response.customer.img_path);
+    //                 }
+    //             }
+    //         },
+    //         error: function(xhr) {
+    //             console.error('Error:', xhr.responseText);  // Log any errors for debugging
+    //         }
+    //     });
+    // });
 //updatepicture
 $(document).ready(function() {
     // Show change profile picture modal
@@ -442,6 +442,35 @@ $(document).ready(function() {
 
     //update
     $(document).ready(function() {
+        // Function to fetch user data
+        function fetchUser() {
+            $.ajax({
+                url: '/api/fetchuser',
+                method: 'GET',
+                success: function(response) {
+                    console.log('Reloaded User Data:', response); // Log the response for debugging
+
+                    if (response.customer) {
+                        let fullName = response.customer.name.split(' ');
+                        $('#first_name').val(fullName[0]);
+                        $('#last_name').val(fullName.length > 1 ? fullName.slice(1).join(' ') : '');
+                        $('#email').val(response.user.email);
+                        $('#address').val(response.customer.address);
+                        $('#number').val(response.customer.number);
+                        if (response.customer.img_path) {
+                            $('#profile-pic').attr('src', response.customer.img_path);
+                        }
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr.responseText); // Log any errors for debugging
+                }
+            });
+        }
+
+        // Initial fetch user data on page load
+        fetchUser();
+
         // Show the update profile modal
         $('#updateProfileBtn').click(function() {
             // Populate the modal fields with current profile data
@@ -479,18 +508,14 @@ $(document).ready(function() {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    // Update the profile fields with the new data
-                    $('#first_name').val(response.first_name);
-                    $('#last_name').val(response.last_name);
-                    $('#email').val(response.email);
-                    $('#address').val(response.address);
-                    $('#number').val(response.number);
-
-                    // Hide the modal
-                    $('#updateProfileModal').addClass('hidden');
+                    // Reload user data after successful update
+                    fetchUser();
 
                     // Optionally, show a success message or perform other actions
                     alert('Profile updated successfully!');
+
+                    // Hide the modal
+                    $('#updateProfileModal').addClass('hidden');
                 },
                 error: function(error) {
                     // Handle errors or show error messages
@@ -499,7 +524,38 @@ $(document).ready(function() {
                 }
             });
         });
+
+           // Show the deactivate account modal
+    $('#deactivateAccountBtn').click(function() {
+        $('#deactivateAccountModal').removeClass('hidden');
     });
+
+    // Hide the deactivate account modal
+    $('#cancelDeactivateBtn').click(function() {
+        $('#deactivateAccountModal').addClass('hidden');
+    });
+
+    // Handle confirm deactivate account
+    $('#confirmDeactivateBtn').click(function() {
+        // Perform AJAX request to deactivate account
+        $.ajax({
+            url: '/api/deactivate-account', // Change to your actual deactivate account API endpoint
+            method: 'PUT',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                // Redirect to login page after deactivation
+                window.location.href = '/login';
+            },
+            error: function(error) {
+                console.error('Error deactivating account:', error);
+                alert('Failed to deactivate account. Please try again.');
+            }
+        });
+    });
+    });
+
 
 
 

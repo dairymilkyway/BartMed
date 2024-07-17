@@ -22,7 +22,10 @@
                         <button type="button" id="changeProfilePicBtn" class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200">
                             Change Your Profile Picture
                         </button>
-
+                        <button type="button" id="deactivateAccountBtn"
+                        class="py-3.5 px-7 text-base font-medium text-red-100 focus:outline-none bg-red-500 rounded-lg border border-red-200 hover:bg-red-600 focus:z-10 focus:ring-4 focus:ring-red-200">
+                        Deactivate Account
+                    </button>
                     </div>
                 </div>
 
@@ -89,6 +92,11 @@
                         <button type="button" id="cancelChangePicBtn" class="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md">Cancel</button>
                         <button type="submit" id="submitChangePicBtn" class="py-2 px-4 bg-indigo-600 text-white rounded-md">Upload</button>
                     </div>
+                    <!-- Deactivate Account Button -->
+                    <button type="button" id="deactivateAccountBtn"
+                    class="py-3.5 px-7 text-base font-medium text-red-100 focus:outline-none bg-red-500 rounded-lg border border-red-600 hover:bg-red-600 focus:z-10 focus:ring-4 focus:ring-red-200">
+                    Deactivate Account
+                </button>
                 </form>
             </div>
         </div>
@@ -143,5 +151,21 @@
         </div>
     </div>
 </div>
-
+<!-- Deactivate Account Modal -->
+<div id="deactivateAccountModal" class="hidden fixed z-10 inset-0 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md">
+            <div class="px-4 py-3 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Deactivate Account</h3>
+            </div>
+            <div class="p-6">
+                <p class="mb-4">Are you sure you want to deactivate your account? This action cannot be undone.</p>
+                <div class="flex justify-end">
+                    <button type="button" id="cancelDeactivateBtn" class="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md">Cancel</button>
+                    <button type="button" id="confirmDeactivateBtn" class="py-2 px-4 bg-red-600 text-white rounded-md">Deactivate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

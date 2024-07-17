@@ -144,8 +144,6 @@ class CustomerController extends Controller
             $image = $request->file('profile_picture');
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->storeAs('public/profile_pictures', $imageName);
-
-            // Update the customer's profile picture path in the database
             $customer->img_path = 'storage/profile_pictures/'.$imageName;
             $customer->save();
 
@@ -153,6 +151,16 @@ class CustomerController extends Controller
         }
 
         return response()->json(['message' => 'Image upload failed.'], 400);
+    }
+    public function deactivateAccount()
+    {
+        $user = Auth::user();
+        $user->status = 'inactive';
+        $user->save();
+
+        Auth::logout();
+
+        return response()->json(['message' => 'Account deactivated successfully.'], 200);
     }
     /**
      * Remove the specified resource from storage.
@@ -186,46 +194,55 @@ class CustomerController extends Controller
     return response()->json(['message' => 'Role updated successfully']);
     }
     public function login(Request $request)
-    {
+{
+    try {
+        $validateUser = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-        try {
-            $validateUser = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            if(!Auth::attempt($request->only(['email', 'password']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
-                ], 401);
-            }
-
-            $user = User::where('email', $request->email)->first();
-            $redirectUrl = $user->role === 'customer' ? '/home' : '/brand';
-            return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken,
-                'redirect_url' => $redirectUrl,
-            ], 200);
-
-        } catch (\Throwable $th) {
+        if ($validateUser->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
+                'message' => 'Validation error',
+                'errors' => $validateUser->errors()
+            ], 401);
         }
+
+        if (!Auth::attempt($request->only(['email', 'password']))) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Email & Password do not match our records.',
+            ], 401);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user->status !== 'active') {
+            return response()->json([
+                'status' => false,
+                'message' => 'Account is deactivated. Please contact support.',
+            ], 401);
+        }
+
+        $redirectUrl = $user->role === 'customer' ? '/home' : '/brand';
+        return response()->json([
+            'status' => true,
+            'message' => 'User Logged In Successfully',
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            'redirect_url' => $redirectUrl,
+        ], 200);
+
+    } catch (\Throwable $th) {
+        return response()->json([
+            'status' => false,
+            'message' => $th->getMessage()
+        ], 500);
     }
+}
+
+
+
     public function logout(Request $request)
     {
         Auth::logout();

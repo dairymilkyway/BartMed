@@ -52,7 +52,7 @@
         @if(auth()->check())
 
         <li id="logoutLink">
-            <a class="text-gray-500 transition hover:text-gray-500/75" href="#">
+            <a class="text-gray-500 transition hover:text-gray-500/75" href="/login">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </a>
         </li>

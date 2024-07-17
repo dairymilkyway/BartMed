@@ -38,6 +38,7 @@ Route::put('/users/{id}/status', [CustomerController::class, 'changeStatus']);
 Route::put('/users/{id}/role', [CustomerController::class, 'changeRole']);
 Route::put('/orders/{id}/status', [OrderController::class, 'changeStatus']);
 Route::put('/update-profile', [CustomerController::class, 'update'])->name('profile.update');
+Route::put('/deactivate-account', [CustomerController::class, 'deactivateAccount']);
 Route::post('/update-picture', [CustomerController::class, 'updatePicture']);
 
 Route::post('/brands/{id}/restore', [BrandController::class, 'restore']);
