@@ -59,11 +59,12 @@
 <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('profile')}}"><i class="fa-solid fa-user"></i> My Account</a></li>
         @if(auth()->check())
 
-        <li id="logoutLink">
-            <a class="text-gray-500 transition hover:text-gray-500/75" href="/login">
+        <li id="logout">
+            <a id="logout-button" class="text-gray-500 transition hover:text-gray-500/75">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </a>
         </li>
+
         @else
             <li id="loginLink">
                 <a class="text-gray-500 transition hover:text-gray-500/75" href="/login">
@@ -91,6 +92,6 @@
         @yield('content')
     </main>
 
-    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
+    {{-- <script src="{{ mix('js/customer.js') }}"></script> --}}
 </body>
 </html>
