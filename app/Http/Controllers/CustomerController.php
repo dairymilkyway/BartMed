@@ -237,13 +237,14 @@ class CustomerController extends Controller
                 'message' => 'Account is deactivated. Please contact support.',
             ], 401);
         }
-
+        $request->session()->regenerate();
         $redirectUrl = $user->role === 'customer' ? '/home' : '/brand';
         return response()->json([
             'status' => true,
             'message' => 'User Logged In Successfully',
             'token' => $user->createToken("API TOKEN")->plainTextToken,
             'redirect_url' => $redirectUrl,
+
         ], 200);
 
     } catch (\Throwable $th) {
