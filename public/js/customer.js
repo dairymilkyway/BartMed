@@ -441,23 +441,19 @@ $(document).ready(function() {
 
     //update
     $(document).ready(function() {
-        // Custom method to validate names (no numbers allowed)
         $.validator.addMethod("lettersonly", function(value, element) {
             return this.optional(element) || /^[A-Za-z\s]+$/.test(value);
         }, "Letters only please");
-
-        // Custom method to validate phone number (no letters allowed)
         $.validator.addMethod("numbersonly", function(value, element) {
             return this.optional(element) || /^[0-9]+$/.test(value);
         }, "Numbers only please");
 
-        // Function to fetch user data
         function fetchUser() {
             $.ajax({
                 url: '/api/fetchuser',
                 method: 'GET',
                 success: function(response) {
-                    console.log('Reloaded User Data:', response); // Log the response for debugging
+                    console.log('Reloaded User Data:', response);
 
                     if (response.customer) {
                         let fullName = response.customer.name.split(' ');
@@ -472,17 +468,13 @@ $(document).ready(function() {
                     }
                 },
                 error: function(xhr) {
-                    console.error('Error:', xhr.responseText); // Log any errors for debugging
+                    console.error('Error:', xhr.responseText);
                 }
             });
         }
-
-        // Initial fetch user data on page load
         fetchUser();
 
-        // Show the update profile modal
         $('#updateProfileBtn').click(function() {
-            // Populate the modal fields with current profile data
             $('#update_first_name').val($('#first_name').val());
             $('#update_last_name').val($('#last_name').val());
             $('#update_email').val($('#email').val());
@@ -492,12 +484,10 @@ $(document).ready(function() {
             $('#updateProfileModal').removeClass('hidden');
         });
 
-        // Hide the update profile modal
         $('#cancelUpdateBtn').click(function() {
             $('#updateProfileModal').addClass('hidden');
         });
 
-        // Handle the update profile form submission
         $('#updateProfileForm').validate({
             rules: {
                 first_name: {
@@ -553,10 +543,10 @@ $(document).ready(function() {
                     numbersonly: "Numbers only please"
                 }
             },
-            errorElement: 'span', // Use a span element for error messages
-            errorClass: 'text-red-500', // Apply Tailwind CSS class for red text
+            errorElement: 'span',
+            errorClass: 'text-red-500',
             errorPlacement: function(error, element) {
-                // Place the error message after the form element
+
                 error.insertAfter(element);
             },
             submitHandler: function(form) {
@@ -568,26 +558,19 @@ $(document).ready(function() {
                     address: $('#update_address').val(),
                     number: $('#update_number').val(),
                 };
-
                 $.ajax({
-                    url: '/api/update-profile', // Change to your actual update profile API endpoint
+                    url: '/api/update-profile',
                     method: 'PUT',
                     data: data,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        // Reload user data after successful update
                         fetchUser();
-
-                        // Optionally, show a success message or perform other actions
                         alert('Profile updated successfully!');
-
-                        // Hide the modal
                         $('#updateProfileModal').addClass('hidden');
                     },
                     error: function(error) {
-                        // Handle errors or show error messages
                         console.error('Error updating profile:', error);
                         alert('Failed to update profile. Please try again.');
                     }
@@ -595,29 +578,23 @@ $(document).ready(function() {
             }
         });
 
-
-
-           // Show the deactivate account modal
     $('#deactivateAccountBtn').click(function() {
         $('#deactivateAccountModal').removeClass('hidden');
     });
 
-    // Hide the deactivate account modal
     $('#cancelDeactivateBtn').click(function() {
         $('#deactivateAccountModal').addClass('hidden');
     });
 
-    // Handle confirm deactivate account
     $('#confirmDeactivateBtn').click(function() {
-        // Perform AJAX request to deactivate account
         $.ajax({
-            url: '/api/deactivate-account', // Change to your actual deactivate account API endpoint
+            url: '/api/deactivate-account',
             method: 'PUT',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                // Redirect to login page after deactivation
+
                 window.location.href = '/login';
             },
             error: function(error) {
@@ -627,9 +604,6 @@ $(document).ready(function() {
         });
     });
     });
-
-
-
 
     //delete
     $('#customerTable tbody').on('click', 'a.deletebtn', function (e) {
