@@ -8,6 +8,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SupplierTransactionController;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::apiResource('customers', CustomerController::class);
 Route::apiResource('supplier-transactions', SupplierTransactionController::class);
 
 Route::get('/home', [ProductController::class, 'fetchProducts']);
-
+Route::get('/home/suggestions', [ProductController::class, 'fetchSuggestions']);
 Route::post('/brands/excel',[BrandController::class, 'import'])->name('Bexcel');
 Route::post('/suppliers/excel',[SupplierController::class, 'import'])->name('Sexcel');
 Route::post('/products/excel',[ProductController::class, 'import'])->name('Pexcel');
