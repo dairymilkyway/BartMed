@@ -126,14 +126,27 @@ class CustomerController extends Controller
 
         $user = Auth::user();
         $name = $request->input('first_name') . ' ' . $request->input('last_name');
-        $user->update([
+
+        // Prepare data for user update
+        $userData = [
             'email' => $request->input('email'),
-        ]);
+        ];
+
+        // Check if password is provided and hash it
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->input('password'));
+        }
+
+        // Update user data
+        $user->update($userData);
+
+        // Update customer data
         $user->customer->update([
             'name' => $name,
             'address' => $request->input('address'),
             'number' => $request->input('number'),
         ]);
+
         return response()->json($user);
     }
     public function updatePicture(Request $request)
@@ -245,10 +258,14 @@ class CustomerController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return response()->json(['message' => 'Logged out successfully.'], 200);
+        Log::info('Logout method called');
+        $user = $request->user();
+        if ($user && $user->currentAccessToken()) {
+            $user->currentAccessToken()->delete();
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        } else {
+            return response()->json(['message' => 'No access token found'], 400);
+        }
     }
     public function fetchUserData()
     {

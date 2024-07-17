@@ -255,9 +255,8 @@ $(document).ready(function () {
                             },
                             success: function(response) {
                                 alert('User logged in successfully!');
-                                localStorage.setItem('token', response.token);
-                                var token = localStorage.getItem('token');
-                                console.log('Stored token:', token);
+                                localStorage.setItem('token', response.token); // Store the token in localStorage
+                                console.log('Stored token:', localStorage.getItem('token')); // Verify the token is stored
                                 window.location.href = response.redirect_url;
                             },
                             error: function(xhr) {
@@ -278,30 +277,30 @@ $(document).ready(function () {
 
             });
 
-    // $(document).ready(function() {
-    //     $('#logoutLink').on('click', function(e) {
-    //         e.preventDefault();
-    //         console.log('Logout link clicked'); // Check if click event is firing
+                $('#logout-button').on('click', function(e) {
+                    e.preventDefault(); // Prevent default action of the link
+                    console.log('Logout button clicked'); // Debugging statement
+                    var token = localStorage.getItem('token');
+                    console.log('Token:', token); // Debugging statement
+                    $.ajax({
+                        url: '/api/logout',
+                        type: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token // Assuming you store the token in localStorage
+                        },
+                        success: function(response) {
+                            alert(response.message);
+                            // Remove the token from localStorage
+                            localStorage.removeItem('token');
+                            // Redirect to the login page or any other page
+                            window.location.href = '/login';
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Logout failed: ' + xhr.responseText);
+                        }
+                    });
+                });
 
-    //         $.ajax({
-    //             url: '/api/logout',
-    //             method: 'POST',
-    //             data: {
-    //                 _token: '{{ csrf_token() }}'
-    //             },
-    //             success: function(response) {
-    //                 console.log(response);
-    //                 console.log('User logged in successfully:', response.user)
-    //                 alert('Logged out successfully.');
-    //                 window.location.href = '/login';
-    //             },
-    //             error: function(xhr, status, error) {
-    //                 console.error(xhr.responseText); // Log detailed error message
-    //                 alert('Failed to log out. Please try again.');
-    //             }
-    //         });
-    //     });
-    // });
 
     // Handle Change Status button click
     $('#customerTable tbody').on('click', 'button.change-status-btn', function () {
@@ -442,6 +441,16 @@ $(document).ready(function() {
 
     //update
     $(document).ready(function() {
+        // Custom method to validate names (no numbers allowed)
+        $.validator.addMethod("lettersonly", function(value, element) {
+            return this.optional(element) || /^[A-Za-z\s]+$/.test(value);
+        }, "Letters only please");
+
+        // Custom method to validate phone number (no letters allowed)
+        $.validator.addMethod("numbersonly", function(value, element) {
+            return this.optional(element) || /^[0-9]+$/.test(value);
+        }, "Numbers only please");
+
         // Function to fetch user data
         function fetchUser() {
             $.ajax({
@@ -489,41 +498,104 @@ $(document).ready(function() {
         });
 
         // Handle the update profile form submission
-        $('#updateProfileForm').submit(function(event) {
-            event.preventDefault();
-
-            const data = {
-                first_name: $('#update_first_name').val(),
-                last_name: $('#update_last_name').val(),
-                email: $('#update_email').val(),
-                address: $('#update_address').val(),
-                number: $('#update_number').val(),
-            };
-
-            $.ajax({
-                url: '/api/update-profile', // Change to your actual update profile API endpoint
-                method: 'PUT',
-                data: data,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        $('#updateProfileForm').validate({
+            rules: {
+                first_name: {
+                    required: true,
+                    lettersonly: true
                 },
-                success: function(response) {
-                    // Reload user data after successful update
-                    fetchUser();
-
-                    // Optionally, show a success message or perform other actions
-                    alert('Profile updated successfully!');
-
-                    // Hide the modal
-                    $('#updateProfileModal').addClass('hidden');
+                last_name: {
+                    required: true,
+                    lettersonly: true
                 },
-                error: function(error) {
-                    // Handle errors or show error messages
-                    console.error('Error updating profile:', error);
-                    alert('Failed to update profile. Please try again.');
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    minlength: 6
+                },
+                confirm_password: {
+                    equalTo: '#password'
+                },
+                address: {
+                    required: true
+                },
+                number: {
+                    required: true,
+                    numbersonly: true
                 }
-            });
+            },
+            messages: {
+                first_name: {
+                    required: "First name is required",
+                    lettersonly: "Letters only please"
+                },
+                last_name: {
+                    required: "Last name is required",
+                    lettersonly: "Letters only please"
+                },
+                email: {
+                    required: "Email address is required",
+                    email: "Please enter a valid email address"
+                },
+                password: {
+                    minlength: "Password must be at least 6 characters long"
+                },
+                confirm_password: {
+                    equalTo: "Passwords do not match"
+                },
+                address: {
+                    required: "Address is required"
+                },
+                number: {
+                    required: "Phone number is required",
+                    numbersonly: "Numbers only please"
+                }
+            },
+            errorElement: 'span', // Use a span element for error messages
+            errorClass: 'text-red-500', // Apply Tailwind CSS class for red text
+            errorPlacement: function(error, element) {
+                // Place the error message after the form element
+                error.insertAfter(element);
+            },
+            submitHandler: function(form) {
+                const data = {
+                    first_name: $('#update_first_name').val(),
+                    last_name: $('#update_last_name').val(),
+                    email: $('#update_email').val(),
+                    password: $('#update_password').val(),
+                    address: $('#update_address').val(),
+                    number: $('#update_number').val(),
+                };
+
+                $.ajax({
+                    url: '/api/update-profile', // Change to your actual update profile API endpoint
+                    method: 'PUT',
+                    data: data,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        // Reload user data after successful update
+                        fetchUser();
+
+                        // Optionally, show a success message or perform other actions
+                        alert('Profile updated successfully!');
+
+                        // Hide the modal
+                        $('#updateProfileModal').addClass('hidden');
+                    },
+                    error: function(error) {
+                        // Handle errors or show error messages
+                        console.error('Error updating profile:', error);
+                        alert('Failed to update profile. Please try again.');
+                    }
+                });
+            }
         });
+
+
 
            // Show the deactivate account modal
     $('#deactivateAccountBtn').click(function() {
