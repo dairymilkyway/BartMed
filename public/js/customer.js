@@ -379,7 +379,7 @@ $(document).ready(function () {
             url: '/api/fetchuser',
             method: 'GET',
             success: function(response) {
-                console.log('API Response:', response);  // Log the response for debugging
+                console.log('Reloaded User Data:', response); // Log the response for debugging
 
                 if (response.customer) {
                     let fullName = response.customer.name.split(' ');
@@ -398,7 +398,108 @@ $(document).ready(function () {
             }
         });
     });
+//updatepicture
+$(document).ready(function() {
+    // Show change profile picture modal
+    $('#changeProfilePicBtn').click(function() {
+        $('#changeProfilePicModal').removeClass('hidden');
+    });
 
+    // Close change profile picture modal
+    $('#cancelChangePicBtn').click(function() {
+        $('#changeProfilePicModal').addClass('hidden');
+    });
+
+    // Handle profile picture form submission
+    $('#changeProfilePicForm').submit(function(e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '/api/update-picture', // Ensure this matches your Laravel route
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                // Handle success response
+                console.log(response);
+                // Update profile picture in the UI
+                $('#profile-pic').attr('src', response.img_url);
+                // Close the modal
+                $('#changeProfilePicModal').addClass('hidden');
+            },
+            error: function(error) {
+                // Handle errors
+                console.log(error);
+            }
+        });
+    });
+});
+
+
+    //update
+    $(document).ready(function() {
+        // Show the update profile modal
+        $('#updateProfileBtn').click(function() {
+            // Populate the modal fields with current profile data
+            $('#update_first_name').val($('#first_name').val());
+            $('#update_last_name').val($('#last_name').val());
+            $('#update_email').val($('#email').val());
+            $('#update_address').val($('#address').val());
+            $('#update_number').val($('#number').val());
+
+            $('#updateProfileModal').removeClass('hidden');
+        });
+
+        // Hide the update profile modal
+        $('#cancelUpdateBtn').click(function() {
+            $('#updateProfileModal').addClass('hidden');
+        });
+
+        // Handle the update profile form submission
+        $('#updateProfileForm').submit(function(event) {
+            event.preventDefault();
+
+            const data = {
+                first_name: $('#update_first_name').val(),
+                last_name: $('#update_last_name').val(),
+                email: $('#update_email').val(),
+                address: $('#update_address').val(),
+                number: $('#update_number').val(),
+            };
+
+            $.ajax({
+                url: '/api/update-profile', // Change to your actual update profile API endpoint
+                method: 'PUT',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // Update the profile fields with the new data
+                    $('#first_name').val(response.first_name);
+                    $('#last_name').val(response.last_name);
+                    $('#email').val(response.email);
+                    $('#address').val(response.address);
+                    $('#number').val(response.number);
+
+                    // Hide the modal
+                    $('#updateProfileModal').addClass('hidden');
+
+                    // Optionally, show a success message or perform other actions
+                    alert('Profile updated successfully!');
+                },
+                error: function(error) {
+                    // Handle errors or show error messages
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile. Please try again.');
+                }
+            });
+        });
+    });
 
 
 

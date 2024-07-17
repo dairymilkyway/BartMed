@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
@@ -120,11 +121,39 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
-    }
 
+        $user = Auth::user();
+        $name = $request->input('first_name') . ' ' . $request->input('last_name');
+        $user->update([
+            'email' => $request->input('email'),
+        ]);
+        $user->customer->update([
+            'name' => $name,
+            'address' => $request->input('address'),
+            'number' => $request->input('number'),
+        ]);
+        return response()->json($user);
+    }
+    public function updatePicture(Request $request)
+    {
+        $customer = Customer::where('user_id', auth()->id())->first();
+
+        if ($request->hasFile('profile_picture')) {
+            $image = $request->file('profile_picture');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->storeAs('public/profile_pictures', $imageName);
+
+            // Update the customer's profile picture path in the database
+            $customer->img_path = 'storage/profile_pictures/'.$imageName;
+            $customer->save();
+
+            return response()->json(['img_url' => asset($customer->img_path)], 200);
+        }
+
+        return response()->json(['message' => 'Image upload failed.'], 400);
+    }
     /**
      * Remove the specified resource from storage.
      */
@@ -158,28 +187,7 @@ class CustomerController extends Controller
     }
     public function login(Request $request)
     {
-        // $credentials = $request->only('email', 'password');
 
-        // if (Auth::attempt($credentials)) {
-        //     $user = Auth::user();
-        //     return response()->json([
-        //         'user' => $user,
-        //         'message' => 'Login successful'
-        //     ]);
-        // }
-
-        // return response()->json([
-        //     'message' => 'Invalid credentials'
-        // ], 401);
-        // $credentials = $request->validate([
-        //     'email' => ['required', 'email'],
-        //     'password' => ['required'],
-        // ]);
-
-        // if (Auth::attempt($credentials)) {
-        //     $request->session()->regenerate();
-        //     $user = auth()->user();
-        // }
         try {
             $validateUser = Validator::make($request->all(),
             [
@@ -228,11 +236,7 @@ class CustomerController extends Controller
     public function fetchUserData()
     {
         $user = Auth::user();
-
-        // Log the authenticated user for debugging
         Log::debug('Authenticated User:', ['user' => $user]);
-
-        // Check if user is authenticated
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -244,4 +248,5 @@ class CustomerController extends Controller
             'customer' => $customer
         ]);
     }
+
 }

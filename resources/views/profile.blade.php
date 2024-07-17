@@ -14,9 +14,13 @@
                         alt="Bordered avatar">
 
                     <div class="flex flex-col space-y-5 sm:ml-8">
-                        <button type="button"
+                        <button type="button" id="updateProfileBtn"
                             class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200">
-                            Update Profile
+                            Update Your Profile
+                        </button>
+                        <input type="file" id="profile_picture" name="profile_picture" style="display: none;">
+                        <button type="button" id="changeProfilePicBtn" class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200">
+                            Change Your Profile Picture
                         </button>
 
                     </div>
@@ -68,4 +72,76 @@
         </div>
     </div>
 </main>
+<!-- Change Profile Picture Modal -->
+<div id="changeProfilePicModal" class="hidden fixed z-10 inset-0 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md">
+            <div class="px-4 py-3 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Change Profile Picture</h3>
+            </div>
+            <div class="p-6">
+                <form id="changeProfilePicForm" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="profile_picture" class="block text-sm font-medium text-gray-700">Choose Image</label>
+                        <input type="file" id="profile_picture" name="profile_picture" accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" id="cancelChangePicBtn" class="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md">Cancel</button>
+                        <button type="submit" id="submitChangePicBtn" class="py-2 px-4 bg-indigo-600 text-white rounded-md">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Profile Modal -->
+<div id="updateProfileModal" class="hidden fixed z-10 inset-0 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md">
+            <div class="px-4 py-3 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Update Profile</h3>
+            </div>
+            <div class="p-6">
+                <form id="updateProfileForm">
+                    <div class="mb-4">
+                        <label for="update_first_name"
+                            class="block text-sm font-medium text-gray-700">First name</label>
+                        <input type="text" id="update_first_name" name="first_name"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="update_last_name"
+                            class="block text-sm font-medium text-gray-700">Last name</label>
+                        <input type="text" id="update_last_name" name="last_name"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="update_email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="update_email" name="email"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="update_address"
+                            class="block text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" id="update_address" name="address"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="update_number" class="block text-sm font-medium text-gray-700">Number</label>
+                        <input type="text" id="update_number" name="number"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" id="cancelUpdateBtn"
+                            class="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md">Cancel</button>
+                        <button type="submit"
+                            class="py-2 px-4 bg-indigo-600 text-white rounded-md">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
