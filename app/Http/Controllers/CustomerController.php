@@ -228,11 +228,20 @@ class CustomerController extends Controller
     public function fetchUserData()
     {
         $user = Auth::user();
-        $customer = $user->customer;
+
+        // Log the authenticated user for debugging
+        Log::debug('Authenticated User:', ['user' => $user]);
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $customer = Customer::where('user_id', $user->id)->first();
 
         return response()->json([
             'user' => $user,
-            'customer' => $customer,
+            'customer' => $customer
         ]);
     }
 }

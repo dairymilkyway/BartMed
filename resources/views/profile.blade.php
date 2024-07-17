@@ -16,12 +16,9 @@
                     <div class="flex flex-col space-y-5 sm:ml-8">
                         <button type="button"
                             class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200">
-                            Change picture
+                            Update Profile
                         </button>
-                        <button type="button"
-                            class="py-3.5 px-7 text-base font-medium text-indigo-900 focus:outline-none bg-white rounded-lg border border-indigo-200 hover:bg-indigo-100 hover:text-[#202142] focus:z-10 focus:ring-4 focus:ring-indigo-200">
-                            Delete picture
-                        </button>
+
                     </div>
                 </div>
 
@@ -50,26 +47,25 @@
                             email</label>
                         <input type="email" id="email"
                             class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                            placeholder="your.email@mail.com" readonly>
+                            placeholder="your.email@mail.com"  readonly>
                     </div>
                     <div class="mb-2 sm:mb-6">
-                        <label for="profession"
-                            class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">Profession</label>
-                        <input type="text" id="profession"
+                        <label for="address"
+                            class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">Address</label>
+                        <input type="text" id="address"
                             class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                            placeholder="your profession" readonly>
+                            placeholder="your address" readonly>
                     </div>
                     <div class="mb-6">
-                        <label for="message"
-                            class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">Bio</label>
-                        <textarea id="message" rows="4"
-                            class="block p-2.5 w-full text-sm text-indigo-900 bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Write your bio here..." readonly></textarea>
+                        <label for="number"
+                            class="block mb-2 text-sm font-medium text-indigo-900 dark:text-white">Number</label>
+                        <input type="text" id="number"
+                            class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                            placeholder="your number" readonly>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
-
 @endsection

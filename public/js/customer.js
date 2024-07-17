@@ -376,28 +376,30 @@ $(document).ready(function () {
 
     $(document).ready(function() {
         $.ajax({
-            url: '/api/user',
+            url: '/api/fetchuser',
             method: 'GET',
             success: function(response) {
-                const fullName = response.customer.name.split(' ');
-                const firstName = fullName.slice(0, -1).join(' ');
-                const lastName = fullName.slice(-1).join(' ');
+                console.log('API Response:', response);  // Log the response for debugging
 
-                $('#first_name').val(firstName);
-                $('#last_name').val(lastName);
-                $('#email').val(response.user.email);
-                $('#profession').val(response.customer.address); // Adjust as necessary
-                $('#message').val(response.customer.number); // Adjust as necessary
-                // Update profile pic if img_path is available
-                if (response.customer.img_path) {
-                    $('#profile-pic').attr('src', response.customer.img_path);
+                if (response.customer) {
+                    let fullName = response.customer.name.split(' ');
+                    $('#first_name').val(fullName[0]);
+                    $('#last_name').val(fullName.length > 1 ? fullName.slice(1).join(' ') : '');
+                    $('#email').val(response.user.email);
+                    $('#address').val(response.customer.address);
+                    $('#number').val(response.customer.number);
+                    if (response.customer.img_path) {
+                        $('#profile-pic').attr('src', response.customer.img_path);
+                    }
                 }
             },
             error: function(xhr) {
-                console.error(xhr.responseText);
+                console.error('Error:', xhr.responseText);  // Log any errors for debugging
             }
         });
     });
+
+
 
 
     //delete

@@ -42,7 +42,7 @@ Route::put('/orders/{id}/status', [OrderController::class, 'changeStatus']);
 Route::post('/brands/{id}/restore', [BrandController::class, 'restore']);
 Route::post('/products/{id}/restore', [ProductController::class, 'restore']);
 Route::post('/suppliers/{id}/restore', [SupplierController::class, 'restore']);
-Route::middleware('auth:sanctum')->get('/user', [CustomerController::class, 'fetchUserData']);
+Route::middleware('auth')->get('/fetchuser', [CustomerController::class, 'fetchUserData']);
 /*
 Route::get('/supplier-transactions', [SupplierTransactionController::class, 'index']);
 Route::post('/supplier-transactions', [SupplierTransactionController::class, 'store']);
