@@ -9,7 +9,7 @@
             ipsam, officia dolor fugit natus?
         </p>
     </header>
-
+    <p id="resultsCount" class="text-gray-600 text-center mt-4"></p>
     <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="productList">
         <!-- Products will be dynamically added here -->
     </ul>
