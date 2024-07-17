@@ -34,10 +34,28 @@ class ProductController extends Controller
     
     public function fetchProducts(Request $request)
     {
-        $products = Product::paginate(10);
+        $search = $request->input('search');
+        $query = Product::query();
+    
+        if ($search) {
+            $query->where('product_name', 'like', '%' . $search . '%');
+        }
+    
+        $products = $query->paginate(10); // Adjust the number of products per page as needed
+    
         return response()->json($products);
     }
-    
+    public function fetchSuggestions(Request $request)
+    {
+        $searchQuery = $request->input('search');
+
+        // Query your database for suggestions based on $searchQuery
+        $suggestions = Product::where('product_name', 'like', "%$searchQuery%")
+                                ->limit(5) // Limit suggestions to 5 (adjust as needed)
+                                ->get(['product_name']);
+
+        return response()->json(['data' => $suggestions]);
+    }
     /**
      * Show the form for creating a new resource.
      */
