@@ -11,6 +11,7 @@ use App\Models\Product;
 class Cart extends Model
 {
     use HasFactory;
+
     protected $table = 'carts';
     public $timestamps = true;
     protected $fillable = [

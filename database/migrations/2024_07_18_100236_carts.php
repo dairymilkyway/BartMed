@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->timestamps();
-
+            $table->primary(['customer_id', 'product_id']);
             //foreign key
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('Cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('Cascade');

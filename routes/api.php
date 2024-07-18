@@ -59,8 +59,11 @@ Route::post('/logout', [CustomerController::class, 'logout']);
 
 Route::post('/add/{productId}/{quantity}', [CartController::class, 'store'])->middleware('auth');
 Route::get('/fetchcart', [CartController::class, 'index']); // Example route to fetch cart items
-Route::patch('/uCart/{cart}', [CartController::class, 'update']);
-Route::delete('/dCart/{cart}', [CartController::class, 'destroy']);
+// Route::prefix('cart')->group(function () {
+//     Route::delete('/{cart}', [CartController::class, 'destroy'])->name('cart.destroy'); // Route to delete a cart item
+//     Route::patch('/{cart}', [CartController::class, 'update'])->name('cart.update'); // Route to update a cart item
+// });
+Route::delete('/cart/{customerId}/{productId}', [CartController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
