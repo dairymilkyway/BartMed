@@ -9,7 +9,7 @@
         <div id="customers" class="container pt-7">
             <div class="table-responsive">
                 <table id="customerTable" class="table table-striped table-hover">
-                    <thead>
+                    <thead class="thead-primary">
                         <tr>
                             <th>Customer ID</th>
                             <th>Name</th>
@@ -23,7 +23,7 @@
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody id="customerbody">
+                    <tbody id="customerbody" class="table-info">
                     </tbody>
                 </table>
             </div>

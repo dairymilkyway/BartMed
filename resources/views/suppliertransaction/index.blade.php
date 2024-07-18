@@ -12,7 +12,7 @@
 
             <div class="table-responsive">
                 <table id="STtable" class="table table-hover">
-                    <thead class="thead-dark">
+                    <thead class="thead-primary">
                         <tr>
                             <th>Supplier Transaction ID</th>
                             <th>Supplier Name</th>
@@ -22,7 +22,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="STbody"></tbody>
+                    <tbody id="STbody" class="table-info"></tbody>
                 </table>
             </div>
         </div>

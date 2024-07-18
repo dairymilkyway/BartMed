@@ -13,7 +13,7 @@
 
     <div class="table-responsive">
         <table id="stable" class="table table-hover">
-            <thead class="thead-dark">
+            <thead class="thead-primary">
                 <tr>
                     <th>Supplier ID</th>
                     <th>Supplier Name</th>
@@ -21,7 +21,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="sbody">
+            <tbody id="sbody" class="table-info">
             </tbody>
         </table>
     </div>

@@ -14,7 +14,6 @@ class Brand extends Model
     use SoftDeletes;
     use HasFactory;
     protected $table = 'brands';
-    protected $primaryKey = 'id';
     public $timestamps = true;
     protected $fillable = [
         'id',
