@@ -7,3 +7,7 @@
     display: block;
     color: #f00;
 }
+.thead-primary {
+    background-color: #2974c5; 
+    color: white;
+}
