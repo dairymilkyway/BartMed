@@ -15,7 +15,15 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+         $user = auth()->user();
+         $customer = $user->customer;
+         if (!$customer) {
+             return response()->json(['error' => 'Customer not found'], 404);
+         }
+         $cartItems = Cart::where('customer_id', $customer->id)
+                         ->with('product')
+                         ->get();
+         return response()->json(['data' => $cartItems], 200);
     }
 
     /**
@@ -31,9 +39,10 @@ class CartController extends Controller
      */
     public function store($productId, $quantity, Request $request)
     {
-        $request->validate([
-            'quantity' => 'required|integer|min:1',
-        ]);
+        // $request->validate([
+        //     'quantity' => 'required|integer|min:1',
+        // ]);
+
         $product = Product::findOrFail($productId);
         $userId = auth()->id();
         $customer = Customer::where('user_id', $userId)->first();
@@ -69,16 +78,27 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update($cartId, Request $request)
     {
-        //
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cart = Cart::findOrFail($cartId);
+        $cart->quantity = $request->quantity;
+        $cart->save();
+
+        return response()->json(['message' => 'Cart item quantity updated successfully'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($cartId)
     {
-        //
+        $cart = Cart::findOrFail($cartId);
+        $cart->delete();
+
+        return response()->json(['message' => 'Cart item deleted successfully'], 200);
     }
 }

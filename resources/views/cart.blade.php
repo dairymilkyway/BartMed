@@ -1,4 +1,4 @@
-@extends('layouts.headercus')
+{{-- @extends('layouts.headercus')
 @section('content')
 
 <section>
@@ -94,8 +94,30 @@
       </div>
     </div>
   </div>
-</section>
+</section> --}}
+@extends('layouts.headercus')
+@section('content')
 
+<section>
+  <div class="mx-auto max-w-screen-xl px-8 py-12 sm:px-12 sm:py-16 lg:px-16">
+    <div class="mx-auto max-w-6xl">
+      <header class="text-center">
+        <h1 class="text-2xl font-bold text-gray-900 sm:text-4xl">Your Cart</h1>
+      </header>
+
+      <div class="mt-8" id="cartItemsContainer">
+        <!-- Cart items will be dynamically added here -->
+      </div>
+
+      <div class="flex justify-end">
+        <button class="inline-block rounded bg-gray-400 px-5 py-3 text-sm text-white transition hover:bg-gray-500">
+          Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="{{ asset('js/cart.js') }}"></script>
+</section>
 <script>
   function incrementQuantity(inputId) {
     var input = document.getElementById(inputId);
