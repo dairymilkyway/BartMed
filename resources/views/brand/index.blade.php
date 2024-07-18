@@ -12,7 +12,7 @@
             </div>
             <div class="table-responsive">
                 <table id="brandtable" class="table table-hover">
-                    <thead class="thead-dark">
+                    <thead class="thead-primary">
                         <tr>
                             <th>Brand ID</th>
                             <th>Brand Name</th>
@@ -20,7 +20,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="brandbody">
+                    <tbody id="brandbody" class=" table-info">
                     </tbody>
                 </table>
             </div>
