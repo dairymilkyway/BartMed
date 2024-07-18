@@ -12,7 +12,7 @@
   </div>
     <div class="table-responsive">
         <table id="productable" class="table table-hover">
-            <thead class="thead-dark">
+            <thead class="thead-primary">
                 <tr>
                     <th>Product</th>
                     <th>Images</th>
@@ -25,7 +25,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="productbody">
+            <tbody id="productbody" class=" table-info">
             </tbody>
         </table>
     </div>
