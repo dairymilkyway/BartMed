@@ -8,6 +8,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SupplierTransactionController;
+use App\Http\Controllers\CartController;
 use App\Models\Product;
 
 /*
@@ -27,6 +28,7 @@ Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('suppliers', SupplierController::class);
 Route::apiResource('customers', CustomerController::class);
+Route::apiResource('carts', CartController::class);
 Route::apiResource('supplier-transactions', SupplierTransactionController::class);
 
 Route::get('/home', [ProductController::class, 'fetchProducts']);
@@ -53,6 +55,10 @@ Route::post('/supplier-transactions', [SupplierTransactionController::class, 'st
 Route::post('/register', [CustomerController::class, 'store']);
 Route::post('/login', [CustomerController::class, 'login']);
 Route::post('/logout', [CustomerController::class, 'logout']);
+
+
+Route::post('/add/{productId}/{quantity}', [CartController::class, 'store'])->middleware('auth');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

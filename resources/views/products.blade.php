@@ -44,6 +44,7 @@
                 <img id="productImage" class="w-full h-64 object-cover" src="" alt="Product Image">
                 <h3 class="text-lg font-medium text-gray-900 mt-4" id="productName"></h3>
                 <p class="mt-2 text-gray-600" id="productPrice"></p>
+                <p class="mt-2 text-gray-600">Product ID: <span id="productId"></span></p>
                 <div class="mt-4">
                     <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
                     <div class="flex items-center rounded border border-gray-200">
@@ -61,7 +62,7 @@
                         </button>
                     </div>
                 </div>
-                <button class="mt-4 block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105">
+                <button class="mt-4 block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105" onclick="addToCart()">
                     Add to Cart
                 </button>
             </div>
@@ -80,3 +81,4 @@
 </div>
 <!-- Link to your external JavaScript file -->
 <script src="{{ asset('js/products.js') }}"></script>
+<script src="{{ asset('js/cart.js') }}"></script>

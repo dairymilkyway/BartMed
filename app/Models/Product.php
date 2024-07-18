@@ -37,11 +37,11 @@ class Product extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
-
     public function carts()
     {
         return $this->hasMany(Cart::class);
     }
+
 
     public function customers()
     {
@@ -49,5 +49,6 @@ class Product extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
+
 
 }

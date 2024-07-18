@@ -21,7 +21,7 @@ $(document).ready(function() {
                 const productList = $('#productList');
                 response.data.forEach(product => {
                     productList.append(`
-                        <a href="#" class="group block overflow-hidden" onclick="openModal('${product.product_name}', '£${product.price.toFixed(2)} GBP', '${product.img_path}')">
+                        <a href="#" class="group block overflow-hidden" onclick="openModal(${product.id}, '${product.product_name}', '£${product.price.toFixed(2)} GBP', '${product.img_path}')">
                             <img
                                 src="${product.img_path}"
                                 alt="${product.product_name}"
@@ -59,6 +59,7 @@ $(document).ready(function() {
             }
         });
     }
+
 
     const searchInput = $('#searchInput');
     const suggestionBox = $('#suggestionBox');
@@ -131,12 +132,16 @@ $(document).ready(function() {
     $(window).on('scroll', onScroll);
 });
 
-function openModal(productName, productPrice, productImage) {
-  document.getElementById('productName').textContent = productName;
-  document.getElementById('productPrice').textContent = productPrice;
-  document.getElementById('productImage').src = productImage;
-  document.getElementById('productModal').classList.remove('hidden');
+function openModal(productId, productName, productPrice, productImage) {
+    $('#productName').text(productName);
+    $('#productPrice').text(productPrice);
+    $('#productImage').attr('src', productImage);
+    $('#productId').text(productId);
+    $('#productModal').data('product-id', productId);
+    $('#productModal').removeClass('hidden');
 }
+
+
 
 function closeModal() {
   document.getElementById('productModal').classList.add('hidden');
@@ -166,9 +171,35 @@ function updateCartCounter() {
 
 
 function addToCart() {
-    cartCount++;
-    updateCartCounter();
-    alert('Item added to cart!');
+    const productId = $('#productId').text().trim();
+    const quantity = $('#Quantity').val();
+
+    // Validate quantity (ensure it's a number and greater than 0)
+    if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
+        alert('Please enter a valid quantity.');
+        return;
+    }
+
+    $.ajax({
+        url: `/api/add/${productId}/${quantity}`,
+        type: 'POST',
+        beforeSend: function() {
+            $('#globalLoadingSpinner').removeClass('hidden');
+        },
+        success: function(response) {
+            $('#globalLoadingSpinner').addClass('hidden');
+
+            alert('Item added to cart successfully!');
+        },
+        error: function(err) {
+            $('#globalLoadingSpinner').addClass('hidden');
+            console.error('Error adding to cart:', err);
+            alert('Failed to add item to cart. Please try again later.');
+        }
+    });
+    closeModal(); // Close modal after successful addition
+    cartCount++; // Increment cart count locally
+    updateCartCounter(); // Update UI for cart count
 }
 
 

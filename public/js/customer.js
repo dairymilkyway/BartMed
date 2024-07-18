@@ -288,6 +288,7 @@ $(document).ready(function () {
                         type: 'POST',
                         headers: {
                             'Authorization': 'Bearer ' + token
+                        },
                         success: function(response) {
                             alert(response.message);
                             localStorage.removeItem('token');
