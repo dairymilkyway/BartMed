@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Brand;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use App\Models\Cart;
 class Product extends Model
 {
     use SoftDeletes;
@@ -34,6 +34,18 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class, 'carts')
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
