@@ -252,11 +252,12 @@ $(document).ready(function () {
                             contentType: false,
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
                             },
                             success: function(response) {
                                 alert('User logged in successfully!');
                                 localStorage.setItem('token', response.token); // Store the token in localStorage
-                                console.log('Stored token:', localStorage.getItem('token')); // Verify the token is stored
+                                // console.log('Stored token:', localStorage.getItem('token')); // Verify the token is stored
                                 window.location.href = response.redirect_url;
                             },
                             error: function(xhr) {
@@ -286,13 +287,10 @@ $(document).ready(function () {
                         url: '/api/logout',
                         type: 'POST',
                         headers: {
-                            'Authorization': 'Bearer ' + token // Assuming you store the token in localStorage
-                        },
+                            'Authorization': 'Bearer ' + token
                         success: function(response) {
                             alert(response.message);
-                            // Remove the token from localStorage
                             localStorage.removeItem('token');
-                            // Redirect to the login page or any other page
                             window.location.href = '/login';
                         },
                         error: function(xhr, status, error) {
