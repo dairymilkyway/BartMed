@@ -34,28 +34,41 @@ class ProductController extends Controller
     
     public function fetchProducts(Request $request)
     {
-        $search = $request->input('search');
-        $query = Product::query();
+        $searchQuery = $request->input('search', '');
+        $page = $request->input('page', 1);
+        $perPage = 10; // Number of items per page
     
-        if ($search) {
-            $query->where('product_name', 'like', '%' . $search . '%');
+        // Use Algolia Scout search
+        if ($searchQuery) {
+            $products = Product::search($searchQuery)->paginate($perPage, 'page', $page);
+        } else {
+            $products = Product::paginate($perPage, ['*'], 'page', $page);
         }
-    
-        $products = $query->paginate(10); // Adjust the number of products per page as needed
     
         return response()->json($products);
     }
-    public function fetchSuggestions(Request $request)
+    
+    public function searchSuggestions(Request $request)
     {
-        $searchQuery = $request->input('search');
-
-        // Query your database for suggestions based on $searchQuery
-        $suggestions = Product::where('product_name', 'like', "%$searchQuery%")
-                                ->limit(5) // Limit suggestions to 5 (adjust as needed)
-                                ->get(['product_name']);
-
-        return response()->json(['data' => $suggestions]);
+        $query = $request->input('query', '');
+    
+        if ($query) {
+            // Perform search using Algolia Scout
+            $products = Product::search($query)->get();
+            $suggestions = $products->map(function ($product) {
+                return [
+                    'id' => $product->id,              // Include the product ID
+                    'product_name' => $product->product_name,
+                    // Add more fields if needed
+                ];
+            });
+    
+            return response()->json($suggestions);
+        }
+    
+        return response()->json([]);
     }
+    
     /**
      * Show the form for creating a new resource.
      */
