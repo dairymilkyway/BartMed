@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Brand;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Cart;
+use Laravel\Scout\Searchable;
+
 class Product extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    use Searchable;
     protected $table = 'products';
     public $timestamps = true;
     protected $fillable = [
@@ -49,6 +52,11 @@ class Product extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
-
+    public function toSearchableArray()
+    {
+        return [
+            'product_name' => $this->product_name,
+        ];
+    }
 
 }
