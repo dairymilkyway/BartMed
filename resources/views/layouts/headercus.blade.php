@@ -27,13 +27,16 @@
                         </svg>
                     </a>
                     <div class="relative">
-    <input type="text" id="searchInput" placeholder="Search" class="rounded border-gray-300 pl-10 pr-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"/>
+    <input type="text" id="searchInput" placeholder="Search" class="rounded-lg border-gray-300 pl-10 pr-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"/>
     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-    <div id="suggestionBox" class="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded shadow-lg hidden"></div>
+    <div id="suggestionBox" class="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-lg hidden">
+    </div>
     <button id="clearSearch" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
         <i class="fa-solid fa-xmark-circle"></i>
     </button>
 </div>
+
+
 
 
 
