@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.5/dist/algoliasearch.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@1.4.1/dist/autocomplete.min.js"></script>
+
 <script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
     <title>@yield('title', 'Pharmacy')</title>
     @vite('resources/css/app.css')
@@ -29,12 +32,12 @@
                     <div class="relative">
     <input type="text" id="searchInput" placeholder="Search" class="rounded-lg border-gray-300 pl-10 pr-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"/>
     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-    <div id="suggestionBox" class="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-lg hidden">
-    </div>
+    <div id="suggestionBox" class="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-lg hidden"></div>
     <button id="clearSearch" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
-        <i class="fa-solid fa-xmark-circle"></i>
+      <i class="fa-solid fa-xmark-circle"></i>
     </button>
-</div>
+  </div>
+
 
 
 
@@ -97,5 +100,7 @@
     </main>
 
     {{-- <script src="{{ mix('js/customer.js') }}"></script> --}}
+    <script src="/js/searchproducts.js" type="module"></script>
+
 </body>
 </html>
