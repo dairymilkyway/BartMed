@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
+            $table->string('status')->default('pending');
             $table->timestamps();
 
             //foreign key

@@ -101,6 +101,6 @@
 
     {{-- <script src="{{ mix('js/customer.js') }}"></script> --}}
     <script src="/js/searchproducts.js" type="module"></script>
-
+    <script src="{{ asset('js/checkout.js') }}"></script>
 </body>
 </html>

@@ -104,6 +104,17 @@ class CartController extends Controller
         return response()->json(['message' => 'Cart item deleted successfully'], 200);
     }
 
+    public function updateStatus(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'status' => 'required|string'
+        ]);
+
+        $cartItems = Cart::whereIn('id', $validated['ids'])->update(['status' => $validated['status']]);
+
+        return response()->json(['success' => true]);
+    }
 
 
 

@@ -17,7 +17,6 @@ $(document).ready(function() {
             }
         });
     }
-
     function renderCartItems(cartItems) {
         $('#cartItemsContainer').empty();
 
@@ -25,6 +24,9 @@ $(document).ready(function() {
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <input type="checkbox" id="selectAll" class="form-checkbox"
+                </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
@@ -39,6 +41,9 @@ $(document).ready(function() {
         cartItems.forEach(function(item) {
             tableHtml += `
               <tr>
+                <td>
+                  <input type="checkbox" class="item-checkbox" data-cart-item-id="${item.id}">
+                </td>
                 <td>
                   <img src="${item.product.img_path}" alt="${item.product.product_name}" class="h-16 w-16 rounded object-cover">
                 </td>
@@ -75,6 +80,7 @@ $(document).ready(function() {
         tableHtml += `
             </tbody>
           </table>
+          <button id="checkoutButton" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Checkout</button>
         `;
 
         $('#cartItemsContainer').html(tableHtml);
@@ -99,6 +105,24 @@ $(document).ready(function() {
             var cartItemId = $(this).attr('data-cart-item-id');
             var newQuantity = $(this).val();
             updateQuantity(cartItemId, newQuantity);
+        });
+
+        $('#selectAll').change(function() {
+            var isChecked = $(this).is(':checked');
+            $('.item-checkbox').prop('checked', isChecked);
+        });
+
+        $('#checkoutButton').click(function() {
+            var selectedItems = [];
+            $('.item-checkbox:checked').each(function() {
+                selectedItems.push($(this).attr('data-cart-item-id'));
+            });
+
+            if (selectedItems.length > 0) {
+                updateCartStatus(selectedItems, 'selected');
+            } else {
+                alert('Please select at least one item.');
+            }
         });
     }
 
@@ -141,6 +165,23 @@ $(document).ready(function() {
             },
             error: function(err) {
                 console.error('Error updating quantity:', err);
+            }
+        });
+    }
+
+    function updateCartStatus(cartItemIds, status) {
+        $.ajax({
+            url: '/api/cart/update-status',
+            type: 'POST',
+            data: {
+                ids: cartItemIds,
+                status: status
+            },
+            success: function(response) {
+                window.location.href = '/checkout'; // Redirect to checkout page
+            },
+            error: function(err) {
+                console.error('Error updating cart status:', err);
             }
         });
     }

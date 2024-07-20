@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SupplierTransactionController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Models\Product;
 
 /*
@@ -66,10 +67,17 @@ Route::get('/fetchcart', [CartController::class, 'index']); // Example route to 
 // });
 Route::delete('/cart/{customerId}/{productId}', [CartController::class, 'destroy']);
 Route::post('/cart/update/{cartItemId}', [CartController::class, 'update']);
+Route::post('/cart/update-status', [CartController::class, 'updateStatus']);
 
 
 Route::get('/product/chartdata', [ProductController::class, 'PdataChart']);
 Route::get('/customer/chartdata', [CustomerController::class, 'customerChart']);
+
+
+Route::get('/cart-items', [CheckoutController::class, 'getCartItems']);
+Route::get('/user-email', [CheckoutController::class, 'getUserEmail']);
+Route::get('/user-name', [CheckoutController::class, 'getUserName']);
+Route::get('/get-address', [CheckoutController::class, 'getAddress']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
