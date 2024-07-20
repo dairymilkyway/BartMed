@@ -284,4 +284,30 @@ class CustomerController extends Controller
         ]);
     }
 
+    public function customerChart()
+    {
+        // Fetch customer registrations grouped by month
+    $registrations = Customer::selectRaw('MONTH(created_at) as month')
+    ->selectRaw('COUNT(*) as total_customers')
+    ->groupBy('month')
+    ->orderBy('month')
+    ->get();
+
+        // Prepare the months array and initialize the totals array with zeros
+    $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    $monthlyRegistrations = array_fill(0, 12, 0);
+
+    // Fill the totals array with the registration data
+    foreach ($registrations as $registration) {
+    $monthIndex = $registration->month - 1; // Convert month number to array index (0-11)
+    $monthlyRegistrations[$monthIndex] = $registration->total_customers;
+    }
+
+    // Return data as JSON
+    return response()->json([
+    'months' => $months,
+    'totals' => $monthlyRegistrations
+    ]);
+    }
+
 }

@@ -40,6 +40,7 @@ class Product extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
+    
     public function carts()
     {
         return $this->hasMany(Cart::class);

@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Storage;
 use Illuminate\Support\Facades\Log;
+use App\Models\Order;
 //import Excel
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -203,6 +204,15 @@ class ProductController extends Controller
         Excel::import(new ProductsImport, $request->file('importFile'));
 
         return response()->json(['success' => 'Brands imported successfully'], 200);
+    }
+
+    public function PdataChart()
+    {
+
+         $products = Product::withSum('orders as total_sold', 'order_product.quantity')->get();
+
+         return response()->json($products);
+        
     }
 
 }
