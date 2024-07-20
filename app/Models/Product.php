@@ -56,6 +56,7 @@ class Product extends Model
     {
         return [
             'product_name' => $this->product_name,
+            'img_path' => $this->img_path,
         ];
     }
 
