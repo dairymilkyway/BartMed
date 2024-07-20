@@ -32,7 +32,7 @@ Route::apiResource('carts', CartController::class);
 Route::apiResource('supplier-transactions', SupplierTransactionController::class);
 
 Route::get('/home', [ProductController::class, 'fetchProducts']);
-Route::get('/search', [ProductController::class, 'searchSuggestions']);
+Route::get('/search', [ProductController::class, 'search']);
 
 Route::post('/brands/excel',[BrandController::class, 'import'])->name('Bexcel');
 Route::post('/suppliers/excel',[SupplierController::class, 'import'])->name('Sexcel');
