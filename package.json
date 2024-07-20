@@ -13,6 +13,9 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "infinite-scroll": "^4.0.1"
+        "algoliasearch": "^4.24.0",
+        "infinite-scroll": "^4.0.1",
+        "instantsearch.css": "^8.3.0",
+        "instantsearch.js": "^4.73.2"
     }
 }
