@@ -66,6 +66,9 @@ Route::get('/fetchcart', [CartController::class, 'index']); // Example route to 
 // });
 Route::delete('/cart/{customerId}/{productId}', [CartController::class, 'destroy']);
 
+Route::get('/product/chartdata', [ProductController::class, 'PdataChart']);
+Route::get('/customer/chartdata', [CustomerController::class, 'customerChart']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
