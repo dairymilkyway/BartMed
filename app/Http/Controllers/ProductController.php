@@ -7,7 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Storage;
-
+use Illuminate\Support\Facades\Log;
 //import Excel
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -34,40 +34,41 @@ class ProductController extends Controller
     
     public function fetchProducts(Request $request)
     {
-        $searchQuery = $request->input('search', '');
         $page = $request->input('page', 1);
         $perPage = 10; // Number of items per page
     
-        // Use Algolia Scout search
-        if ($searchQuery) {
-            $products = Product::search($searchQuery)->paginate($perPage, 'page', $page);
-        } else {
-            $products = Product::paginate($perPage, ['*'], 'page', $page);
-        }
+        // Fetch products with pagination
+        $products = Product::paginate($perPage, ['*'], 'page', $page);
     
         return response()->json($products);
     }
     
-    public function searchSuggestions(Request $request)
+    public function search(Request $request)
     {
-        $query = $request->input('query', '');
+        $query = $request->input('query');
     
-        if ($query) {
-            // Perform search using Algolia Scout
-            $products = Product::search($query)->get();
-            $suggestions = $products->map(function ($product) {
-                return [
-                    'id' => $product->id,              // Include the product ID
-                    'product_name' => $product->product_name,
-                    // Add more fields if needed
-                ];
-            });
-    
-            return response()->json($suggestions);
+        // Check if query is empty
+        if (empty($query)) {
+            return response()->json(['hits' => [], 'total' => 0]);
         }
     
-        return response()->json([]);
+        // Search products using Algolia
+        $results = Product::search($query, function ($algolia, $query, $options) {
+            $options['hitsPerPage'] = 20; // You can adjust this value if needed
+            return $algolia->search($query, $options);
+        });
+    
+        // Format the results
+        $formattedResults = [
+            'hits' => $results->hits(),
+            'total' => $results->total(),
+            'page' => $results->page(),
+            'nbPages' => $results->nbPages()
+        ];
+    
+        return response()->json($formattedResults);
     }
+    
     
     /**
      * Show the form for creating a new resource.
