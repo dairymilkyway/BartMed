@@ -32,7 +32,7 @@ $(document).ready(function () {
                     var imagesHTML = '';
                     imgPaths.forEach(function (path) {
                         if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png')) {
-                            imagesHTML += `<img src="${path}" class="img-thumbnail" width="100" height="100" style="margin-right: 5px;">`;
+                            imagesHTML += `<img src="${path}" class="img-thumbnail" width="150" height="150" style="margin-right: 5px;">`;
                         }
                     });
                     return imagesHTML;
