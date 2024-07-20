@@ -64,5 +64,11 @@ Route::get('/SupplierTransaction', function () {
     return view('suppliertransaction.index');
 })->name('suppliertransaction.index');
 
+Route::get('/product/chart', function () {
+    return view('product.chart');
+})->name('product.chart');
 
+Route::get('/customer/chart', function () {
+    return view('customer.chart');
+})->name('customer.chart');
 //Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
