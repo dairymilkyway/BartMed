@@ -109,11 +109,11 @@
         <!-- Cart items will be dynamically added here -->
       </div>
 
-      <div class="flex justify-end">
+      {{-- <div class="flex justify-end">
         <button class="inline-block rounded bg-gray-400 px-5 py-3 text-sm text-white transition hover:bg-gray-500">
           Checkout
         </button>
-      </div>
+      </div> --}}
     </div>
   </div>
   <script src="{{ asset('js/cart.js') }}"></script>

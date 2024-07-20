@@ -65,6 +65,8 @@ Route::get('/fetchcart', [CartController::class, 'index']); // Example route to 
 //     Route::patch('/{cart}', [CartController::class, 'update'])->name('cart.update'); // Route to update a cart item
 // });
 Route::delete('/cart/{customerId}/{productId}', [CartController::class, 'destroy']);
+Route::post('/cart/update/{cartItemId}', [CartController::class, 'update']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

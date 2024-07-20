@@ -206,8 +206,8 @@ $(document).ready(function() {
                 `).join('');
                 suggestionBox.classList.remove('hidden');
 
-    
-                
+
+
             } catch (error) {
                 console.error('Error fetching search results:', error);
                 suggestionBox.innerHTML = '<li class="p-2 text-red-500">Error fetching results</li>';
@@ -264,13 +264,9 @@ function openModal(productId, productName, productPrice, productImage, productSt
     $('#productStocks').text(`Stocks: ${productStocks}`);
     $('#productCategory').text(`Category: ${productCategory}`);
     $('#Quantity').val(1); // Reset quantity to 1 when opening the modal
-    $('#productModal').data('product-id', productId);
+    $('#productId').text(productId);
     $('#productModal').removeClass('hidden');
 }
-
-
-
-
 
 
 function closeModal() {

@@ -78,17 +78,17 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($cartId, Request $request)
+    public function update(Request $request, $cartItemId)
     {
-        $request->validate([
-            'quantity' => 'required|integer|min:1',
-        ]);
+        $cartItem = Cart::find($cartItemId);
+        if ($cartItem) {
+            $cartItem->quantity = $request->quantity;
+            $cartItem->save();
 
-        $cart = Cart::findOrFail($cartId);
-        $cart->quantity = $request->quantity;
-        $cart->save();
-
-        return response()->json(['message' => 'Cart item quantity updated successfully'], 200);
+            return response()->json(['success' => true, 'quantity' => $cartItem->quantity]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Cart item not found'], 404);
+        }
     }
 
     /**
@@ -99,9 +99,12 @@ class CartController extends Controller
         $cart = Cart::where('customer_id', $customerId)
                 ->where('product_id', $productId)
                 ->firstOrFail();
-        
-    $cart->delete();
+        $cart->delete();
 
-    return response()->json(['message' => 'Cart item deleted successfully'], 200);
+        return response()->json(['message' => 'Cart item deleted successfully'], 200);
     }
+
+
+
+
 }

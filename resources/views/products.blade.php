@@ -46,6 +46,7 @@
     <p class="mt-2 text-gray-600" id="productPrice"></p>
     <p class="mt-2 text-gray-600" id="productStocks"></p>
     <p class="mt-2 text-gray-600" id="productCategory"></p>
+    <p class="mt-2 text-gray-600" id="productIdText">Product ID: <span id="productId"></span></p> <!-- Visible Product ID -->
     <div class="mt-4">
         <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
         <div class="flex items-center rounded border border-gray-200">
