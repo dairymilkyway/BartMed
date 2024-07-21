@@ -147,27 +147,29 @@ class BrandController extends Controller
 
 
     public function brandchart()
-    {
-        $brands = Brand::with(['products' => function($query) {
-            $query->withSum(['orders' => function($query) {
-                $query->select('order_product.quantity');
-            }], 'quantity');
-        }])->get();
-        
-        $data = $brands->map(function($brand) {
-            $totalSold = $brand->products->sum('orders_sum_quantity');
-            return [
-                'brand_name' => $brand->brand_name,
-                'total_sold' => $totalSold,
-                'products' => $brand->products->map(function($product) {
-                    return [
-                        'product_name' => $product->product_name,
-                        'total_sold' => $product->orders_sum_quantity
-                    ];
-                })
-            ];
-        });
+{
+    $brands = Brand::with(['products.orders' => function($query) {
+        $query->select('orders.id', 'order_product.quantity');
+    }])->get();
 
-        return response()->json($data);
-    }
+    $data = $brands->map(function($brand) {
+        $totalSold = $brand->products->reduce(function ($carry, $product) {
+            return $carry + $product->orders->sum('pivot.quantity');
+        }, 0);
+
+        return [
+            'brand_name' => $brand->brand_name,
+            'total_sold' => $totalSold,
+            'products' => $brand->products->map(function($product) {
+                return [
+                    'product_name' => $product->product_name,
+                    'total_sold' => $product->orders->sum('pivot.quantity')
+                ];
+            })
+        ];
+    });
+
+    return response()->json($data);
+}
+    
 }
