@@ -54,6 +54,7 @@ class Product extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
+    
     public function toSearchableArray()
     {
         return [
