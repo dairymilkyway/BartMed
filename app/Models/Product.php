@@ -56,7 +56,12 @@ class Product extends Model
     public function toSearchableArray()
     {
         return [
+            'id'=>$this->id,
             'product_name' => $this->product_name,
+            'description'=>$this->desicription,
+            'price'=>$this->price,
+            'stocks'=>$this->stocks,
+            'category'=>$this->category,
             'img_path' => $this->img_path,
         ];
     }
