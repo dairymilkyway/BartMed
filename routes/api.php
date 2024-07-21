@@ -79,6 +79,8 @@ Route::get('/user-email', [CheckoutController::class, 'getUserEmail']);
 Route::get('/user-name', [CheckoutController::class, 'getUserName']);
 Route::get('/get-address', [CheckoutController::class, 'getAddress']);
 Route::post('/order-store', [OrderController::class, 'store']);
+Route::get('/fetch-order', [OrderController::class, 'fetchOrder'])->middleware('auth');
+Route::post('/cancel-order', [OrderController::class, 'cancelOrder']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

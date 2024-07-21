@@ -1,4 +1,4 @@
-@include('layouts.headercus')
+{{-- @include('layouts.headercus')
 <section class="py-24 relative">
         <div class="w-full max-w-7xl mx-auto px-4 md:px-8">
             <h2 class="font-manrope font-extrabold text-3xl lead-10 text-black mb-9">Order History</h2>
@@ -32,10 +32,10 @@
                     <div class="flex items-center gap-3 max-md:mt-5">
                         <button
                             class="rounded-full px-7 py-3 bg-red-600 text-gray-900 border border-gray-300 font-semibold text-sm shadow-sm shadow-transparent transition-all duration-500 hover:shadow-red-200 hover:bg-red-50 hover:border-red-400">
-                        Cancel 
+                        Cancel
                         </button>
                         <button
-                            class="rounded-full px-7 py-3 bg-green-600 shadow-sm shadow-transparent text-white font-semibold text-sm transition-all duration-500 hover:shadow-green-400 hover:bg-green-700">    
+                            class="rounded-full px-7 py-3 bg-green-600 shadow-sm shadow-transparent text-white font-semibold text-sm transition-all duration-500 hover:shadow-green-400 hover:bg-green-700">
                             Delivered
                         </button>
 
@@ -85,4 +85,20 @@
             </div>
         </div>
     </section>
-                                            
+                                             --}}
+
+@include('layouts.headercus')
+
+
+<section class="py-24 relative">
+
+    <div class="w-full max-w-7xl mx-auto px-4 md:px-8">
+        <h2 class="font-manrope font-extrabold text-3xl lead-10 text-black mb-9">Order History</h2>
+
+        <div id="userOrderHistory">
+            <!-- Orders will be rendered here -->
+        </div>
+    </div>
+</section>
+<script src="{{ asset('js/order.js') }}"></script>
+

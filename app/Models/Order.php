@@ -11,7 +11,7 @@ use App\Models\Product;
 class Order extends Model
 {
     use HasFactory;
-    public $timestamps = true; 
+    public $timestamps = true;
     protected $fillable = [
         'customer_id',
         'order_status',
@@ -25,10 +25,11 @@ class Order extends Model
         return $this->belongsTo(Customer::class,'customer_id', 'id');
     }
 
-    public function products(): BelongsToMany
+    public function products()
     {
         return $this->belongsToMany(Product::class, 'order_product', 'order_id', 'product_id')
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
+
 }

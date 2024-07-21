@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Brand;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Cart;
+use App\Models\OrderProduct;
 use Laravel\Scout\Searchable;
 
 class Product extends Model
@@ -40,7 +41,7 @@ class Product extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
-    
+
     public function carts()
     {
         return $this->hasMany(Cart::class);
@@ -65,5 +66,7 @@ class Product extends Model
             'img_path' => $this->img_path,
         ];
     }
+  
+
 
 }

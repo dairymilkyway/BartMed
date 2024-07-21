@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
@@ -34,7 +35,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = Auth::id(); 
+        $userId = Auth::id();
         $customer = Customer::where('user_id', $userId)->first();
 
         if (!$customer) {
@@ -115,4 +116,37 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Status updated successfully']);
     }
+    public function fetchOrder()
+    {
+        $userId = Auth::id();
+        $orders = Order::where('customer_id', $userId)
+                        ->with(['products' => function($query) {
+                            $query->select('products.id', 'products.product_name', 'products.price', 'products.img_path', 'order_product.quantity');
+                        }])
+                        ->get()
+                        ->map(function($order) {
+                            $order->total_price = $order->products->sum(function($product) {
+                                return $product->price * $product->pivot->quantity;
+                            });
+                            return $order;
+                        });
+
+        return response()->json($orders);
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        $orderId = $request->input('order_id');
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return response()->json(['error' => 'Order not found.'], 404);
+        }
+
+        $order->order_status = 'cancelled';
+        $order->save();
+
+        return response()->json(['message' => 'Order cancelled successfully.']);
+    }
+
 }
