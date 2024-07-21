@@ -67,23 +67,17 @@ class CheckoutController extends Controller
     }
     public function getCartItems()
     {
-        // Get the currently authenticated user
         $user = auth()->user();
-
-        // Get the customer associated with the user
         $customer = Customer::where('user_id', $user->id)->first();
 
         if (!$customer) {
             return response()->json(['error' => 'Customer not found'], 404);
         }
 
-        // Get the selected cart items for the customer
-        $items = Cart::with('product') // Eager load the product relationship
+        $items = Cart::with('product')
                     ->where('customer_id', $customer->id)
-                    ->where('status', 'selected') // Filter by selected status
+                    ->where('status', 'selected')
                     ->get();
-
-        // Calculate the total cost
         $total = $items->sum(function($item) {
             return $item->quantity * $item->product->price;
         });
@@ -93,10 +87,10 @@ class CheckoutController extends Controller
 
 
 
-    // Get Email for the authenticated user
+
     public function getUserEmail()
     {
-        $user = Auth::user(); // Get the authenticated user
+        $user = Auth::user();
 
         return response()->json(['email' => $user->email]);
     }
@@ -104,9 +98,8 @@ class CheckoutController extends Controller
     // Get Name for the authenticated user
     public function getUserName()
     {
-        $userId = Auth::id(); // Get the authenticated user's ID
-        $customer = Customer::where('user_id', $userId)->first(); // Get the customer record
-
+        $userId = Auth::id();
+        $customer = Customer::where('user_id', $userId)->first();
         if (!$customer) {
             return response()->json(['name' => ''], 404);
         }
@@ -115,14 +108,13 @@ class CheckoutController extends Controller
     }
     public function getAddress()
     {
-        $userId = Auth::id(); // Get the authenticated user's ID
-        $customer = Customer::where('user_id', $userId)->first(); // Get the customer record
-
+        $userId = Auth::id();
+        $customer = Customer::where('user_id', $userId)->first();
         if (!$customer) {
-            return response()->json(['address' => ''], 404); // Return an empty address with a 404 status if no customer is found
+            return response()->json(['address' => ''], 404);
         }
 
-        return response()->json(['address' => $customer->address]); // Return the customer's address
+        return response()->json(['address' => $customer->address]); 
     }
 
 

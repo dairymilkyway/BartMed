@@ -1,10 +1,8 @@
 $(document).ready(function() {
-    // Assuming you have the customerId available
     var customerId = $('#customerId').val();
 
-    // Fetch Cart Items
     $.ajax({
-        url: `/api/cart-items`, // No need for customerId in URL if it's handled in controller
+        url: `/api/cart-items`,
         method: 'GET',
         success: function(response) {
             renderCartItems(response.items);
@@ -15,9 +13,9 @@ $(document).ready(function() {
         }
     });
 
-    // Fetch User Email
+
     $.ajax({
-        url: `/api/user-email`, // No need for customerId in URL if it's handled in controller
+        url: `/api/user-email`,
         method: 'GET',
         success: function(response) {
             $('#email').val(response.email);
@@ -27,9 +25,8 @@ $(document).ready(function() {
         }
     });
 
-    // Fetch User Name
     $.ajax({
-        url: `/api/user-name`, // No need for customerId in URL if it's handled in controller
+        url: `/api/user-name`,
         method: 'GET',
         success: function(response) {
             $('#card-holder').val(response.name);
@@ -47,7 +44,6 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                // Ensure response.address is a string
                 if (typeof response.address === 'string') {
                     $('#billing-address').val(response.address);
                 } else {
@@ -85,37 +81,29 @@ $(document).ready(function() {
         'express': 30
     };
 
-    // Function to update the shipping cost and total amount
+
     function updateTotal() {
-        // Get selected shipping method
         const selectedShipping = $('input[name="shipping"]:checked').val();
         const shippingCost = shippingCosts[selectedShipping] || 0;
 
-        // Get subtotal from element
         const subtotalText = $('#totalAmount').text();
         const subtotal = parseFloat(subtotalText.replace('$', '')) || 0;
 
-        // Calculate total
         const total = subtotal + shippingCost;
 
-        // Update the shipping and total amounts
         $('#shippingAmount').text(`$${shippingCost.toFixed(2)}`);
         $('#total').text(`$${total.toFixed(2)}`);
     }
 
-    // On shipping method change
     $('input[name="shipping"]').on('change', function() {
         updateTotal();
     });
 
-    // Initial call to set the total on page load
     updateTotal();
 
 
     $('#placeOrderButton').click(function(e) {
         e.preventDefault();
-
-        // Get the selected shipping method value
         var shippingMethod = $('input[name="shipping"]:checked').val();
 
         var products = [];
@@ -123,7 +111,7 @@ $(document).ready(function() {
             var quantity = $(this).find('.quantity').val();
             var product = {
                 id: $(this).data('product-id'),
-                quantity: quantity || 1 // Default to 1 if quantity is not specified
+                quantity: quantity || 1
             };
             products.push(product);
         });
@@ -132,7 +120,7 @@ $(document).ready(function() {
             courier: shippingMethod,
             payment_method: $('#payment-method').val(),
             products: products,
-            _token: $('meta[name="csrf-token"]').attr('content') // Get CSRF token from meta tag
+            _token: $('meta[name="csrf-token"]').attr('content')
         };
 
         $.ajax({
@@ -141,12 +129,12 @@ $(document).ready(function() {
             data: JSON.stringify(data),
             contentType: 'application/json',
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Get CSRF token from meta tag
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
                 if (response.success) {
                     alert(response.message);
-                    window.location.href = '/home';
+                    window.location.href = '/orders';
                     $('#cartItems').empty();
                     $('#totalAmount').text('$0.00');
                     $('#shippingFee').text('$0.00');

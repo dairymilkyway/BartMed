@@ -34,8 +34,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = Auth::id(); // Get the authenticated user's ID
-        $customer = Customer::where('user_id', $userId)->first(); // Get the customer record
+        $userId = Auth::id(); 
+        $customer = Customer::where('user_id', $userId)->first();
 
         if (!$customer) {
             return response()->json(['message' => 'Customer not found'], 404);
@@ -55,14 +55,12 @@ class OrderController extends Controller
             $orderProduct->quantity = $product['quantity'];
             $orderProduct->save();
 
-            // Update the product stock
             $productRecord = Product::find($product['id']);
             if ($productRecord) {
-                $productRecord->stocks -= $product['quantity']; // Reduce stock by the quantity ordered
+                $productRecord->stocks -= $product['quantity'];
                 $productRecord->save();
             }
 
-            // Delete the item from the cart
             Cart::where('customer_id', $customer->id)
                 ->where('product_id', $product['id'])
                 ->delete();
@@ -111,10 +109,10 @@ class OrderController extends Controller
 
     public function changeStatus(Request $request, $id)
     {
-    $order = Order::findOrFail($id);
-    $order->order_status = $request->input('status');
-    $order->save();
+        $order = Order::findOrFail($id);
+        $order->order_status = $request->input('status');
+        $order->save();
 
-    return response()->json(['message' => 'Status updated successfully']);
+        return response()->json(['message' => 'Status updated successfully']);
     }
 }

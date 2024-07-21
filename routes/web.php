@@ -75,4 +75,16 @@ Route::get('/customer/chart', function () {
 Route::get('/brand/chart', function () {
     return view('brand.chart');
 })->name('brand.chart');
+
+
+//middleware for admin
+Route::middleware(['auth', 'checkStatus:admin'])->group(function () {
+
+});
+
+//for customer
+Route::middleware(['auth', 'checkStatus:customer'])->group(function () {
+
+});
+
 //Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
