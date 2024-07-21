@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Storage;
@@ -142,5 +143,32 @@ class BrandController extends Controller
         Excel::import(new BrandsImport, $request->file('importFile'));
 
         return response()->json(['success' => 'Brands imported successfully'], 200);
+    }
+
+
+    public function brandchart()
+    {
+        $brands = Brand::with(['products' => function($query) {
+            $query->withSum(['orders' => function($query) {
+                $query->select('order_product.quantity');
+            }], 'quantity');
+        }])->get();
+        
+        $data = $brands->map(function($brand) {
+            $totalSold = $brand->products->sum('orders_sum_quantity');
+            return [
+                'brand_name' => $brand->brand_name,
+                'total_sold' => $totalSold,
+                'products' => $brand->products->map(function($product) {
+                    return [
+                        'product_name' => $product->product_name,
+                        'total_sold' => $product->orders_sum_quantity,
+                        'price' => $product->price,
+                    ];
+                })
+            ];
+        });
+
+        return response()->json($data);
     }
 }
