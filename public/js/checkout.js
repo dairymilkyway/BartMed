@@ -149,6 +149,41 @@ $(document).ready(function() {
     });
 
     $(document).ready(function() {
+        // Function to open the review modal
+        window.openReviewModal = function(orderId, productId) {
+            $('#orderId').val(orderId);
+            $('#productId').val(productId);
+            $('#reviewModal').removeClass('hidden');
+        };
+
+        // Close the review modal
+        $('#closeModal').on('click', function() {
+            $('#reviewModal').addClass('hidden');
+        });
+
+        // Handle review form submission
+        $('#reviewForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = $(this).serialize();
+
+            $.ajax({
+                url: '/api/add-review', // Your API endpoint
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    alert('Review added successfully!');
+                    $('#reviewModal').addClass('hidden');
+                    // Optionally reload the order history or update the page
+                },
+                error: function(xhr) {
+                    console.error('Failed to add review:', xhr.responseJSON.error);
+                    alert('Failed to add review.');
+                }
+            });
+        });
+
+        // Fetch orders
         $.ajax({
             url: '/api/fetch-order', // Endpoint for fetching orders
             method: 'GET',
@@ -160,7 +195,6 @@ $(document).ready(function() {
                 console.error('Failed to fetch orders:', xhr.responseJSON.error);
             }
         });
-
         function renderOrderHistory(orders) {
             if (!orders || !orders.length) {
                 $('#userOrderHistory').html('<p>No orders found.</p>');
@@ -190,6 +224,13 @@ $(document).ready(function() {
                                 <p class="font-semibold text-xl leading-8 text-black whitespace-nowrap">Quantity ${product.pivot.quantity}</p>
                             </div>
                         </div>
+                        ${order.order_status === 'delivered' ? `
+                        <div class="col-span-4 mt-4">
+                            <button class="rounded-full px-4 py-2 bg-blue-600 text-white font-semibold text-sm transition-all duration-500 hover:bg-blue-700"
+                                    onclick="openReviewModal(${order.id}, ${product.id})"
+                                    data-product-id="${product.id}">Add Review</button>
+                        </div>
+                        ` : ''}
                     </div>
                     `;
                 });
@@ -197,7 +238,6 @@ $(document).ready(function() {
                 var statusClass;
                 var statusText;
                 var cancelButtonHtml = '';
-                var deliveredButtonHtml = '';
 
                 switch (order.order_status) {
                     case 'delivered':
@@ -212,7 +252,6 @@ $(document).ready(function() {
                             Cancelled
                         </button>
                         `;
-                        deliveredButtonHtml = '';
                         break;
                     default:
                         statusClass = 'text-gray-500';
@@ -220,7 +259,6 @@ $(document).ready(function() {
                         cancelButtonHtml = `
                         <button class="rounded-full px-4 py-2 bg-red-600 text-white font-semibold text-sm transition-all duration-500 hover:bg-red-700" data-order-id="${order.id}" onclick="cancelOrder(${order.id})">Cancel</button>
                         `;
-
                         break;
                 }
 
@@ -253,6 +291,8 @@ $(document).ready(function() {
             $('#userOrderHistory').html(ordersHtml);
         }
 
+
+
         window.cancelOrder = function(orderId) {
             $.ajax({
                 url: '/api/cancel-order',
@@ -271,6 +311,10 @@ $(document).ready(function() {
             });
         };
     });
+
+
+
+
 
 
 });

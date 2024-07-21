@@ -66,7 +66,10 @@ class Product extends Model
             'img_path' => $this->img_path,
         ];
     }
-  
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 
 }

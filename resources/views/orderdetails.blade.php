@@ -89,9 +89,6 @@
 
 @include('layouts.headercus')
 
-
-<section class="py-24 relative">
-
     <div class="w-full max-w-7xl mx-auto px-4 md:px-8">
         <h2 class="font-manrope font-extrabold text-3xl lead-10 text-black mb-9">Order History</h2>
 
@@ -99,6 +96,89 @@
             <!-- Orders will be rendered here -->
         </div>
     </div>
+
 </section>
+
+<!-- Review Modal -->
+<!-- Review Modal -->
+<div id="reviewModal" class="hidden fixed inset-0 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Add Review</h3>
+        <form id="reviewForm">
+            <input type="hidden" id="orderId" name="order_id">
+            <input type="hidden" id="productId" name="product_id">
+            <div class="mb-4">
+                <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+                <select id="rating" name="rating" class="mt-1 block w-full">
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="review" class="block text-sm font-medium text-gray-700">Review</label>
+                <textarea id="review" name="review" rows="4" class="mt-1 block w-full"></textarea>
+            </div>
+            <div class="flex justify-end">
+                <button type="button" id="closeModal" class="mr-4 px-4 py-2 bg-gray-300 text-gray-700 rounded">Cancel</button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+    
+
+
+
 <script src="{{ asset('js/order.js') }}"></script>
 
+
+    /* Modal styling */
+    #reviewModal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+    }
+
+    #reviewModal .bg-white {
+        width: 33%;
+    }
+
+    /* Star Rating CSS */
+    .star-rating {
+        display: flex;
+        direction: row-reverse;
+        font-size: 2rem;
+        unicode-bidi: bidi-override;
+        direction: rtl;
+    }
+
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+
+    .star-rating label {
+        cursor: pointer;
+        color: gray;
+    }
+
+    .star-rating label:before {
+        content: "★";
+    }
+
+    .star-rating input[type="radio"]:checked ~ label {
+        color: gold;
+    }
+
+    .star-rating input[type="radio"]:checked ~ label:before {
+        content: "★";
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: gold;
+    }
+    </style>

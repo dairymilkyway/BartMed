@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Review;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\OrderProduct;
@@ -147,6 +148,33 @@ class OrderController extends Controller
         $order->save();
 
         return response()->json(['message' => 'Order cancelled successfully.']);
+    }
+    public function addReview(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'product_id' => 'required|exists:products,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string|max:1000',
+        ]);
+
+        // Get the authenticated user's customer ID
+        $user = auth()->user();
+        $customer = Customer::where('user_id', $user->id)->first();
+
+        if (!$customer) {
+            return response()->json(['error' => 'Customer record not found.'], 404);
+        }
+
+        // Create and save the review
+        $review = new Review();
+        $review->customer_id = $customer->id;
+        $review->product_id = $request->input('product_id');
+        $review->rating = $request->input('rating');
+        $review->review = $request->input('review');
+        $review->save();
+
+        return response()->json(['message' => 'Review added successfully!']);
     }
 
 }

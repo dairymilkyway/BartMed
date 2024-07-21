@@ -81,6 +81,8 @@ Route::get('/get-address', [CheckoutController::class, 'getAddress']);
 Route::post('/order-store', [OrderController::class, 'store']);
 Route::get('/fetch-order', [OrderController::class, 'fetchOrder'])->middleware('auth');
 Route::post('/cancel-order', [OrderController::class, 'cancelOrder']);
+Route::post('/add-review', [OrderController::class, 'addReview']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
