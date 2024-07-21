@@ -78,6 +78,7 @@ Route::get('/cart-items', [CheckoutController::class, 'getCartItems']);
 Route::get('/user-email', [CheckoutController::class, 'getUserEmail']);
 Route::get('/user-name', [CheckoutController::class, 'getUserName']);
 Route::get('/get-address', [CheckoutController::class, 'getAddress']);
+Route::post('/order-store', [OrderController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

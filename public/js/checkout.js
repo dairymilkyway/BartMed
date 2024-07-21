@@ -64,14 +64,16 @@ $(document).ready(function() {
         var itemsHtml = '';
         items.forEach(function(item) {
             itemsHtml += `
+            <div class="cart-item" data-product-id="${item.product.id}">
                 <div class="flex flex-col rounded-lg bg-white sm:flex-row">
                     <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="${item.product.img_path}" alt="" />
                     <div class="flex w-full flex-col px-4 py-4">
                         <span class="font-semibold">${item.product.product_name}</span>
-                        <span class="float-right text-gray-400">${item.product.size}</span>
+                        <span class="float-right text-gray-400">${item.product.id}</span>
                         <p class="text-lg font-bold">$${item.product.price}</p>
                         <p>Quantity: ${item.quantity}</p>
                     </div>
+                </div>
                 </div>
             `;
         });
@@ -108,4 +110,56 @@ $(document).ready(function() {
 
     // Initial call to set the total on page load
     updateTotal();
+
+
+    $('#placeOrderButton').click(function(e) {
+        e.preventDefault();
+
+        // Get the selected shipping method value
+        var shippingMethod = $('input[name="shipping"]:checked').val();
+
+        var products = [];
+        $('#cartItems .cart-item').each(function() {
+            var product = {
+                id: $(this).data('product-id'), // Retrieve the product ID
+                quantity: $(this).find('.quantity').val() || 1 // Default to 1 if quantity is not specified
+            };
+            products.push(product);
+        });
+
+        var data = {
+            courier: shippingMethod, // Use the shipping method value here
+            payment_method: $('#payment-method').val(),
+            products: products,
+            _token: $('meta[name="csrf-token"]').attr('content') // Get CSRF token from meta tag
+        };
+
+        $.ajax({
+            url: '/api/order-store',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Get CSRF token from meta tag
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message);
+                    window.location.href = '/home';
+                    $('#cartItems').empty();
+                    $('#totalAmount').text('$0.00');
+                    $('#shippingFee').text('$0.00');
+
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('An error occurred while placing the order.');
+            }
+        });
+    });
+
+
+
 });

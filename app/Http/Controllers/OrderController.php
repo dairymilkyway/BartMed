@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Cart;
 use App\Models\Order;
-use App\Model\Customer;
+use App\Models\Customer;
+use App\Models\OrderProduct;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class OrderController extends Controller
 {
     /**
@@ -29,7 +33,34 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::id(); // Get the authenticated user's ID
+        $customer = Customer::where('user_id', $userId)->first(); // Get the customer record
+
+        if (!$customer) {
+            return response()->json(['message' => 'Customer not found'], 404);
+        }
+
+        $order = new Order();
+        $order->customer_id = $customer->id;
+        $order->order_status = 'Pending';
+        $order->courier = $request->courier;
+        $order->payment_method = $request->payment_method;
+        $order->save();
+
+        foreach ($request->products as $product) {
+            $orderProduct = new OrderProduct();
+            $orderProduct->order_id = $order->id;
+            $orderProduct->product_id = $product['id'];
+            $orderProduct->quantity = $product['quantity'];
+            $orderProduct->save();
+
+            // Delete the item from the cart
+            Cart::where('customer_id', $customer->id)
+                ->where('product_id', $product['id'])
+                ->delete();
+        }
+
+        return response()->json(['message' => 'Order placed successfully', 'order_id' => $order->id], 201);
     }
 
     /**
