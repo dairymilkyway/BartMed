@@ -71,7 +71,7 @@ $(document).ready(function() {
                         <span class="font-semibold">${item.product.product_name}</span>
                         <span class="float-right text-gray-400">${item.product.id}</span>
                         <p class="text-lg font-bold">$${item.product.price}</p>
-                        <p>Quantity: ${item.quantity}</p>
+                         <p>Quantity: <input type="number" class="quantity" value="${item.quantity}" min="1" /></p>
                     </div>
                 </div>
                 </div>
@@ -120,15 +120,16 @@ $(document).ready(function() {
 
         var products = [];
         $('#cartItems .cart-item').each(function() {
+            var quantity = $(this).find('.quantity').val();
             var product = {
-                id: $(this).data('product-id'), // Retrieve the product ID
-                quantity: $(this).find('.quantity').val() || 1 // Default to 1 if quantity is not specified
+                id: $(this).data('product-id'),
+                quantity: quantity || 1 // Default to 1 if quantity is not specified
             };
             products.push(product);
         });
 
         var data = {
-            courier: shippingMethod, // Use the shipping method value here
+            courier: shippingMethod,
             payment_method: $('#payment-method').val(),
             products: products,
             _token: $('meta[name="csrf-token"]').attr('content') // Get CSRF token from meta tag
@@ -149,7 +150,6 @@ $(document).ready(function() {
                     $('#cartItems').empty();
                     $('#totalAmount').text('$0.00');
                     $('#shippingFee').text('$0.00');
-
                 } else {
                     alert(response.message);
                 }
@@ -159,6 +159,7 @@ $(document).ready(function() {
             }
         });
     });
+
 
 
 

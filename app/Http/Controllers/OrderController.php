@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Customer;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
@@ -54,6 +55,13 @@ class OrderController extends Controller
             $orderProduct->quantity = $product['quantity'];
             $orderProduct->save();
 
+            // Update the product stock
+            $productRecord = Product::find($product['id']);
+            if ($productRecord) {
+                $productRecord->stocks -= $product['quantity']; // Reduce stock by the quantity ordered
+                $productRecord->save();
+            }
+
             // Delete the item from the cart
             Cart::where('customer_id', $customer->id)
                 ->where('product_id', $product['id'])
@@ -62,6 +70,7 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Order placed successfully', 'order_id' => $order->id], 201);
     }
+
 
     /**
      * Display the specified resource.
