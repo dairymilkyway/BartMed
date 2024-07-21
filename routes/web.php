@@ -71,4 +71,8 @@ Route::get('/product/chart', function () {
 Route::get('/customer/chart', function () {
     return view('customer.chart');
 })->name('customer.chart');
+
+Route::get('/brand/chart', function () {
+    return view('brand.chart');
+})->name('brand.chart');
 //Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
