@@ -162,8 +162,7 @@ class BrandController extends Controller
                 'products' => $brand->products->map(function($product) {
                     return [
                         'product_name' => $product->product_name,
-                        'total_sold' => $product->orders_sum_quantity,
-                        'price' => $product->price,
+                        'total_sold' => $product->orders_sum_quantity
                     ];
                 })
             ];
