@@ -72,7 +72,7 @@ Route::post('/cart/update-status', [CartController::class, 'updateStatus']);
 
 Route::get('/product/chartdata', [ProductController::class, 'PdataChart']);
 Route::get('/customer/chartdata', [CustomerController::class, 'customerChart']);
-
+Route::get('/brand/chartdata', [BrandController::class, 'brandchart']);
 
 Route::get('/cart-items', [CheckoutController::class, 'getCartItems']);
 Route::get('/user-email', [CheckoutController::class, 'getUserEmail']);
