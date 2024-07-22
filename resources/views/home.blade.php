@@ -1,7 +1,8 @@
 @extends('layouts.master')
+@include('layouts.headercus')
 @section('content')
 
-@include('layouts.headercus')
+
 
  @include('products')
 

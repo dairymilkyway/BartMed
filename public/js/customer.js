@@ -219,6 +219,11 @@ $(document).ready(function () {
             //     });
             // }
             $(document).ready(function() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $('#loginForm').validate({
                     rules: {
                         email: {
@@ -299,7 +304,6 @@ $(document).ready(function () {
                         }
                     });
                 });
-
 
     // Handle Change Status button click
     $('#customerTable tbody').on('click', 'button.change-status-btn', function () {

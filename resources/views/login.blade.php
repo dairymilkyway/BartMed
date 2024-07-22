@@ -12,7 +12,7 @@
     </div>
 
     <form id="loginForm" class="mx-auto mb-0 mt-8 max-w-md space-y-4">
-        @csrf
+
       <div>
         <label for="email" class="sr-only">Email</label>
 

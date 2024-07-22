@@ -207,67 +207,82 @@ class CustomerController extends Controller
     return response()->json(['message' => 'Role updated successfully']);
     }
     public function login(Request $request)
-{
-    try {
-        $validateUser = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+    {
+        try {
+            $validateUser = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'password' => 'required'
+            ]);
 
-        if ($validateUser->fails()) {
+            if ($validateUser->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+
+            if (!Auth::attempt($request->only(['email', 'password']))) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Email & Password do not match our records.',
+                ], 401);
+            }
+
+            $user = User::where('email', $request->email)->first();
+
+            if ($user->status !== 'active') {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Account is deactivated. Please contact support.',
+                ], 401);
+            }
+            $request->session()->regenerate();
+            $redirectUrl = $user->role === 'customer' ? '/home' : '/brand';
+            return response()->json([
+                'status' => true,
+                'message' => 'User Logged In Successfully',
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'redirect_url' => $redirectUrl,
+
+            ], 200);
+
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validation error',
-                'errors' => $validateUser->errors()
-            ], 401);
+                'message' => $th->getMessage()
+            ], 500);
         }
-
-        if (!Auth::attempt($request->only(['email', 'password']))) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Email & Password do not match our records.',
-            ], 401);
-        }
-
-        $user = User::where('email', $request->email)->first();
-
-        if ($user->status !== 'active') {
-            return response()->json([
-                'status' => false,
-                'message' => 'Account is deactivated. Please contact support.',
-            ], 401);
-        }
-        $request->session()->regenerate();
-        $redirectUrl = $user->role === 'customer' ? '/home' : '/brand';
-        return response()->json([
-            'status' => true,
-            'message' => 'User Logged In Successfully',
-            'token' => $user->createToken("API TOKEN")->plainTextToken,
-            'redirect_url' => $redirectUrl,
-
-        ], 200);
-
-    } catch (\Throwable $th) {
-        return response()->json([
-            'status' => false,
-            'message' => $th->getMessage()
-        ], 500);
     }
-}
-
-
 
     public function logout(Request $request)
     {
-        Log::info('Logout method called');
         $user = $request->user();
-        if ($user && $user->currentAccessToken()) {
-            $user->currentAccessToken()->delete();
-            return response()->json(['message' => 'Logged out successfully'], 200);
+
+        if ($user) {
+            $user->tokens()->delete();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Logged out successfully'
+                ], 200);
+            } else {
+                return redirect('/');
+            }
         } else {
-            return response()->json(['message' => 'No access token found'], 400);
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'No access token found'
+                ], 400);
+            } else {
+                return redirect('/');
+            }
         }
     }
+
+
     public function fetchUserData()
     {
         $user = Auth::user();

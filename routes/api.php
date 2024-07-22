@@ -56,7 +56,9 @@ Route::post('/supplier-transactions', [SupplierTransactionController::class, 'st
 */
 Route::post('/register', [CustomerController::class, 'store']);
 Route::post('/login', [CustomerController::class, 'login']);
-Route::post('/logout', [CustomerController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [CustomerController::class, 'logout']);
+});
 
 
 Route::post('/add/{productId}/{quantity}', [CartController::class, 'store'])->middleware('auth');
