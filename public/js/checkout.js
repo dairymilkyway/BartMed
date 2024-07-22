@@ -134,7 +134,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     alert(response.message);
-                    window.location.href = '/orders';
+                    window.location.href = '/home';
                     $('#cartItems').empty();
                     $('#totalAmount').text('$0.00');
                     $('#shippingFee').text('$0.00');
@@ -225,10 +225,12 @@ $(document).ready(function() {
                             </div>
                         </div>
                         ${order.order_status === 'delivered' ? `
-                        <div class="col-span-4 mt-4">
+                        <div class="col-span-4 mt-4 flex gap-2">
                             <button class="rounded-full px-4 py-2 bg-blue-600 text-white font-semibold text-sm transition-all duration-500 hover:bg-blue-700"
                                     onclick="openReviewModal(${order.id}, ${product.id})"
                                     data-product-id="${product.id}">Add Review</button>
+                            <button class="rounded-full px-4 py-2 bg-green-600 text-white font-semibold text-sm transition-all duration-500 hover:bg-green-700"
+                                    onclick="viewReviews(${product.id})">View Reviews</button>
                         </div>
                         ` : ''}
                     </div>
@@ -312,6 +314,38 @@ $(document).ready(function() {
         };
     });
 
+    window.viewReviews = function(productId) {
+        $.ajax({
+            url: `/api/reviews/${productId}`,
+            method: 'GET',
+            success: function(response) {
+                if (response && response.reviews && response.reviews.length) {
+                    var reviewsHtml = '';
+                    response.reviews.forEach(function(review) {
+                        reviewsHtml += `
+                        <div class="mb-4">
+                            <p><strong>Rating:</strong> ${'⭐'.repeat(review.rating)}</p>
+                            <p><strong>Review:</strong> ${review.review}</p>
+                            <hr>
+                        </div>
+                        `;
+                    });
+                    $('#reviewsContainer').html(reviewsHtml);
+                } else {
+                    $('#reviewsContainer').html('<p>No reviews found for this product.</p>');
+                }
+                $('#reviewsModal').removeClass('hidden');
+            },
+            error: function(xhr) {
+                console.error('Failed to fetch reviews:', xhr.responseJSON.error);
+                alert('Failed to fetch the reviews.');
+            }
+        });
+    };
+
+    $('#closeReviewsModal').click(function() {
+        $('#reviewsModal').addClass('hidden');
+    });
 
 
 

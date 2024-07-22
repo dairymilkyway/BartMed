@@ -128,57 +128,21 @@
         </form>
     </div>
 </div>
-    
+<!-- View Reviews Modal -->
+<div id="reviewsModal" class="hidden fixed inset-0 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Product Reviews</h3>
+        <div id="reviewsContainer" class="mb-4">
+            <!-- Reviews will be dynamically inserted here -->
+        </div>
+        <div class="flex justify-end">
+            <button type="button" id="closeReviewsModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Close</button>
+        </div>
+    </div>
+</div>
+
 
 
 
 <script src="{{ asset('js/order.js') }}"></script>
 
-
-    /* Modal styling */
-    #reviewModal {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 50;
-    }
-
-    #reviewModal .bg-white {
-        width: 33%;
-    }
-
-    /* Star Rating CSS */
-    .star-rating {
-        display: flex;
-        direction: row-reverse;
-        font-size: 2rem;
-        unicode-bidi: bidi-override;
-        direction: rtl;
-    }
-
-    .star-rating input[type="radio"] {
-        display: none;
-    }
-
-    .star-rating label {
-        cursor: pointer;
-        color: gray;
-    }
-
-    .star-rating label:before {
-        content: "★";
-    }
-
-    .star-rating input[type="radio"]:checked ~ label {
-        color: gold;
-    }
-
-    .star-rating input[type="radio"]:checked ~ label:before {
-        content: "★";
-    }
-
-    .star-rating label:hover,
-    .star-rating label:hover ~ label {
-        color: gold;
-    }
-    </style>

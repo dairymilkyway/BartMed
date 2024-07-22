@@ -176,5 +176,11 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Review added successfully!']);
     }
+    public function getReviews($productId)
+    {
+        $reviews = Review::where('product_id', $productId)->get();
+
+        return response()->json(['reviews' => $reviews]);
+    }
 
 }
