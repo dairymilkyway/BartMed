@@ -17,9 +17,6 @@ Route::get('/register', function () {
     return view('register');
 });
 Route::middleware('web')->group(function () {
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home')->middleware('auth');
 
 });
 
@@ -39,9 +36,6 @@ Route::get('/orders', function () {
     return view('orderdetails');
 })->name('order');
 
-Route::get('/brand', function () {
-    return view('brand.index');
-})->name('brand.index');
 
 
 Route::get('/product', function () {
@@ -78,13 +72,18 @@ Route::get('/brand/chart', function () {
 
 
 //middleware for admin
-Route::middleware(['auth', 'checkStatus:admin'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
 
+
+    Route::get('/brand', function () {
+        return view('brand.index');
+    })->name('brand.index');
 });
-
 //for customer
-Route::middleware(['auth', 'checkStatus:customer'])->group(function () {
-
+Route::middleware(['auth', 'customer'])->group(function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home')->middleware('auth');
 });
 
 //Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');

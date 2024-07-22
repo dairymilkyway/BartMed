@@ -97,6 +97,7 @@
     </header>
 
     <main>
+
         @yield('content')
     </main>
 
