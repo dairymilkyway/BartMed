@@ -28,7 +28,13 @@ $(document).ready(function () {
             { data: 'courier', title: 'Courier' },
             { data: 'payment_method', title: 'Payment Method' },
             { data: 'order_status', title: 'Status' },
-            { data: 'created_at', title: 'Date Ordered' },
+            {
+                data: 'created_at',
+                title: 'Date Ordered',
+                render: function (data, type, row) {
+                    return moment(data).format('YYYY-MM-DD HH:mm:ss');
+                }
+            },
             {
                 data: null,
                 title: 'Change Status',
