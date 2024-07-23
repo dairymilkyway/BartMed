@@ -36,6 +36,9 @@ Route::get('/orders', function () {
     return view('orderdetails');
 })->name('order');
 
+Route::get('/brands', function () {
+    return view('brand');
+})->name('brand');
 
 
 Route::get('/product', function () {
