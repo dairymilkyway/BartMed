@@ -10,7 +10,7 @@
         <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Browse Brands</h2>
         <p class="mt-4 max-w-md text-gray-500">
             <strong>
-                Our prescription medications include the latest treatments for various conditions, from antibiotics and pain relievers to specialized chronic condition meds. Trust our products for their high quality and effectiveness.
+            Explore top pharmacy brands offering quality medications and health products. From trusted over-the-counter remedies to prescription essentials, find reliable solutions for your wellness needs. Browse our curated selection of brands known for their efficacy and safety.
             </strong>
         </p>
     </header>
