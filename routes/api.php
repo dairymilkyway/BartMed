@@ -34,7 +34,7 @@ Route::apiResource('supplier-transactions', SupplierTransactionController::class
 
 Route::get('/home', [ProductController::class, 'fetchProducts']);
 Route::get('/search', [ProductController::class, 'search']);
-
+Route::get('/brand-fetch', [BrandController::class, 'fetchBrands']);
 Route::post('/brands/excel',[BrandController::class, 'import'])->name('Bexcel');
 Route::post('/suppliers/excel',[SupplierController::class, 'import'])->name('Sexcel');
 Route::post('/products/excel',[ProductController::class, 'import'])->name('Pexcel');
