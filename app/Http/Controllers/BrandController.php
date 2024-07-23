@@ -54,7 +54,17 @@ class BrandController extends Controller
 
         return response()->json(["success" => "Brand created successfully.", "brand" => $brand, "status" => 200]);
     }
-
+    public function fetchBrands(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = 20; // Number of items per page
+    
+        // Fetch brands with pagination
+        $brands = Brand::paginate($perPage, ['*'], 'page', $page);
+    
+        return response()->json($brands);
+    }
+    
     /**
      * Display the specified resource.
      */
