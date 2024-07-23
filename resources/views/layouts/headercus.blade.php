@@ -55,6 +55,7 @@
     <ul class="flex items-center gap-6 text-sm">
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('home')}}"><i class="fa-solid fa-house"></i> Home</a></li>
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('home')}}"><i class="fa-solid fa-bandage"></i> Products</a></li>
+      <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('brand')}}"><i class="fa-solid fa-bandage"></i> Brands</a></li>
       <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('order')}}"><i class="fa-solid fa-book"></i> My Orders</a></li>
       <li>
   <a class="text-gray-500 transition hover:text-gray-500/75 relative flex items-center" href="{{route('cart')}}">
