@@ -182,5 +182,10 @@ class OrderController extends Controller
 
         return response()->json(['reviews' => $reviews]);
     }
+    public function fetchReviews($productId)
+    {
+        $reviews = Review::where('product_id', $productId)->get();
 
+        return response()->json(['reviews' => $reviews]);
+    }
 }
