@@ -111,7 +111,11 @@ $(document).ready(function() {
 });
 
 
+
+let isReviewsModalOpen = false;
+
 function openModal(productId, productName, productPrice, productImage, productStocks, productCategory) {
+    closeReviewsModal();
     $('#productName').text(productName);
     $('#productPrice').html(productPrice); // Ensure the formatted price is set
     $('#productImage').attr('src', productImage);
@@ -122,10 +126,75 @@ function openModal(productId, productName, productPrice, productImage, productSt
     $('#productModal').removeClass('hidden');
 }
 
+// function closeModal() {
+//     $('#productModal').addClass('hidden');
+//     closeReviewsModal();
+// }
+
+function closeReviewsModal() {
+    $('#reviewsPlaceholder').empty(); // Clear the reviews content
+    $('#reviewsModal').addClass('hidden'); // Hide the reviews modal
+    isReviewsModalOpen = false;
+    $('#viewReviewsButton').text('View Reviews');
+}
+
+function fetchProductReviews() {
+    const productId = $('#productId').text().trim();
+
+    if (!productId) {
+        alert('Product ID is not defined.');
+        return;
+    }
+
+    if (isReviewsModalOpen) {
+        closeReviewsModal();
+        return;
+    }
+
+    $('#loadingSpinner').removeClass('hidden'); // Show loading spinner
+
+    $.ajax({
+        url: `/api/home-reviews/${productId}`,
+        method: 'GET',
+        success: function(response) {
+            $('#loadingSpinner').addClass('hidden'); // Hide loading spinner
+            clearReviews(); // Clear any existing reviews before displaying new ones
+            if (response && response.reviews && response.reviews.length) {
+                let reviewsHtml = '';
+                response.reviews.forEach(function(review) {
+                    reviewsHtml += `
+                    <div class="mb-4">
+                        <p><strong>Rating:</strong> ${'⭐'.repeat(review.rating)}</p>
+                        <p><strong>Review:</strong> ${review.review}</p>
+                        <hr>
+                    </div>
+                    `;
+                });
+                $('#reviewsPlaceholder').html(reviewsHtml);
+            } else {
+                $('#reviewsPlaceholder').html('<p>No reviews found for this product.</p>');
+            }
+            $('#reviewsModal').removeClass('hidden');
+            isReviewsModalOpen = true; // Update the state
+            $('#viewReviewsButton').text('Close Reviews'); // Update button text
+        },
+        error: function(xhr) {
+            $('#loadingSpinner').addClass('hidden'); // Hide loading spinner
+            console.error('Failed to fetch reviews:', xhr.responseJSON.error);
+            alert('Failed to fetch the reviews.');
+        }
+    });
+}
+
+function clearReviews() {
+    $('#reviewsPlaceholder').empty(); // Clear reviews content
+}
 
 function closeModal() {
   document.getElementById('productModal').classList.add('hidden');
+  clearReviews();
 }
+
 
 function decreaseQuantity() {
   let quantity = document.getElementById('Quantity').value;

@@ -85,7 +85,7 @@ Route::get('/fetch-order', [OrderController::class, 'fetchOrder'])->middleware('
 Route::post('/cancel-order', [OrderController::class, 'cancelOrder']);
 Route::post('/add-review', [OrderController::class, 'addReview']);
 Route::get('/reviews/{product}', [OrderController::class, 'getReviews']);
-
+Route::get('/home-reviews/{product}', [OrderController::class, 'fetchReviews']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
