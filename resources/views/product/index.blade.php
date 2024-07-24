@@ -4,7 +4,7 @@
         <!-- Sidenav -->
             @include('layouts.sidenav')
         <!-- Main Content -->
-        <div class="col-md-10">
+        <div class="col-md-9">
 <div id="products" class="container pt-7">
   <div class="mb-4">
     <button id="addProductBtn" class="btn btn-info">Add Product</button>
