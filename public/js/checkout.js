@@ -58,23 +58,29 @@ $(document).ready(function() {
 
     function renderCartItems(items) {
         var itemsHtml = '';
+
         items.forEach(function(item) {
+            // Split the img_path and take the first image
+            var firstImage = item.product.img_path.split(',')[0];
+
             itemsHtml += `
             <div class="cart-item" data-product-id="${item.product.id}">
                 <div class="flex flex-col rounded-lg bg-white sm:flex-row">
-                    <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="${item.product.img_path}" alt="" />
+                    <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="${firstImage}" alt="" />
                     <div class="flex w-full flex-col px-4 py-4">
                         <span class="font-semibold">${item.product.product_name}</span>
                         <span class="float-right text-gray-400">${item.product.id}</span>
                         <p class="text-lg font-bold">$${item.product.price}</p>
-                         <p>Quantity: <input type="number" class="quantity" value="${item.quantity}" min="1" /></p>
+                        <p>Quantity: <input type="number" class="quantity" value="${item.quantity}" min="1" /></p>
                     </div>
                 </div>
-                </div>
+            </div>
             `;
         });
+
         $('#cartItems').html(itemsHtml);
     }
+
 
     const shippingCosts = {
         'standard': 15,
@@ -210,10 +216,11 @@ $(document).ready(function() {
 
                 var productsHtml = '';
                 order.products.forEach(function(product) {
+                    var imgPath = product.img_path.split(',')[0];
                     productsHtml += `
                     <div class="grid grid-cols-4 w-full mb-4">
                         <div class="col-span-4 sm:col-span-1">
-                            <img src="${product.img_path}" alt="${product.product_name}" class="max-sm:mx-auto">
+                            <img src="${imgPath}" alt="${product.product_name}" class="max-sm:mx-auto">
                         </div>
                         <div class="col-span-4 sm:col-span-3 flex flex-col justify-center max-sm:items-center">
                             <h6 class="font-manrope font-semibold text-2xl leading-9 text-black mb-3 whitespace-nowrap">
