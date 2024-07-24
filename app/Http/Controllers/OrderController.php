@@ -129,6 +129,7 @@ class OrderController extends Controller
                             $order->total_price = $order->products->sum(function($product) {
                                 return $product->price * $product->pivot->quantity;
                             });
+
                             return $order;
                         });
 

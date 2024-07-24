@@ -59,7 +59,9 @@ Route::post('/login', [CustomerController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [CustomerController::class, 'logout']);
 });
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logoutAdmin', [CustomerController::class, 'logoutAdmin']);
+});
 
 Route::post('/add/{productId}/{quantity}', [CartController::class, 'store'])->middleware('auth');
 Route::get('/fetchcart', [CartController::class, 'index']); // Example route to fetch cart items
