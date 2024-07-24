@@ -20,6 +20,7 @@
 </div>
 
 <!-- Modal Structure -->
+<!-- Add this to your existing modal structure -->
 <div id="productModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
     <div class="fixed inset-0 w-full h-full bg-black opacity-50" onclick="closeModal()"></div>
     <div class="flex items-center min-h-screen px-4 py-8">
@@ -31,7 +32,18 @@
                     </svg>
                 </button>
             </div>
-            <div id="modalContent" class="mt-4">
+            <div id="modalContent" class="mt-4 flex flex-col items-center relative">
+                <!-- Image Navigation Buttons -->
+                <button id="prevImage" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-700 z-10" onclick="showPreviousImage()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="nextImage" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-700 z-10" onclick="showNextImage()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
                 <img id="productImage" class="w-full h-64 object-cover" src="" alt="Product Image">
                 <h3 class="text-lg font-medium text-gray-900 mt-4" id="productName"></h3>
                 <p class="mt-2 text-gray-600" id="productPrice"></p>
