@@ -281,6 +281,32 @@ class CustomerController extends Controller
             }
         }
     }
+    public function logoutAdmin(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user) {
+            $user->tokens()->delete();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Logged out successfully'
+                ], 200);
+            } else {
+                return redirect('/');
+            }
+        } else {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'No access token found'
+                ], 400);
+            } else {
+                return redirect('/');
+            }
+        }
+    }
 
 
     public function fetchUserData()

@@ -300,7 +300,29 @@ $(document).ready(function () {
                             window.location.href = '/login';
                         },
                         error: function(xhr, status, error) {
-                            alert('Logout failed: ' + xhr.responseText);
+                            // alert('Logout failed: ' + xhr.responseText);
+                        }
+                    });
+                });
+
+                $('#logoutButton').on('click', function(e) {
+                    e.preventDefault(); // Prevent default action of the link
+                    console.log('Logout button clicked'); // Debugging statement
+                    var token = localStorage.getItem('token');
+                    console.log('Token:', token); // Debugging statement
+                    $.ajax({
+                        url: '/api/logoutAdmin',
+                        type: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        success: function(response) {
+                            alert(response.message);
+                            localStorage.removeItem('token');
+                            window.location.href = '/login';
+                        },
+                        error: function(xhr, status, error) {
+                            // alert('Logout failed: ' + xhr.responseText);
                         }
                     });
                 });

@@ -49,7 +49,7 @@
       Order
     </a>
   </li>
-  
+
   <li>
     <a
       href="{{route('suppliertransaction.index')}}"
@@ -105,7 +105,7 @@
             href="{{route('brand.chart')}}"
             class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
           >
-            
+
           Brand Solds
           </a>
         </li>
@@ -121,11 +121,13 @@
     <div class="p-4 hover:bg-gray-50">
       <form action="#">
         <button
-          type="submit"
-          class="w-full flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-          <i class="fas fa-sign-out-alt"></i>
-          Logout
-        </button>
+        id="logoutButton"
+        type="submit"
+        class="w-full flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+
       </form>
     </div>
 
