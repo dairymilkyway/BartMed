@@ -132,7 +132,7 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                if (response.success) {
+                if (response.order_id) {
                     alert(response.message);
                     window.location.href = '/home';
                     $('#cartItems').empty();
