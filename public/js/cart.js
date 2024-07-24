@@ -17,6 +17,8 @@ $(document).ready(function() {
             }
         });
     }
+
+    
     function renderCartItems(cartItems) {
       $('#cartItemsContainer').empty();
 
@@ -36,6 +38,8 @@ $(document).ready(function() {
       `;
 
       cartItems.forEach(function(item) {
+        const imagePaths = item.product.img_path.split(',');
+    const firstImagePath = imagePaths[0];
           tableHtml += `
             <li class="flex items-center gap-4 p-4 bg-white shadow-lg rounded-lg">
               <input
@@ -45,7 +49,7 @@ $(document).ready(function() {
               />
 
               <img
-                src="${item.product.img_path}"
+                src="${firstImagePath}"
                 alt="${item.product.product_name}"
                 class="h-16 w-16 rounded-lg object-cover"
               />
