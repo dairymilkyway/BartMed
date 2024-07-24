@@ -5,7 +5,7 @@
     @include('layouts.sidenav')
 
     <!-- Main Content -->
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div id="customers" class="container pt-7">
             <div class="table-responsive">
                 <table id="customerTable" class="table table-striped table-hover">
