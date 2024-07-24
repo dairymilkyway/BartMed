@@ -4,7 +4,7 @@
     <!-- Sidenav -->
     @include('layouts.sidenav')
     <!-- Main Content -->
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div class="container pt-7">
             <h2 class="text-4xl pb-5 text-center">Customer Registered Per Month</h2>
             <canvas id="customerChart"></canvas>
