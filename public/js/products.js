@@ -24,10 +24,13 @@ $(document).ready(function() {
 
                 if (response.data && response.data.length) {
                     response.data.forEach(product => {
+                        // Get the first image path
+                        const firstImagePath = product.img_path.split(',')[0];
+
                         const apiProductHtml = `
                             <a href="#" class="group block overflow-hidden" onclick="openModal(${product.id}, '${product.product_name}', '₱${product.price.toFixed(2)}', '${product.img_path}', ${product.stocks}, '${product.category}')">
                                 <img
-                                    src="${product.img_path}"
+                                    src="${firstImagePath}"
                                     alt="${product.product_name}"
                                     class="h-[250px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[300px]"
                                 />
@@ -113,23 +116,57 @@ $(document).ready(function() {
 
 
 let isReviewsModalOpen = false;
+let currentImageIndex = 0;
+let imagePaths = [];
 
+// Function to open modal and initialize image paths
 function openModal(productId, productName, productPrice, productImage, productStocks, productCategory) {
     closeReviewsModal();
     $('#productName').text(productName);
     $('#productPrice').html(productPrice); // Ensure the formatted price is set
-    $('#productImage').attr('src', productImage);
     $('#productStocks').text(`Stocks: ${productStocks}`);
     $('#productCategory').text(`Category: ${productCategory}`);
     $('#Quantity').val(1); // Reset quantity to 1 when opening the modal
     $('#productId').text(productId);
+
+    // Prepare image paths
+    imagePaths = productImage.split(',');
+    currentImageIndex = 0;
+
+    // Show the first image
+    $('#productImage').attr('src', imagePaths[currentImageIndex]);
+
+    // Toggle buttons visibility
+    toggleNavigationButtons();
+
     $('#productModal').removeClass('hidden');
 }
 
-// function closeModal() {
-//     $('#productModal').addClass('hidden');
-//     closeReviewsModal();
-// }
+// Function to show the previous image
+function showPreviousImage() {
+    if (imagePaths.length > 1) {
+        currentImageIndex = (currentImageIndex - 1 + imagePaths.length) % imagePaths.length;
+        $('#productImage').attr('src', imagePaths[currentImageIndex]);
+        toggleNavigationButtons();
+    }
+}
+
+// Function to show the next image
+function showNextImage() {
+    if (imagePaths.length > 1) {
+        currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
+        $('#productImage').attr('src', imagePaths[currentImageIndex]);
+        toggleNavigationButtons();
+    }
+}
+
+// Function to toggle navigation buttons based on image count
+function toggleNavigationButtons() {
+    $('#prevImage').toggle(imagePaths.length > 1);
+    $('#nextImage').toggle(imagePaths.length > 1);
+}
+
+
 
 function closeReviewsModal() {
     $('#reviewsPlaceholder').empty(); // Clear the reviews content
