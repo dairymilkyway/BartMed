@@ -54,6 +54,7 @@
                 <span id="cart-counter" class="ml-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1">0</span>
             </a>
             </li>
+            
 
             <li><a class="text-gray-500 transition hover:text-gray-500/75" href="{{route('profile')}}"><i class="fa-solid fa-user"></i> My Account</a></li>
                     @if(auth()->check())
@@ -90,7 +91,8 @@
 
         @yield('content')
     </main>
-
+    <script src="{{ asset('js/products.js') }}"></script>
+    <script src="{{ asset('js/cart.js') }}"></script>
     <script src="{{ asset('js/customer.js') }}"></script>
     <script src="{{ asset('js/search.js') }}"></script>
     <script src="{{ asset('js/checkout.js') }}"></script>
