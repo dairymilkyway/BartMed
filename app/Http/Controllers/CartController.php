@@ -43,20 +43,49 @@ class CartController extends Controller
         //     'quantity' => 'required|integer|min:1',
         // ]);
 
-        $product = Product::findOrFail($productId);
-        $userId = auth()->id();
-        $customer = Customer::where('user_id', $userId)->first();
+       // Find the product or fail
+    $product = Product::findOrFail($productId);
+    $userId = auth()->id();
 
-        if (!$customer) {
-            return response()->json(['error' => 'Customer not found'], 404);
-        }
+    // Find the customer
+    $customer = Customer::where('user_id', $userId)->first();
 
+    if (!$customer) {
+        return response()->json(['error' => 'Customer not found'], 404);
+    }
+
+    $cart = Cart::where('customer_id', $customer->id)
+                ->where('product_id', $productId)
+                ->first();
+
+    if ($cart) {
+
+        $cart->quantity += $quantity;
+        $cart->save();
+        $message = 'Product quantity updated in cart successfully';
+    } else {
         $cart = new Cart();
         $cart->customer_id = $customer->id;
         $cart->product_id = $productId;
         $cart->quantity = $quantity;
         $cart->save();
-        return response()->json(['message' => 'Product added to cart successfully'], 200);
+        $message = 'Product added to cart successfully';
+    }
+
+    return response()->json(['message' => $message], 200);
+    }
+
+    public function cartCount()
+    {
+        $userId = auth()->id();
+        $customer = Customer::where('user_id', $userId)->first();
+        if ($customer) {
+            $countcart = Cart::where('customer_id', $customer->id)->count();
+        } else {
+            $countcart = 0;
+        }
+
+        return response()->json(['data' => $countcart], 200);
     }
 
     /**
