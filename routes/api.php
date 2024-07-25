@@ -89,6 +89,7 @@ Route::post('/add-review', [OrderController::class, 'addReview']);
 Route::get('/reviews/{product}', [OrderController::class, 'getReviews']);
 Route::get('/home-reviews/{product}', [OrderController::class, 'fetchReviews']);
 
+Route::get('/cart/cartCount', [CartController::class, 'cartCount']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
