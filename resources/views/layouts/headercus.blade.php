@@ -51,7 +51,7 @@
             <a class="text-gray-500 transition hover:text-gray-500/75 relative flex items-center" href="{{route('cart')}}">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="ml-1">Cart</span>
-                <span id="cart-counter" class="ml-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1">0</span>
+                <span id="cart-counter" class="ml-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1"></span>
             </a>
             </li>
             
