@@ -11,11 +11,12 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('login');
-})->name('login');;
+})->name('login');
 
 Route::get('/register', function () {
     return view('register');
-});
+})->name('register');
+
 // Route::middleware('web')->group(function () {
 
 // });
