@@ -28,7 +28,7 @@ $(document).ready(function() {
                         const firstImagePath = product.img_path.split(',')[0];
 
                         const apiProductHtml = `
-                            <a href="#" class="group block overflow-hidden" onclick="openModal(${product.id}, '${product.product_name}', '₱${product.price.toFixed(2)}', '${product.img_path}', ${product.stocks}, '${product.category}')">
+                            <a href="#" class="group block overflow-hidden" onclick="openModal(${product.id}, '${product.product_name}', '$${product.price.toFixed(2)}', '${product.img_path}', ${product.stocks}, '${product.category}')">
                                 <img
                                     src="${firstImagePath}"
                                     alt="${product.product_name}"
@@ -40,7 +40,7 @@ $(document).ready(function() {
                                     </h1>
                                     <p class="mt-2">
                                         <span class="sr-only">Regular Price</span>
-                                        <span class="tracking-wider text-gray-900">₱${product.price.toFixed(2)}</span>
+                                        <span class="tracking-wider text-gray-900">$${product.price.toFixed(2)}</span>
                                     </p>
                                     <p class="mt-1 text-gray-600">
                                         Stocks: ${product.stocks}
