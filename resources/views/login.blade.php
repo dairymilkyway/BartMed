@@ -6,8 +6,7 @@
         <h1 class="text-2xl font-bold sm:text-3xl">Login</h1>
 
       <p class="mt-4 text-gray-500">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero nulla eaque error neque
-        ipsa culpa autem, at itaque nostrum!
+      Please log in to access your account and unlock all the features of our platform.
       </p>
     </div>
 
@@ -80,7 +79,7 @@
       <div class="flex items-center justify-between">
         <p class="text-sm text-gray-500">
           No account?
-          <a class="underline" href="#">Sign up</a>
+          <a class="underline" href="{{route('register')}}">Sign up</a>
         </p>
 
         <button
