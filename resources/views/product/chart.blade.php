@@ -32,13 +32,6 @@
                                     labels: productNames,
                                     datasets: [
                                         {
-                                            label: 'Total Sold Products',
-                                            data: totalSold,
-                                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                            borderColor: 'rgba(255, 99, 132, 1)',
-                                            borderWidth: 1
-                                        },
-                                        {
                                             label: 'Total Amount',
                                             data: totalamount,
                                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
