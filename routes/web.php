@@ -26,6 +26,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/brand', function () {
         return view('brand.index');
     })->name('brand.index');
+
     Route::get('/product/chart', function () {
         return view('product.chart');
     })->name('product.chart');
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/SupplierTransaction', function () {
         return view('suppliertransaction.index');
     })->name('suppliertransaction.index');
+    
     Route::get('/supplier', function () {
         return view('supplier.index');
     })->name('supplier.index');
@@ -53,6 +55,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return view('product.index');
     })->name('product.index');
 
+    Route::get('/order', function () {
+        return view('order.index');
+    })->name('order.index');
 });
 
 //for customer
@@ -79,9 +84,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/brands', function () {
         return view('brand');
     })->name('brand');
-    Route::get('/order', function () {
-        return view('order.index');
-    })->name('order.index');
+
 });
 
 //Route::post('/brand/import', [BrandController::class, 'import'])->name('brand.import');
