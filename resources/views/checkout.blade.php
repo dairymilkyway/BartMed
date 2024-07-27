@@ -16,9 +16,9 @@
         <input class="peer hidden" id="radio_1" type="radio" name="shipping" value="standard" checked />
         <span class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_1">
-          <img class="w-14 object-contain" src="/images/naorrAeygcJzX0SyNI4Y0.png" alt="" />
+          <img class="w-14 object-contain" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/J%26T_Express_logo.svg/2560px-J%26T_Express_logo.svg.png" alt="" />
           <div class="ml-5">
-            <span class="mt-2 font-semibold">Standard Shipping</span>
+            <span class="mt-2 font-semibold">J&T Express</span>
             <p class="text-slate-500 text-sm leading-6">Delivery: 6-8 Days</p>
           </div>
         </label>
@@ -27,9 +27,9 @@
         <input class="peer hidden" id="radio_2" type="radio" name="shipping" value="express" />
         <span class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_2">
-          <img class="w-14 object-contain" src="/images/oG8xsl3xsOkwkMsrLGKM4.png" alt="" />
+          <img class="w-14 object-contain" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAgaA0lRW4T0yvGlanlhtOJXE7nFL_QzLOiQ&s" alt="" />
           <div class="ml-5">
-            <span class="mt-2 font-semibold">Express Shipping</span>
+            <span class="mt-2 font-semibold">LBC Express</span>
             <p class="text-slate-500 text-sm leading-6">Delivery: 2-4 Days</p>
           </div>
         </label>
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <label for="card-holder" class="mt-4 mb-2 block text-sm font-medium">Card Holder</label>
+      <label for="card-holder" class="mt-4 mb-2 block text-sm font-medium">Billing Name</label>
       <div class="relative">
         <input type="text" id="card-holder" name="card-holder" class="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Your full name here" readonly/>
         <div class="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -71,17 +71,11 @@
 
       <label for="billing-address" class="mt-4 mb-2 block text-sm font-medium">Billing Address</label>
       <div class="flex flex-col sm:flex-row">
-        <div class="relative flex-shrink-0 sm:w-7/12">
+        <div class="relative flex-shrink-0 sm:w-full">
           <input type="text" id="billing-address" name="billing-address" class="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Street Address" readonly/>
           <div class="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-            <img class="h-4 w-4 object-contain" src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg" alt="" />
           </div>
         </div>
-
-        <select name="billing-state" class="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500">
-          <option value="State">State</option>
-        </select>
-        <input type="text" name="billing-zip" class="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="ZIP" />
       </div>
 
       <!-- Total -->
