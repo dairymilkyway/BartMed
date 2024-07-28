@@ -633,40 +633,41 @@ $(document).ready(function() {
     });
     });
 
-    //delete
-    $('#customerTable tbody').on('click', 'a.deletebtn', function (e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var $row = $(this).closest('tr');
-        bootbox.confirm({
-            message: "Do you want to delete this customer?",
-            buttons: {
-                confirm: {
-                    label: 'Yes',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: 'No',
-                    className: 'btn-danger'
-                }
+    
+ // Handle delete button click
+ $('#customerTable tbody').on('click', 'a.deleteBtn', function (e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    var $row = $(this).closest('tr');
+    bootbox.confirm({
+        message: "Do you want to delete this customer?",
+        buttons: {
+            confirm: {
+                label: 'Yes',
+                className: 'btn-success'
             },
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: `/api/customers/${id}`,
-                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        dataType: "json",
-                        success: function (data) {
-                            table.row($row).remove().draw();
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
             }
-        });
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "DELETE",
+                    url: `/api/customers/${id}`,
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    success: function (data) {
+                        table.row($row).remove().draw();
+                        showAlert('success', 'Customer deleted successfully.');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        }
     });
+});
 
 });
