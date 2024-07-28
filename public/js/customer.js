@@ -243,6 +243,16 @@ $(document).ready(function () {
                             required: "Please enter your password"
                         }
                     },
+                    errorClass: "error-message",
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
+            },
                     submitHandler: function(form) {
                         // Prevent default form submission
                         // event.preventDefault();
@@ -622,12 +632,11 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-
                 window.location.href = '/login';
             },
             error: function(error) {
                 console.error('Error deactivating account:', error);
-                alert('Failed to deactivate account. Please try again.');
+                alert('deactivate account.');
             }
         });
     });
