@@ -126,6 +126,7 @@ $(document).ready(function () {
                 success: function (data) {
                     $("#brandModal").modal("hide");
                     table.ajax.reload();
+                    showAlert('success', 'Branded added successfully.');
                 },
                 error: function (error) {
                     console.log(error);
@@ -186,6 +187,7 @@ $(document).ready(function () {
                 success: function (data) {
                     $('#brandModal').modal("hide");
                     table.ajax.reload();
+                    showAlert('success', 'Brand updated successfully.');
                 },
                 error: function (error) {
                     console.log(error);
@@ -285,6 +287,7 @@ $(document).ready(function () {
                 $("#ExcelBform").trigger("reset");
                 $("#importExcelModal").modal("hide");
                 table.ajax.reload();
+                showAlert('success', 'Brand excell successfully submit.');
             },
             error: function (error) {
                 console.log(error);
@@ -306,4 +309,5 @@ $(document).ready(function () {
         $("#ExcelBform").trigger("reset");
         $('#importExcelModal').modal('show');
     });
+
 });
