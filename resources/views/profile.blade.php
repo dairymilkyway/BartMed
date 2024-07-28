@@ -93,10 +93,10 @@
                         <button type="submit" id="submitChangePicBtn" class="py-2 px-4 bg-indigo-600 text-white rounded-md">Upload</button>
                     </div>
                     <!-- Deactivate Account Button -->
-                    <button type="button" id="deactivateAccountBtn"
+                    {{-- <button type="button" id="deactivateAccountBtn"
                     class="py-3.5 px-7 text-base font-medium text-red-100 focus:outline-none bg-red-500 rounded-lg border border-red-600 hover:bg-red-600 focus:z-10 focus:ring-4 focus:ring-red-200">
                     Deactivate Account
-                </button>
+                </button>  --}}
                 </form>
             </div>
         </div>
