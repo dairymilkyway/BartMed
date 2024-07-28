@@ -161,20 +161,44 @@ $(document).ready(function () {
         });
     });
 
-    // Handle delete button click
-    $('#STtable').on('click', '.deleteBtn', function () {
-        var id = $(this).data('id');
-        if (confirm('Are you sure you want to delete this transaction?')) {
-            $.ajax({
-                url: '/api/supplier-transactions/' + id,
-                type: 'DELETE',
-                success: function (result) {
-                    table.ajax.reload();
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
+// Handle delete button click
+$('#STtable').on('click', '.deleteBtn', function (e) {
+    e.preventDefault(); // Prevent default action if the button is inside a form
+
+    var id = $(this).data('id');
+    var $row = $(this).closest('tr'); // Get the closest table row
+
+    bootbox.confirm({
+        message: "Are you sure you want to delete this transaction?",
+        buttons: {
+            confirm: {
+                label: 'Yes',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    url: '/api/supplier-transactions/' + id,
+                    type: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "json",
+                    success: function (result) {
+                        bootbox.alert('Transaction deleted successfully.');
+                        table.ajax.reload();
+                    },
+                    error: function (error) {
+                        bootbox.alert('An error occurred while deleting the transaction.');
+                        console.log(error);
+                    }
+                });
+            }
         }
     });
+});
+
 });
