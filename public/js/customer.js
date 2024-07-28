@@ -351,10 +351,12 @@ $(document).ready(function () {
             data: {
                 status: userStatus,
                 _token: $('meta[name="csrf-token"]').attr('content')
+                
             },
             success: function () {
                 $('#changeStatusModal').modal('hide');
                 table.ajax.reload();
+                showAlert('success', 'Customer status updated successfully.');
             },
             error: function (error) {
                 console.log(error);
@@ -390,6 +392,7 @@ $(document).ready(function () {
             success: function () {
                 $('#changeRoleModal').modal('hide');
                 table.ajax.reload();
+                showAlert('success', 'Customer role changed successfully.');
             },
             error: function (error) {
                 console.log(error);
