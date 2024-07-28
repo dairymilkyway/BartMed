@@ -153,6 +153,7 @@ $(document).ready(function () {
             success: function (data) {
                 $('#SupplierTransactionModal').modal('hide');
                 table.ajax.reload();
+                showAlert('success', 'Supplier Transaction added successfully.');
             },
             error: function (error) {
                 console.log(error);
