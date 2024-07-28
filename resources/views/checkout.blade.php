@@ -64,9 +64,10 @@
 
       <label for="payment-method" class="mt-4 mb-2 block text-sm font-medium">Payment Method</label>
       <select id="payment-method" name="payment-method" class="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500">
-        <option value="credit-card">Credit Card</option>
-        <option value="paypal">PayPal</option>
-        <option value="bank-transfer">Bank Transfer</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Gcash">Gcash</option>
+        <option value="Paypal">PayPal</option>
+        <option value="Cash on Delivery">Cash on Delivery</option>
       </select>
 
       <label for="billing-address" class="mt-4 mb-2 block text-sm font-medium">Billing Address</label>
