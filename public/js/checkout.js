@@ -71,7 +71,7 @@ $(document).ready(function() {
                         <span class="font-semibold">${item.product.product_name}</span>
                         <span class="float-right text-gray-400">${item.product.id}</span>
                         <p class="text-lg font-bold">$${item.product.price}</p>
-                        <p>Quantity: <input type="number" class="quantity" value="${item.quantity}" min="1" /></p>
+                        <p>Quantity: <input type="number" class="quantity" value="${item.quantity}" min="1" readonly /></p>
                     </div>
                 </div>
             </div>
