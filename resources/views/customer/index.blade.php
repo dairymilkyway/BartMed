@@ -6,6 +6,7 @@
 
     <!-- Main Content -->
     <div class="col-md-9">
+        <div id="alertContainer" class="my-3"></div>
         <div id="customers" class="container pt-7">
             <div class="table-responsive">
                 <table id="customerTable" class="table table-striped table-hover">
