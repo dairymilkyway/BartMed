@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'email' => $faker->unique()->safeEmail,
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'), // Hashing the password
-                'role' => 'user', // Set role to 'user'
+                'role' => 'customer', // Set role to 'user'
                 'status' => 'active', // Set status to 'active'
                 'created_at' => $createdAt,
                 'updated_at' => $updatedAt,
