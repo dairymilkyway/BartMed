@@ -223,9 +223,11 @@ $(document).ready(function () {
                             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                             dataType: "json",
                             success: function (data) {
+                                bootbox.alert(data.success);
                                 table.ajax.reload();
                             },
                             error: function (error) {
+                                bootbox.alert(data.error);
                                 console.log(error);
                             }
                         });
@@ -259,9 +261,11 @@ $(document).ready(function () {
                             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                             dataType: "json",
                             success: function (data) {
+                                bootbox.alert(data.success);
                                 table.ajax.reload();
                             },
                             error: function (error) {
+                                bootbox.alert(data.error);
                                 console.log(error);
                             }
                         });
