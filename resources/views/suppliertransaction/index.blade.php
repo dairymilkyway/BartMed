@@ -5,6 +5,7 @@
     @include('layouts.sidenav')
     <!-- Main Content -->
     <div class="col-md-9">
+        <div id="alertContainer" class="my-3"></div>
         <div id="SupplierTransaction" class="container pt-7">
             <div class="mb-4">
                 <button id="addSupplierTransactionBtn" class="btn btn-info">Add Supplier Transaction</button>
