@@ -15,8 +15,8 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = ['pending', 'delivered', 'shipped', 'canceled'];
-        $couriers = ['J&t', 'LBC'];
+        $statuses = ['processing', 'to deliver', 'delivered', 'cancelled'];
+        $couriers = ['J&T', 'LBC'];
         $paymentMethods = ['Gcash', 'Paypal', 'Credit Card', 'Cash on Delivery'];
 
         // Assuming you have a customers table with at least some customers
