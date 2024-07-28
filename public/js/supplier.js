@@ -128,6 +128,7 @@ $(document).ready(function () {
                 success: function (data) {
                     $("#SupplierModal").modal("hide");
                     table.ajax.reload();
+                    showAlert('success', 'Supplier added successfully.');
                 },
                 error: function (error) {
                     console.log(error);
@@ -188,6 +189,7 @@ $(document).ready(function () {
                 success: function (data) {
                     $('#SupplierModal').modal("hide");
                     table.ajax.reload();
+                    showAlert('success', 'Supplier updated successfully.');
                 },
                 error: function (error) {
                     console.log(error);
@@ -286,6 +288,7 @@ $(document).ready(function () {
                 $("#ExcelSform").trigger("reset");
                 $('#importExcelModal').modal('hide');
                 table.ajax.reload();
+                showAlert('success', 'Supplier excel submit successfully.');
             },
             error: function (error) {
                 console.log(error);
