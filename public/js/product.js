@@ -240,6 +240,7 @@ $(document).ready(function () {
                 success: function () {
                     $("#ProductModal").modal("hide");
                     table.ajax.reload();
+                    showAlert('success', 'Brand added successfully.');
                 },
                 error: function (error) {
                     console.log(error);
@@ -268,6 +269,7 @@ $(document).ready(function () {
                 success: function () {
                     $("#ProductModal").modal("hide");
                     table.ajax.reload();
+                    showAlert('success', 'Product updated successfully.');
                 },
                 error: function (error) {
                     console.log(error);
@@ -369,6 +371,7 @@ $('#productable').on('click', 'button.restoreBtn', function (e) {
                 $("#ExcelPform").trigger("reset");
                 $("#importExcelModal").modal("hide");
                 table.ajax.reload();
+                showAlert('success', 'Product excel submit successfully.');
             },
             error: function (error) {
                 console.log(error);
