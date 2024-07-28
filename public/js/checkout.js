@@ -264,12 +264,13 @@ $(document).ready(function() {
                         break;
                     default:
                         statusClass = 'text-gray-500';
-                        statusText = 'Pending';
+                        statusText = order.order_status.charAt(0).toUpperCase() + order.order_status.slice(1); // Capitalize the first letter of the status
                         cancelButtonHtml = `
                         <button class="rounded-full px-4 py-2 bg-red-600 text-white font-semibold text-sm transition-all duration-500 hover:bg-red-700" data-order-id="${order.id}" onclick="cancelOrder(${order.id})">Cancel</button>
                         `;
                         break;
                 }
+
 
                 ordersHtml += `
                 <div class="border border-gray-300 p-4 mb-4">
