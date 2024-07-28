@@ -6,7 +6,7 @@ $(document).ready(function() {
         return;
     }
 
-    const client = algoliasearch('CE79ZIQBSB', '1f1fcbea58ffa9890a3df44bd9fc0a90');
+    const client = algoliasearch('PBUOHGS856', '8d952a9f29a488574e95a8aa5c835194');
     const index = client.initIndex('products');
 
     const searchInput = document.getElementById('searchInput');
