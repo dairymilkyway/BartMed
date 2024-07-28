@@ -13,7 +13,7 @@
     <p class="mt-8 text-lg font-medium">Shipping Methods</p>
     <form class="mt-5 grid gap-6">
       <div class="relative">
-        <input class="peer hidden" id="radio_1" type="radio" name="shipping" value="standard" checked />
+        <input class="peer hidden" id="radio_1" type="radio" name="shipping" value="J&T" checked />
         <span class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_1">
           <img class="w-14 object-contain" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/J%26T_Express_logo.svg/2560px-J%26T_Express_logo.svg.png" alt="" />
@@ -24,7 +24,7 @@
         </label>
       </div>
       <div class="relative">
-        <input class="peer hidden" id="radio_2" type="radio" name="shipping" value="express" />
+        <input class="peer hidden" id="radio_2" type="radio" name="shipping" value="LBC" />
         <span class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" for="radio_2">
           <img class="w-14 object-contain" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAgaA0lRW4T0yvGlanlhtOJXE7nFL_QzLOiQ&s" alt="" />
@@ -99,4 +99,3 @@
   </div>
 </div>
 @endsection
- 

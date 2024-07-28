@@ -49,8 +49,8 @@
                     <div class="mb-3">
                         <label for="statusDropdown" class="form-label">Status</label>
                         <select class="form-select" id="statusDropdown">
-                            <option value="verified">Verified</option>
-                            <option value="deactivated">Deactivated</option>
+                            <option value="active">active</option>
+                            <option value="inactive">inactive</option>
                         </select>
                     </div>
                     <input type="hidden" id="statusUserId">

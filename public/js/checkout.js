@@ -83,8 +83,8 @@ $(document).ready(function() {
 
 
     const shippingCosts = {
-        'standard': 15,
-        'express': 30
+        'J&T': 15,
+        'LBC': 30
     };
 
 
