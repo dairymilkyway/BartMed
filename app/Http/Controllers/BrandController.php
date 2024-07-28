@@ -124,7 +124,7 @@ class BrandController extends Controller
     {
         if (Brand::find($id)) {
             Brand::destroy($id);
-            $data = array('success' => 'deleted', 'code' => 200);
+            $data = array('success' => 'brand deleted successfully', 'code' => 200);
             return response()->json($data);
         }
         $data = array('error' => 'Brand not deleted', 'code' => 400);
@@ -137,7 +137,7 @@ class BrandController extends Controller
 
         if ($brand) {
             $brand->restore();
-            $data = array('success' => 'restored', 'code' => 200);
+            $data = array('success' => ' brand restored successfully', 'code' => 200);
             return response()->json($data);
         }
 
